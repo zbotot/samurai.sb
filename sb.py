@@ -14,7 +14,7 @@ botStart = time.time()
 #==============================================================================#
 #line = LINE()
 #line = LINE("เมล","พาส")
-line = LINE('EuLqsvDdB1hQBCHG7Ak3.TAVOkm2wqPizxdXz1JiGmW.WqjdmfB4EUijhQ86TRAZjLf7XHz5LeoRQKHR0wseDPg=')
+line = LINE('Ew4DO4KvCOIk0qRLDlk8.yAM1ZO3J61gOwuemMdtLYa.By18WiKvwA97DjiDMxDJYq9xhY3L251CrURRNo+MiOg=')
 line.log("Auth Token : " + str(line.authToken))
 line.log("Timeline Token : " + str(line.tl.channelAccessToken))
 
@@ -35,8 +35,8 @@ Exc = [line]
 lineMID = line.getProfile().mid
 bot1 = line.getProfile().mid
 RfuBot=[lineMID]
-Family=["ub5abe828cd964292195c3c59d6322033",lineMID]
-admin=['ub5abe828cd964292195c3c59d6322033',lineMID]
+Family=["u61a9b5ce8de3eb51a859410c9834e5c8",lineMID]
+admin=['u61a9b5ce8de3eb51a859410c9834e5c8',lineMID]
 RfuFamily = RfuBot + Family
 
 protectname = []
@@ -98,11 +98,11 @@ settings = {
     "pnharfbot": {},
     "pname": {},
     "pro_name": {},
-    "message1":"รับแก้ไฟล์+เพิ่มไฟล์+แก้ภาษา\n💝ราคาดูที่หน้างาน💝\n👉มีบริการให้เช่าบอทSAMURAI\nราคา300บาทต่อเดือน💖\n#เพิ่มคิกเกอร์ตัวละ100👌\n🎀สนใจรีบทัก..บอทpython3ฟังชั่นล้นหลาม🎁กำลังรอให้คุณเป็นเจ้าของ\n(ผมจะอยู่ที่ห้องนี้แค่15นาทีนะจ๊ะ)\nselfbot by:\n╔══════════════┓\n╠™❍✯͜͡RED™SAMURAI✯͜͡❂➣ \n╚══════════════┛",
-    "message":"บัญชีนี้ถูกป้องกันโดย Selfbot By ™❍✯͜͡RED™SAMURI✯͜͡❂➣ระบบได้ทำการบล็อคคุณอัตโนมัติเนื่องจากคุณยังไม่ได้ยืนยันตัวตนกับผู้สร้างบอท\nสามารถยืนตัวตนได้ง่ายโดยการพิม unblockกับ™❍✯͜͡RED™SAMURI✯͜͡❂➣ระบบจะทำการปลดบล็อคท่านโดยอัตโนมัต",
-    "comment":"""🎋RED BOT LINE THAILAND🎋
+ #   "message1":"รับแก้ไฟล์+เพิ่มไฟล์+แก้ภาษา\n💝ราคาดูที่หน้างาน💝\n👉มีบริการให้เช่าบอทSAMURAI\nราคา300บาทต่อเดือน💖\n#เพิ่มคิกเกอร์ตัวละ100👌\n🎀สนใจรีบทัก..บอทpython3ฟังชั่นล้นหลาม🎁กำลังรอให้คุณเป็นเจ้าของ\n(ผมจะอยู่ที่ห้องนี้แค่15นาทีนะจ๊ะ)\nselfbot by:\n╔══════════════┓\n╠™❍✯͜͡RED™SAMURAI✯͜͡❂➣ \n╚══════════════┛",
+  #  "message":"บัญชีนี้ถูกป้องกันโดย Selfbot By ™❍✯͜͡RED™SAMURI✯͜͡❂➣ระบบได้ทำการบล็อคคุณอัตโนมัติเนื่องจากคุณยังไม่ได้ยืนยันตัวตนกับผู้สร้างบอท\nสามารถยืนตัวตนได้ง่ายโดยการพิม unblockกับ™❍✯͜͡RED™SAMURI✯͜͡❂➣ระบบจะทำการปลดบล็อคท่านโดยอัตโนมัต",
+  #  "comment":"""🎋 BOT LINE THAILAND🎋
     ─┅═✥👊ᵀᴴᴬᴵᴸᴬᴺᴰ👊✥═┅─ 
-  💀[RED SAMURAI SELFBOT]💀 
+  💀[SELFBOT]💀 
 🎁🎁🎁🎁🎁🎁🎁🎁🎁🎁🎁
 🎀รับแก้ไฟล์+เพิ่มไฟล์+แก้ภาษา
 💝ราคาดูที่หน้างาน
