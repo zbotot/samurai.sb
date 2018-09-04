@@ -1791,20 +1791,20 @@ def lineBot(op):
                     msg.text = None
                     line.sendMessage(msg)
 #==============================================================================#
-                elif text.lower() == '.แจ๊ะ':
+                elif text.lower() == '.tagall':
                     group = line.getGroup(msg.to)
                     nama = [contact.mid for contact in group.members]
-                    k = len(nama)//100
+                    k = len(nama)//20
                     for a in range(k+1):
                         txt = ''
                         s=0
                         b=[]
-                        for i in group.members[a*100 : (a+1)*100]:
+                        for i in group.members[a*20 : (a+1)*20]:
                             b.append({"S":str(s), "E" :str(s+6), "M":i.mid})
                             s += 7
                             txt += '@Alin \n'
                         line.sendMessage(to, text=txt, contentMetadata={'MENTION': json.dumps({'MENTIONEES':b})}, contentType=0)
-                        line.sendMessage(to, "จำนวนแจ๊ะทั้งหมด {} คน".format(str(len(nama))))  
+                        line.sendMessage(to, "jones {} jablay".format(str(len(nama))))  
                 elif text.lower() == '.จับ':
                     tz = pytz.timezone("Asia/Jakarta")
                     timeNow = datetime.now(tz=tz)
