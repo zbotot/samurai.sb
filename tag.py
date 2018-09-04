@@ -14,30 +14,9 @@ botStart = time.time()
 #==============================================================================#
 #line = LINE()
 #line = LINE("เมล","พาส")
-line = LINE('Ew4DO4KvCOIk0qRLDlk8.yAM1ZO3J61gOwuemMdtLYa.By18WiKvwA97DjiDMxDJYq9xhY3L251CrURRNo+MiOg=')
+line = LINE('EuLqsvDdB1hQBCHG7Ak3.TAVOkm2wqPizxdXz1JiGmW.WqjdmfB4EUijhQ86TRAZjLf7XHz5LeoRQKHR0wseDPg=')
 line.log("Auth Token : " + str(line.authToken))
 line.log("Timeline Token : " + str(line.tl.channelAccessToken))
-
-ki = LINE('EwThZIuVOtV7UYaCaSX6.HQh4RpqRYzqfruxsRHZtfG.EjEiZcgF0ewVLiyXNrSmbdxv7NUkFg88KsvPvqebJCs=')
-ki.log("Auth Token : " + str(ki.authToken))
-ki.log("Timeline Token : " + str(ki.tl.channelAccessToken))
-
-kk = LINE('EwIE8XFlPbWtG6NS9Yy8.9b6szpiJ3KHyLZhfedasIa.fPOEkev932fL0Bb+W3NOUDx3FH3MCi1cUZ/7ErSwNFA=')
-kk.log("Auth Token : " + str(kk.authToken))
-kk.log("Timeline Token : " + str(kk.tl.channelAccessToken))
-
-kc = LINE('EwfF2UiRZcNgeQvyWso5.fj0S/qYKVWGRwpehA8QPbq.WAq8QUhDUDx6+wXadedIzd72F2I4DALIFgFZjAD2SoA=')
-kc.log("Auth Token : " + str(kc.authToken))
-kc.log("Timeline Token : " + str(kc.tl.channelAccessToken))
-
-ke = LINE('Ewr9gpIQYZ6dtX5v85Pf.K9hUseF6j4f/WE5DLTHHBW.EsHbRLg/RZQiFlP9u96HmK6rI2WolmBhki+ngbVzM8M=')
-ke.log("Auth Token : " + str(ke.authToken))
-ke.log("Timeline Token : " + str(ke.tl.channelAccessToken))
-
-km = LINE('EwFoQQ2IBuU8cyk661q9.t2D+Q8GQs5QI1aUzyFPrAq.d6qgTP/yJHS3jtb38IdN/5L13UXXnamSEBqqtAFKykg=')
-km.log("Auth Token : " + str(ke.authToken))
-km.log("Timeline Token : " + str(ke.tl.channelAccessToken))
-
 
 print ("Login Succes")
 
@@ -45,48 +24,19 @@ lineMID = line.profile.mid
 lineProfile = line.getProfile()
 lineSettings = line.getSettings()
 
-kiMID = ki.profile.mid
-kiProfile = ki.getProfile()
-kiSettings = ki.getSettings()
-
-kkMID = kk.profile.mid
-kkProfile = kk.getProfile()
-kkSettings = kk.getSettings()
-
-kcMID = kc.profile.mid
-kcProfile = kc.getProfile()
-kcSettings = kc.getSettings()
-
-keMID = kc.profile.mid
-keProfile = kc.getProfile()
-keSettings = kc.getSettings()
-
-kmMID = km.profile.mid
-kmProfile = km.getProfile()
-kmSettings = km.getSettings()
-
-oepoll = OEPoll(km)
-oepoll = OEPoll(ke)
-oepoll = OEPoll(kc)
-oepoll = OEPoll(kk)
-oepoll = OEPoll(ki)
 oepoll = OEPoll(line)
+#call = Call(line)
 readOpen = codecs.open("read.json","r","utf-8")
 settingsOpen = codecs.open("temp.json","r","utf-8")
 read = json.load(readOpen)
 settings = json.load(settingsOpen)
-Rfu = [line,ki,kk,kc,ke]
-Exc = [ki,kk,kc,ke]
+Rfu = [line]
+Exc = [line]
 lineMID = line.getProfile().mid
-kiMID = ki.getProfile().mid
-kkMID = kk.getProfile().mid
-kcMID = kc.getProfile().mid
-kcMID = ke.getProfile().mid
-kmMID = km.getProfile().mid
 bot1 = line.getProfile().mid
-RfuBot=[lineMID,kiMID,kkMID,kcMID,keMID,kmMID]
-Family=["u61a9b5ce8de3eb51a859410c9834e5c8",lineMID,kiMID,kkMID,kcMID,keMID,kmMID]
-admin=['u61a9b5ce8de3eb51a859410c9834e5c8',lineMID]
+RfuBot=[lineMID]
+Family=["ub5abe828cd964292195c3c59d6322033",lineMID]
+admin=['ub5abe828cd964292195c3c59d6322033',lineMID]
 RfuFamily = RfuBot + Family
 
 protectname = []
@@ -106,12 +56,12 @@ settings = {
     "autoLeave": True,
     "autoRead": False,
     "leaveRoom": False,
-    "detectMention": False,
+    "detectMention": True,
     "checkSticker": False,
     "checkContact": False,
     "checkPost": False,
     "kickMention": False,
-    "potoMention": False,
+    "potoMention": True,
     "delayMention": False,
     "lang":"JP",
     "Wc": False,
@@ -125,12 +75,11 @@ settings = {
     "dblacklist": False,
     "gift":False,
     "likeOn":False,
-    "Timeline":False,
+    "timeline":False,
     "commentOn":True,
     "commentBlack":{},
-    "Ghost": False,
-    "dblack": False,
     "wblack": False,
+    "dblack": False,
     "clock": False,
     "cName":"",
     "cNames":"",
@@ -138,20 +87,87 @@ settings = {
     "changePictureProfile":False,
     "unsendMessage": False,
     "autoJoinTicket": False,
-    "welcome":"welcome kk",
-    "kick":"Nah🙄",
-    "bye":"dadah..",
+    "welcome":"🙏สวีสดีครับคนมาใหม่🙏",
+    "kick":"😱อุ๊ต๊ะ😱",
+    "bye":"🙌บาย..",
     "Respontag":"😳",
-    "eror":"error bos",
+    "eror":"คุณใช้คำสั่งผิด กรุณาศึกษาวิธีใช้ หรือสอบถามกับผู้สร้าง โดยพิมคำสั่ง *.ผส*เพื่อแสดง คท ของผู้สร้าง",
     "spam":{},
     "invite": {},
     "winvite": False,
     "pnharfbot": {},
     "pname": {},
     "pro_name": {},
- #   "message1":"รับแก้ไฟล์+เพิ่มไฟล์+แก้ภาษา\n💝ราคาดูที่หน้างาน💝\n👉มีบริการให้เช่าบอทSAMURAI\nราคา300บาทต่อเดือน💖\n#เพิ่มคิกเกอร์ตัวละ100👌\n🎀สนใจรีบทัก..บอทpython3ฟังชั่นล้นหลาม🎁กำลังรอให้คุณเป็นเจ้าของ\n(ผมจะอยู่ที่ห้องนี้แค่15นาทีนะจ๊ะ)\nselfbot by:\n╔══════════════┓\n╠™❍✯͜͡RED™SEPRICHE✯͜͡❂➣ \n╚══════════════┛",
-  #  "message":"บัญชีนี้ถูกป้องกันโดย Selfbot By ™❍✯͜͡✯͜͡❂➣ระบบได้ทำการบล็อคคุณอัตโนมัติเนื่องจากคุณยังไม่ได้ยืนยันตัวตนกับผู้สร้างบอท\nสามารถยืนตัวตนได้ง่ายโดยการพิม unblockกับ™❍✯͜͡RED™SAMURI✯͜͡❂➣ระบบจะทำการปลดบล็อคท่านโดยอัตโนมัต",
- #   "comment":"""🎋RED BOT LINE THAILAND
+    "message1":"รับแก้ไฟล์+เพิ่มไฟล์+แก้ภาษา\n💝ราคาดูที่หน้างาน💝\n👉มีบริการให้เช่าบอทSAMURAI\nราคา300บาทต่อเดือน💖\n#เพิ่มคิกเกอร์ตัวละ100👌\n🎀สนใจรีบทัก..บอทpython3ฟังชั่นล้นหลาม🎁กำลังรอให้คุณเป็นเจ้าของ\n(ผมจะอยู่ที่ห้องนี้แค่15นาทีนะจ๊ะ)\nselfbot by:\n╔══════════════┓\n╠™❍✯͜͡RED™SAMURAI✯͜͡❂➣ \n╚══════════════┛",
+    "message":"บัญชีนี้ถูกป้องกันโดย Selfbot By ™❍✯͜͡RED™SAMURI✯͜͡❂➣ระบบได้ทำการบล็อคคุณอัตโนมัติเนื่องจากคุณยังไม่ได้ยืนยันตัวตนกับผู้สร้างบอท\nสามารถยืนตัวตนได้ง่ายโดยการพิม unblockกับ™❍✯͜͡RED™SAMURI✯͜͡❂➣ระบบจะทำการปลดบล็อคท่านโดยอัตโนมัต",
+    "comment":"""🎋RED BOT LINE THAILAND🎋
+    ─┅═✥👊ᵀᴴᴬᴵᴸᴬᴺᴰ👊✥═┅─ 
+  💀[RED SAMURAI SELFBOT]💀 
+🎁🎁🎁🎁🎁🎁🎁🎁🎁🎁🎁
+🎀รับแก้ไฟล์+เพิ่มไฟล์+แก้ภาษา
+💝ราคาดูที่หน้างาน
+📌มีบริการให้เช่าเซลบอท SAMURAI 
+📌ร่างครึ่งคนครึ่งบอท
+📌ราคาว่ากันตามคุณภาพนะครับ
+📌ราคา300บาทต่อเดือน (ถูกมาก..)
+📌เพิ่มคิกเกอร์ตัวละ100👌
+👉บินได้ครับ
+👉รันได้ครับ
+👉ป้องกันกลุ่มเจอบินได้
+👉มีเปิดปิดแสกนคำหยาบกับบอทบิน
+👉แอบดูคนอ่านแบบดึง คท.ได้
+👉แทคได้
+👉รันแชทได้
+👉สั่งบล็อคใครก็ได้
+👉ลบแชทได้
+👉กันรันได้100%
+👉ลบรันได้
+👉มุดลิ้งได้
+👉เช็คโพส,เช็คคท,เช็คข้อมูลคนอื่นได้
+👉เช็คข้อมูลตัวเอง,เช็คข้อมูลกลุ่มได้
+👉ปฏิเสธคำเชิญแบบใส่ข้อความลงไปได้
+👉ดึงห้องรวมได้
+👉ตั้งปฏิเสธกลุ่มเชิญตามจำนวนสมาชิกได้
+👉เล่นเซลในแชทสตได้
+👉ตั้งข้อความคนเข้าคนออกได้
+👉ตั้งข้อความคนลบสมาชิกได้
+👉ตั้งข้อความคนแอดได้
+👉สมารถเรียกดูการตั้งค่าข้อความได้ทั้งหมด
+👉อัพเดตลูกเล่นใหม่ๆทุกเดือน
+🍷มีความสามารถอีกเยอะดูเอาระกัน🍷
+🎀สนใจรีบทัก🎀
+🎉บอทpython3ฟังชั่นล้นหลาม คุณภาพแน่นปึ๊ก
+🎁กำลังรอให้คุณเป็นเจ้าของ....
+🎋(สนใจรีบโทร📲0946345913📞)
+📌หรือจิ้มที่นี่👇👇👇👇👇
+https://line.me/ti/p/samuri5
+คุณจะได้เป็นเจ้าของ เซลบอทคุณภาพดีก่อนใครๆ
+(ทักก่อนจิ้ม...ไม่งั้นโดนออโต้บล็อคนะจ๊ะ)
+selfbot by:
+╔══════════════┓
+╠™❍✯͜͡RED™SAMURAI✯͜͡❂➣ 
+╚══════════════┛""",
+    "comment1":"""จำหน่าย ติ๊กไทย ติ๊กนอก อินโด ญี่ปุ่น
+ราคาเบาๆ ขายเอาชื่อเสียง ไม่เอากำไร  😂😂😂
+🚩อยากได้ตั๋วสิริ ลงบอทสิริ ห้องสิริ 
+🎀ไม่ต้องไปใหนครับที่นี่มีทุกอย่างที่คุณต้องการ 👔 
+🎀คุณสั่งมาเราจัดหาให้ได้แน่นอน🎁ไม่คิดค่าบริการเสริม
+🎀(ทำเอาชื่อเสียง😬😬😬) 
+🎆จะทำชื่อ🎆ทำปก 🎆ทำรูปโปรแบบเท่ห์ๆ 
+🎆อันนี้เราก็มีหน่วยรับบริการจัดทำให้นะคร๊าฟ
+💻เซิฟก็มีคับ ราคาตามท้องตลาด💻ไม่มีค่าบริการเสริม
+ทุกอย่างที่บอกมามีหลายราคาครับ และหลายคุณภาพ 
+สนใจอยากได้อะไรทักมาครับ 
+เรามีคนคอยติดต่อประสานงานให้ตลอด
+แล้วค่อยมาคุยกันถึงรายระเอียดของสินค้า
+อยากได้เสปกแบบใหนราคาเท่าไหร่..เรามีหมด
+ทักมาได้ที่  👇👇👇👇👇👇👇👇👇
+- https://line.me/ti/p/samuri5
+หรือโทรมาได้ที่เบอร์นี้👇👇👇👇👇👇
+- 094 634 5913
+ขอแสดงความนับถือ
+จากทีมงาน SAMURAI ทุกคน""",
+
     "userAgent": [
         "Mozilla/5.0 (X11; U; Linux i586; de; rv:5.0) Gecko/20100101 Firefox/5.0",
         "Mozilla/5.0 (X11; U; Linux amd64; rv:5.0) Gecko/20100101 Firefox/5.0 (Debian)",
@@ -205,9 +221,8 @@ read = {
 
 myProfile = {
 	"displayName": "",
-    "coverId": "",
-    "pictureStatus": "",
-    "statusMessage": ""
+	"statusMessage": "",
+	"pictureStatus": ""
 }
 
 mimic = {
@@ -243,19 +258,15 @@ backup.pictureStatus = contact.pictureStatus
 
 mulai = time.time() 
 
-
-myProfile["displayName"] = lineProfile.displayName
-myProfile["statusMessage"] = lineProfile.statusMessage
-myProfile["pictureStatus"] = lineProfile.pictureStatus
-coverId = line.getProfileDetail()["result"]["objectId"]
-myProfile["coverId"] = coverId
-
 try:
     with open("Log_data.json","r",encoding="utf_8_sig") as f:
         msg_dict = json.loads(f.read())
 except:
     print("Couldn't read Log data")
-    
+
+myProfile["displayName"] = lineProfile.displayName
+myProfile["statusMessage"] = lineProfile.statusMessage
+myProfile["pictureStatus"] = lineProfile.pictureStatus
 #==============================================================================#
 #==============================================================================#            
 def Rapid1Say(mtosay):
@@ -295,7 +306,23 @@ def logError(text):
     time_ = datetime.now()
     with open("errorLog.txt","a") as error:
         error.write("\n[%s] %s" % (str(time), text))
-        
+
+def sendMention(to, mid, firstmessage, lastmessage):
+    try:
+        arrData = ""
+        text = "%s " %(str(firstmessage))
+        arr = []
+        mention = "@x "
+        slen = str(len(text))
+        elen = str(len(text) + len(mention) - 1)
+        arrData = {'S':slen, 'E':elen, 'M':mid}
+        arr.append(arrData)
+        text += mention + str(lastmessage)
+        line.sendMessage(to, text, {'MENTION': str('{"MENTIONEES":' + json.dumps(arr) + '}')}, 0)
+    except Exception as error:
+        logError(error)
+        line.sendMessage(to, "[ INFO ] Error :\n" + str(error))
+
 def sendMessage(to, text, contentMetadata={}, contentType=0):
     mes = Message()
     mes.to, mes.from_ = to, profile.mid
@@ -304,7 +331,15 @@ def sendMessage(to, text, contentMetadata={}, contentType=0):
     if to not in messageReq:
         messageReq[to] = -1
     messageReq[to] += 1
-    
+        
+def sendMessageWithMention(to, lineMID):
+    try:
+        aa = '{"S":"0","E":"3","M":'+json.dumps(lineMID)+'}'
+        text_ = '@x '
+        line.sendMessage(to, text_, contentMetadata={'MENTION':'{"MENTIONEES":['+aa+']}'}, contentType=0)
+    except Exception as error:
+        logError(error)
+
 def cTime_to_datetime(unixtime):
     return datetime.fromtimestamp(int(str(unixtime)[:len(str(unixtime))-3]))
 def dt_to_str(dt):
@@ -345,48 +380,67 @@ def sendMention(to, text="", mids=[]):
         arr.append(arrData)
         textx += mention + str(text)
     line.sendMessage(to, textx, {'MENTION': str('{"MENTIONEES":' + json.dumps(arr) + '}')}, 0)
-            
-def sendMessageWithMention(to, lineMID):
+    
+def mentionMembers(to, mid):
     try:
-        aa = '{"S":"0","E":"3","M":'+json.dumps(lineMID)+'}'
-        text_ = '@x '
-        line.sendMessage(to, text_, contentMetadata={'MENTION':'{"MENTIONEES":['+aa+']}'}, contentType=0)
+        arrData = ""
+        textx = "╔══[Mention {} User]\n╠ ".format(str(len(mid)))
+        arr = []
+        no = 1
+        for i in mid:
+            mention = "@x\n"
+            slen = str(len(textx))
+            elen = str(len(textx) + len(mention) - 1)
+            arrData = {'S':slen, 'E':elen, 'M':i}
+            arr.append(arrData)
+            textx += mention
+            if no < len(mid):
+                no += 1
+                textx += "╠ "
+            else:
+                try:
+                    textx += "╚══[ {} ]".format(str(line.getGroup(to).name))
+                except:
+                    pass
+        line.sendMessage(to, textx, {'MENTION': str('{"MENTIONEES":' + json.dumps(arr) + '}')}, 0)
     except Exception as error:
         logError(error)
-
-
+        line.sendMessage(to, "[ INFO ] Error :\n" + str(error))
 
 def myhelp():
     myHelp = """╔═════════════════════┓
-╠ BY:   ™❍✯͜͡SEPRICHE✯͜͡❂➣ 
+╠ BY:   ™❍✯͜͡RED™SAMURAI✯͜͡❂➣ 
 ╚═════════════════════┛
+         ────┅═ই۝ई═┅────
+                     คำสั่งทั่วไป
+         ────┅═ই۝ई═┅────
 ╔═════════════════════┓
 ╠❂➣ เช็ค [เช็คการตั้งค่า]
 ╠❂➣ ผส [คท.ผู้สร้าง]
 ╠❂➣ ข้อมูล [ข้อมูลตัวเอง]
-╠❂➣ ข้อมูล @ [แทค]
-╠❂➣ Help1 [คำสั่งเซล]
-╠❂➣ Help2 [ในกลุ่ม]
-╠❂➣ Help3 [ตั้งค่า]
-╠❂➣ Help4 [โซเชล]
-╠❂➣ Help5 [พูดMp3]
-╠❂➣ Help6 [แปลภาษา]
+╠❂➣ ข้อมูล @ [ข้อมูลคนแทค]
+╠❂➣ Help1 [คำสั่งเซลบอท]
+╠❂➣ Help2 [คำสั่งในกลุ่ม]
+╠❂➣ Help3 [คำสั่งตั้งค่า]
+╠❂➣ Help4 [คำสั่งโซเชล]
+╠❂➣ Help5 [คำสั่งพูดMp3]
+╠❂➣ Help6 [คำสั่งแปลภาษา]
 ╠❂➣ Help7 [คำสั่งคิกเกอร์]
 ╠❂➣ ไอดี @ [ไอดีคนแทค]
 ╠❂➣ ชื่อ @ [ชื่อคนแทค]
 ╠❂➣ ตัส @ [สเตตัสคนแทค]
-╠❂➣ รูป @ [รูปโปรคนแทค]
+╠❂➣ รูป @ [รูปโปรไฟล์คนแทค]
 ╠❂➣ ปก @ [รูปปกคนแทค]
-╠❂➣ คท @ [คท.คนแท็ก]
-╠❂➣ วีดีโอโปร@[วีดีโอคนแทค]
-╠❂➣ ไอดีล่อง
-╠❂➣ คทล่อง
-╠❂➣ แทคล่อง
-╠❂➣ ปฏิทิน
-╠❂➣ Mimic on/off[เลียนแบบ]
-╠❂➣ MimicList[ชื่อเลียนแบบ]
-╠❂➣ MimicAdd@[คนที่เลียนแบบ]
-╠❂➣ MimicDel@[คนที่เลิกเลียนแบบ]
+╠❂➣ คท @ [คทคนแท็ก]
+╠❂➣ วีดีโอโปร @ [วีดีโอคนแทค]
+╠❂➣ ไอดีล่อง [ไอดีคนใส่ล่องหน]
+╠❂➣ คทล่อง [คทคนใส่ล่องหน]
+╠❂➣ แทคล่อง [แทคคนใส่ร่องหน]
+╠❂➣ ปฏิทิน [เช็ควันเวลา]
+╠❂➣ Mimic on/off
+╠❂➣ MimicList[รายชื่อเลียนแบบ]
+╠❂➣ MimicAdd @[คนที่เลียนแบบ]
+╠❂➣ MimicDel @[คนที่เลิกเลียนแบบ]
 ╠❂➣ ส่งเสียงกลุ่ม [ข้อความ]
 ╠❂➣ ส่งเสียงแชท [ข้อความ]
 ╠❂➣ ประกาศกลุ่ม [ข้อความ]
@@ -395,13 +449,19 @@ def myhelp():
 ╠❂➣ ส่งรูปภาพตามแชท [ลิ้งรูป]
 ╠❂➣ เริ่มใหม่ [รีบูสระบบใหม่]
 ╠❂➣ เวลออน [เช็คเวลาออน]
-╰════✰™❍✯͜͡RED™SAMURAI✯͜͡❂➣ """
+╰════✰™❍✯͜͡RED™SAMURAI✯͜͡❂➣ 
+
+ *หมายเหตุ*  คำสั่งที่เป็นภาษาไทย
+ ให้ใส่ . นำหน้าคำสั่งเวลาใช้ด้วยเด้อ"""
     return myHelp
 
 def listgrup():
     listGrup = """╔══════════════┓
-╠™❍✯͜͡SEPRICHE✯͜͡❂➣ 
+╠™❍✯͜͡RED™SAMURAI✯͜͡❂➣ 
 ╚══════════════┛
+ ────┅═ই۝ई═┅────
+             คำสั่งในกลุ่ม
+ ────┅═ই۝ई═┅────
 ╔══════════════┓
 ╠❂➣ แอด
 ╠❂➣ ชื่อกลุ่ม
@@ -435,13 +495,16 @@ def listgrup():
 ╠❂➣ ล้างดำ
 ╠❂➣ ไล่ดำ
 ╠❂➣ ปวดตับ
-╰═✰™❍✯͜͡SEPRICHE✯͜͡❂➣"""
+╰═✰™❍✯͜͡RED™SAMURAI✯͜͡❂➣"""
     return listGrup
 
 def socmedia():
     socMedia = """╔══════════════┓
-╠™❍✯͜͡SEPRICHE✯͜͡❂➣
+╠™❍✯͜͡RED™SAMURAI✯͜͡❂➣
 ╚══════════════┛
+ ────┅═ই۝ई═┅────
+        คำสั่งโซเชลมีเดี่ย
+ ────┅═ই۝ई═┅────
 ╔══════════════┓
 ╠❂➣ ปฏิทิน
 ╠❂➣ รูปภาพ [ชื่อรูปภาพ]
@@ -456,13 +519,16 @@ def socmedia():
 ╠❂➣ ไอจี [ชื่อยูส]
 ╠❂➣ Urban
 ╠❂➣ กูเกิ้ล [ข้อความ]
-╰═✰™❍✯͜͡SEPRICHE✯͜͡❂➣"""
+╰═✰™❍✯͜͡RED™SAMURAI✯͜͡❂➣"""
     return socMedia
 
 def helpset():
     helpSet = """╔══════════════┓
-╠™❍✯͜͡✯͜͡SEPRICHE✯͜͡❂➣
+╠™❍✯͜͡RED™SAMURAI✯͜͡❂➣
 ╚══════════════┛
+  ────┅═ই۝ई═┅────
+           คำสั่งเซลบอท
+  ────┅═ই۝ई═┅────
 ╔══════════════┓
 ╠❂➣ โย่ว
 ╠❂➣ ไอดี
@@ -489,11 +555,9 @@ def helpset():
 ╠❂➣ เวลออน
 ╠❂➣ ดำ
 ╠❂➣ ขาว
-╠❂➣ คทแบน
 ╠❂➣ แบน @
 ╠❂➣ ลบแบน @
 ╠❂➣ บล็อค @
-╠❂➣ บล็อค
 ╠❂➣ ลบรัน
 ╠❂➣ ดึง
 ╠❂➣ หวด @
@@ -505,13 +569,16 @@ def helpset():
 ╠❂➣ เพื่อน
 ╠❂➣ ไอดีเพื่อน
 ╠❂➣ Gcancel:(จำนวนสมาชิก)
-╰═✰™❍✯͜͡SEPRICHE✯͜͡❂➣"""
+╰═✰™❍✯͜͡RED™SAMURAI✯͜͡❂➣"""
     return helpSet
 
 def helpsetting():
     helpSetting = """╔══════════════┓
-╠™❍✯͜͡SEPRICHE✯͜͡❂➣
+╠™❍✯͜͡RED™SAMURAI✯͜͡❂➣
 ╚══════════════┛
+ ────┅═ই۝ई═┅────
+         คำสั่งการตั้งค่า
+ ────┅═ই۝ई═┅────
 ╔══════════════┓
 ╠❂➣ เปิดกัน/ปิดกัน
 ╠❂➣ กันยก/ปิดกันยก
@@ -524,6 +591,8 @@ def helpsetting():
 ╠❂➣ เปิดออก/ปิดออก
 ╠❂➣ เปิดติ๊ก/ปิดติ๊ก
 ╠❂➣ เปิดบล็อค/ปิดบล็อค
+╠❂➣ เปิดมุด/ปิดมุด
+╠❂➣ เปิดเผือก/ปิดเผือก
 ╠❂➣ เปิดอ่าน/ปิดอ่าน
 ╠❂➣ เปิดพูด/ปิดพูด
 ╠❂➣ เปิดแทค/ปิดแทค
@@ -538,13 +607,16 @@ def helpsetting():
 ╠❂➣ เปิดส่งแขก/ปิดส่งแขก
 ╠❂➣ เปิดทักเตะ/ปิดทักเตะ
 ╠❂➣ เปิดข้อความ/ปิดข้อความ
-╰══™❍✯͜͡SEPRICHE✯͜͡❂➣"""
+╰══™❍✯͜͡RED™SAMURAI✯͜͡❂➣"""
     return helpSetting
 
 def helptexttospeech():
     helpTextToSpeech =   """╔══════════════┓
-╠™❍✯͜͡SEPRICHE✯͜͡❂➣
+╠™❍✯͜͡RED™SAMURI✯͜͡❂➣ 
 ╚══════════════┛
+ ────┅═ই۝ई═┅────
+   คำสั่งพูดMp3ภาษาต่างๆ
+  ────┅═ই۝ई═┅────
 ╔══════════════┓
 ╠❂➣ af : แอฟริกัน
 ╠❂➣ sq : อัลเบเนีย
@@ -574,8 +646,11 @@ def helptexttospeech():
     
 def helplanguange():
     helpLanguange =    """╔══════════════┓
-╠™❍✯͜͡✯͜͡SEPRICHE✯͜͡❂➣
+╠™❍✯͜͡RED™SAMURI✯͜͡❂➣
 ╚══════════════┛
+ ────┅═ই۝ई═┅────
+          คำสั่งแปลภาษา
+ ────┅═ই۝ई═┅────
 ╔══════════════┓
 ╠❂➣ af : แอฟริกัน
 ╠❂➣ sq : อัลเบเนีย
@@ -608,36 +683,10 @@ def helplanguange():
 ╠❂➣ ru : รัสเซีย
 ╠❂➣ th : ไทย
 ╠❂➣ zu : ซูลู
-╰═✰™❍✯͜͡SEPRICHE✯͜͡❂➣
+╰═✰™❍✯͜͡RED™SAMURAI✯͜͡❂➣
  
 「วิธีใช้ : tr-th hello」"""
     return helpLanguange
-    
-def helpkicker():
-    helpKicker = """╔══════════════┓
-╠™❍✯͜͡✯͜͡SEPRICHE✯͜͡❂➣
-╚══════════════┛
-╔══════════════┓
-╠❂➣ องครักษ์
-╠❂➣ เช็คชื่อ
-╠❂➣ ชื่อคิก:
-╠❂➣ เปิดคิกผี
-╠❂➣ คิกผี
-╠❂➣ ตัสคิก:
-╠❂➣ 1-5หวด
-╠❂➣ 1-3กลุ่ม
-╠❂➣ ลบรัน
-╠❂➣ ลบรันคิก
-╠❂➣ sms +66+เบอร์โทร
-╠❂➣ ไล่ดำ
-╠❂➣ ปวดตับ
-╠❂➣ ถอนกำลัง
-╠❂➣ ออกทุกกลุ่ม
-╠❂➣ sayonara
-╠❂➣ ลบแชท
-╠❂➣ ลบแชทคิก
-╰═✰™❍✯͜͡SEPRICHE✯͜͡❂➣"""
-    return helpKickker
 #==============================================================================#
 def lineBot(op):
     try:
@@ -758,7 +807,7 @@ def lineBot(op):
                    else:
                         settings["dblacklist"] = False
                         line.sendText(msg.to,"Tidak Ada Dalam Da ftar Blacklist")
-                       
+                               
         if op.type == 25:
             msg = op.message
             text = msg.text
@@ -819,22 +868,19 @@ def lineBot(op):
                 elif text.lower() == 'help6':
                     helpLanguange = helplanguange()
                     line.sendMessage(to, str(helpLanguange))
-                elif text.lower() == 'help7':
-                    helpKickker = helpkicker()
-                    line.sendMessage(to, str(helpKicker))
 #==============================================================================#
                 elif text.lower() == '.speed':
                     start = time.time()
-                    line.sendMessage(to, "sepribot")
+                    line.sendMessage(to, "proses...")
                     elapsed_time = time.time() - start
                     line.sendMessage(msg.to, "[ %s Seconds ] [ " % (elapsed_time) + str(int(round((time.time() - start) * 1000)))+" ms ]")
-                elif text.lower() == 'sp':
+                elif text.lower() == '.sp':
                     start = time.time()
-                    line.sendMessage(to, "sepribot")
+                    line.sendMessage(to, "proses")
                     elapsed_time = time.time() - start
                     line.sendMessage(msg.to, "[ %s Seconds ] [ " % (elapsed_time) + str(int(round((time.time() - start) * 1000)))+" ms ]")
-                elif text.lower() == '.เริ่มใหม่':
-                    line.sendMessage(to, "กำลังเริ่มต้นใหม่ ... โปรดรอสักครู่ ..")
+                elif text.lower() == '.restart':
+                    line.sendMessage(to, "succses Restaring.")
                     line.sendMessage(to, "Success Restarting.")
                     restartBot()
                 elif text.lower() == '.runtime':
@@ -842,22 +888,22 @@ def lineBot(op):
                     runtime = timeNow - botStart
                     runtime = format_timespan(runtime)
                     line.sendMessage(to, "sepribot aktif selama {}".format(str(runtime)))
-                elif text.lower() == '.about':
+                elif text.lower() == '.myprofile':
                     try:
                         arr = []
-                        owner = "u61a9b5ce8de3eb51a859410c9834e5c8"
+                        owner = "u9f09cfcb17d037e2936b751bd9d40ead"
                         creator = line.getContact(owner)
                         contact = line.getContact(lineMID)
                         grouplist = line.getGroupIdsJoined()
                         contactlist = line.getAllContactIds()
                         blockedlist = line.getBlockedContactIds()
                         ret_ = "╔══[ ™❍✯͜͡SEPRICHE✯͜͡❂➣]"
-                        ret_ += "\n╠۝ ชื่อ ═ {}".format(contact.displayName)
-                        ret_ += "\n╠۝ กลุ่ม ═ {}".format(str(len(grouplist)))
-                        ret_ += "\n╠۝ เพื่อน ═ {}".format(str(len(contactlist)))
-                        ret_ += "\n╠۝ บล็อค ═ {}".format(str(len(blockedlist)))
-                        ret_ += "\n╠══[สถานะ] ═ {}".format(contact.statusMessage)
-                        ret_ += "\n╠۝ ผู้สร้าง ═ {}".format(creator.displayName)
+                        ret_ += "\n╠۝ nama ═ {}".format(contact.displayName)
+                        ret_ += "\n╠۝ group ═ {}".format(str(len(grouplist)))
+                        ret_ += "\n╠۝ teman ═ {}".format(str(len(contactlist)))
+                        ret_ += "\n╠۝ blokir ═ {}".format(str(len(blockedlist)))
+                        ret_ += "\n╠══[status] ═ {}".format(contact.statusMessage)
+                        ret_ += "\n╠۝ nama tampilan ═ {}".format(creator.displayName)
                         ret_ += "\n╚══[ ™❍✯͜͡SEPRICHE✯͜͡❂➣]"
                         line.sendContact(to, owner)
                         line.sendMessage(to, str(ret_))
@@ -915,16 +961,16 @@ def lineBot(op):
                         else: ret_ += "\n╠ ป้องกันสมาชิก ✘ "
                         if RfuProtect["Protectjoin"] == True: ret_ += "\n╠ ป้องกันเข้ากลุ่ม ✔"
                         else: ret_ += "\n╠ ป้องกันเข้ากลุ่ม ✘ "						
-                        ret_ += "\n╚════[ Status ]═════┛"
+                        ret_ += "\n╚════[ SepriBot ]═════┛"
                         line.sendMessage(to, str(ret_))
                     except Exception as e:
                         line.sendMessage(msg.to, str(e))
-                elif text.lower() == '.autoblock:on':
+                elif text.lower() == '.autoadd:on':
                     settings["autoAdd"] = True
-                    line.sendMessage(to, "Autoblock enabled.")
-                elif text.lower() == '.autoblock:off':
+                    line.sendMessage(to, "Auto add enabled.")
+                elif text.lower() == '.autoadd:off':
                     settings["autoAdd"] = False
-                    line.sendMessage(to, "Autoblock disabled.")
+                    line.sendMessage(to, "Auto add disabled.")
                 elif text.lower() == '.autojoin:on':
                     settings["autoJoin"] = True
                     line.sendMessage(to, "Autojoin enabled.")
@@ -954,7 +1000,7 @@ def lineBot(op):
                                 line.sendText(msg.to,"Bizarre ratings")					
                 elif text.lower() == '.autoleave:on':
                     settings["autoLeave"] = True
-                    line.sendMessage(to, "done..")
+                    line.sendMessage(to, "leave on")
                 elif text.lower() == '.autoleave:off':
                     settings["autoLeave"] = False
                     line.sendMessage(to, "Autoleave disabled.")
@@ -969,11 +1015,11 @@ def lineBot(op):
                     line.sendMessage(to, "Check sticker enabled.")
                 elif text.lower() == '.sticker:off':
                     settings["checkSticker"] = False
-                    line.sendMessage(to, "Check sticker disabled.")			
-                elif text.lower() == '.jointiket:on':
+                    line.sendMessage(to, "Check sticker disabled.")
+                elif text.lower() == '.autojointicket:on':
                     settings["autoJoinTicket"] = True
                     line.sendMessage(to, "Autojoin byTicket  enabled.")
-                elif text.lower() == '.jointiket:off':
+                elif text.lower() == '.autojointicket:off':
                     settings["autoJoinTicket"] = False
                     line.sendMessage(to, "Autojoin byTicket  disabled.")
                 elif text.lower() == '.unsendmessage:on':
@@ -981,9 +1027,9 @@ def lineBot(op):
                     line.sendMessage(to, "unsendMessage  enabled.")
                 elif text.lower() == '.unsendmessage:off':
                     settings["unsendMessage"] = False
-                    line.sendMessage(to, "unsendMessage disabled.")
+                    line.sendMessage(to, "unsendMessage disabled.")           
 #==============================================================================#
-                elif msg.text.lower() == "me":
+                elif msg.text.lower() == ".me":
                     me = line.getContact(lineMID)
                     line.sendMessage(msg.to,"[nama]")
                     sendMessageWithMention(to, lineMID)
@@ -993,42 +1039,42 @@ def lineBot(op):
                     cover = line.getProfileCoverURL(lineMID)
                     line.sendImageWithURL(msg.to, cover)
                     line.sendMessage(msg.to,str(settings["comment"]))
-                elif text.lower() == '.โย่ว':
+                elif text.lower() == '.mi':
                     sendMessageWithMention(to, lineMID)
                     line.sendContact(to, lineMID)
-                elif text.lower() == '.aku':
+                elif text.lower() == '.mie':
                     sendMessageWithMention(to, lineMID)
-                    line.sendContact(to, "u61a9b5ce8de3eb51a859410c9834e5c8")
+                    line.sendContact(to, "ub5abe828cd964292195c3c59d6322033")
                 elif text.lower() == '.mid':
                     line.sendMessage(msg.to,"[MID]\n" +  lineMID)
-                elif text.lower() == '.คอมเม้น':
-                    line.sendMessage(msg.to, str(settings["comment"]))
-                elif text.lower() == '.ทักเข้า':
-                    line.sendMessage(msg.to, str(settings["welcome"]))
-                elif text.lower() == '.ทักออก':
-                    line.sendMessage(msg.to, str(settings["bye"]))
-                elif text.lower() == '.ทักเตะ':
-                    line.sendMessage(msg.to, str(settings["kick"]))
-                elif text.lower() == '.ข้อความแอด':
-                    line.sendMessage(msg.to, str(settings["message"]))
-                elif text.lower() == '.ข้อความแทค':
-                    line.sendMessage(msg.to, str(settings["Respontag"]))
-                elif text.lower() == '.ชื่อ':
+                elif text.lower() == '.displayname':
                     me = line.getContact(lineMID)
                     line.sendMessage(msg.to,"[DisplayName]\n" + me.displayName)
-                elif text.lower() == '.ตัส':
+                elif text.lower() == '.mystatus':
                     me = line.getContact(lineMID)
                     line.sendMessage(msg.to,"[StatusMessage]\n" + me.statusMessage)
-                elif text.lower() == '.รูปโปร':
+                elif text.lower() == '.mypp':
                     me = line.getContact(lineMID)
                     line.sendImageWithURL(msg.to,"http://dl.profile.line-cdn.net/" + me.pictureStatus)
-                elif text.lower() == '.วีดีโอโปร':
+                elif text.lower() == '.myppvideo':
                     me = line.getContact(lineMID)
                     line.sendVideoWithURL(msg.to,"http://dl.profile.line-cdn.net/" + me.pictureStatus + "/vp")
-                elif text.lower() == '.รูปปก':
+                elif text.lower() == '.mycover':
                     me = line.getContact(lineMID)
                     cover = line.getProfileCoverURL(lineMID)    
                     line.sendImageWithURL(msg.to, cover)
+                elif text.lower() == '.คอมเม้น':
+                    line.sendMessage(msg.to,str(settings["comment"]))
+                elif text.lower() == '.cekwelcome':
+                    line.sendMessage(msg.to, str(settings["welcome"]))
+                elif text.lower() == '.cekbye':
+                    line.sendMessage(msg.to, str(settings["bye"]))
+                elif text.lower() == '.cekkick':
+                    line.sendMessage(msg.to, str(settings["kick"]))
+                elif text.lower() == '.cekmessage':
+                    line.sendMessage(msg.to, str(settings["message"]))
+                elif text.lower() == '.cekrespontag':
+                    line.sendMessage(msg.to, str(settings["Respontag"]))
                 elif text.lower() == '.แทคล่อง':
                     gs = line.getGroup(to)
                     targets = []
@@ -1081,7 +1127,7 @@ def lineBot(op):
                             contact = line.getContact(ls)
                             mi_d = contact.mid
                             line.sendContact(msg.to, mi_d)
-                elif msg.text.lower().startswith(".ไอดี "):
+                elif msg.text.lower().startswith(".getmid "):
                     if 'MENTION' in list(msg.contentMetadata.keys())!= None:
                         names = re.findall(r'@(\w+)', text)
                         mention = ast.literal_eval(msg.contentMetadata['MENTION'])
@@ -1094,7 +1140,7 @@ def lineBot(op):
                         for ls in lists:
                             ret_ += "\n{}" + ls
                         line.sendMessage(msg.to, str(ret_))
-                elif msg.text.lower().startswith(".ชื่อ "):
+                elif msg.text.lower().startswith(".displayname "):
                     if 'MENTION' in list(msg.contentMetadata.keys())!= None:
                         names = re.findall(r'@(\w+)', text)
                         mention = ast.literal_eval(msg.contentMetadata['MENTION'])
@@ -1106,7 +1152,7 @@ def lineBot(op):
                         for ls in lists:
                             contact = line.getContact(ls)
                             line.sendMessage(msg.to, "[ Display Name ]\n" + contact.displayName)
-                elif msg.text.lower().startswith(".ตัส "):
+                elif msg.text.lower().startswith(".statusmessage "):
                     if 'MENTION' in list(msg.contentMetadata.keys())!= None:
                         names = re.findall(r'@(\w+)', text)
                         mention = ast.literal_eval(msg.contentMetadata['MENTION'])
@@ -1118,7 +1164,7 @@ def lineBot(op):
                         for ls in lists:
                             contact = line.getContact(ls)
                             line.sendMessage(msg.to, "[ Status Message ]\n{}" + contact.statusMessage)
-                elif msg.text.lower().startswith(".รูป "):
+                elif msg.text.lower().startswith(".picture "):
                     if 'MENTION' in list(msg.contentMetadata.keys())!= None:
                         names = re.findall(r'@(\w+)', text)
                         mention = ast.literal_eval(msg.contentMetadata['MENTION'])
@@ -1130,7 +1176,7 @@ def lineBot(op):
                         for ls in lists:
                             path = "http://dl.profile.line.naver.jp/" + line.getContact(ls).pictureStatus
                             line.sendImageWithURL(msg.to, str(path))
-                elif msg.text.lower().startswith(".วีดีโอ "):
+                elif msg.text.lower().startswith(".วีดีโอโปร "):
                     if 'MENTION' in list(msg.contentMetadata.keys())!= None:
                         names = re.findall(r'@(\w+)', text)
                         mention = ast.literal_eval(msg.contentMetadata['MENTION'])
@@ -1155,21 +1201,9 @@ def lineBot(op):
                             for ls in lists:
                                 path = line.getProfileCoverURL(ls)
                                 line.sendImageWithURL(msg.to, str(path))
-                elif ".ดึงเข้ากลุ่ม: " in msg.text:
-                    if msg.from_ in admin:
-                        gid = msg.text.replace(".ดึงเข้ากลุ่ม: ","")
-                        if gid == "":
-                            line.sendText(msg.to,"โปรดส่งไอดีกลุ่ม")
-                        else:
-                            try:
-                                line.findAndAddContactsByMid(msg._from)
-                                ki.findAndAddContactsByMid(msg._from)
-                                kk.findAndAddContactsByMid(msg._from)
-                                kc.findAndAddContactsByMid(msg._from)
-                                ke.findAndAddContactsByMid(msg._from)
-                                random.choice(Rfu).inviteIntoGroup(gid,[msg._from])
-                            except:
-                                line.sendText(msg.to,"เชิญเข้ากลุ่มที่สั่งเรียบร้อยแล้ว")
+                elif ".โพส " in msg.text:
+                    tl_text = msg.text.replace(".โพส ","")
+                    line.sendText(msg.to,"line://home/post?userMid="+lineMID+"&postId="+line.new_post(tl_text)["result"]["post"]["postInfo"]["postId"])
                 elif ".ก๊อป " in msg.text:
                   if msg._from in admin:
                     targets = []
@@ -1191,35 +1225,25 @@ def lineBot(op):
                             lol.statusMessage = Y
                             line.updateProfile(lol)
                         #---------------------------------------
-                            P = contact.pictureStatus
-                            hun = line.getProfile()
-                            hun.pictureStatus = P
-                            line.updateProfile(hun)
+                            settings["changePictureProfile"] = True
+                            me = line.getContact(target)     
+                            line.sendImageWithURL(msg.to,"http://dl.profile.line-cdn.net/" + me.pictureStatus)
                         except Exception as e:
                             line.sendMessage(msg.to, "Failed!")
                             print (e)
 
-                elif msg.text in [".กลับร่าง"]:
+                elif msg.text in [".คืนร่าง"]:
                     try:
-                        line.updateProfile.pictureStatus(backup.pictureStatus)
-                        line.updateProfile.statusMessage(backup.statusMessage)
-                        line.updateProfile.displayName(backup.displayName)
+                        line.updateProfile.pictureStatus(myProfile["pictureStatus"])
+                        line.updateProfile.statusMessage(myProfile["statusMessage"])
+                        line.updateProfile.displayName(myProfile["displayName"])
                         line.sendMessage(msg.to, "กลับร่างเดิมแล้ว")
                     except Exception as e:
                         line.sendText(msg.to, str (e))
-
-                elif msg.text in ["Ghost on",".เปิดคิกผี"]:
-                        settings["Ghost"] = True
-                        line.sendText(msg.to,"เปิดระบบเรียกคิกผีแล้วท่าน..(○ﾟεﾟ○)")
-
-                elif msg.text in ["Ghost on",".ghost:on"]:
-                        settings["Ghost"] = False
-                        line.sendText(msg.to,"ปิดระบบเรียกคิกผีเรียบร้อย..(´⊙ω⊙`)")
                         
                 elif msg.text in ["Allprotect on",".เปิดกทม"]:
                         settings["kickMention"] = True
-                        settings["Aip"] = True
-                        settings["Ghost"] = True
+                        settings["Aip"] = False
                         RfuProtect["protect"] = True
                         RfuProtect["cancelprotect"] = True
                         RfuProtect["inviteprotect"] = True 
@@ -1230,7 +1254,6 @@ def lineBot(op):
 						
                 elif msg.text in ["Allprotect off",".ปิดกทม"]:
                         settings["kickMention"] = False
-                        settings["Ghost"] = False
                         settings["Aip"] = False
                         RfuProtect["protect"] = False
                         RfuProtect["cancelprotect"] = False
@@ -1316,6 +1339,19 @@ def lineBot(op):
                         if settings["mimic"]["status"] == True:
                             settings["mimic"]["status"] = False
                             line.sendMessage(msg.to,"Mimic disabled.")
+                elif '.เพลสโต ' in msg.text.lower():
+                        tob = msg.text.lower().replace('.เพลสโต ',"")
+                        line.sendText(msg.to,"กรุณารอสักครู่...")
+                        line.sendText(msg.to,"ผลจากการค้นหา : "+tob+"\nจาก : Google Play\nลิ้งโหลด : https://play.google.com/store/search?q=" + tob)
+                        line.sendText(msg.to,"👆กรุณากดลิ้งเพื่อทำการโหลดแอพ👆")
+                elif ".ค้นหาไอดี " in msg.text:
+                    msgg = msg.text.replace(".ค้นหาไอดี ",'')
+                    conn = acil.findContactsByUserid(msgg)
+                    if True:
+                        msg.contentType = 13
+                        msg.contentMetadata = {'mid': conn.mid}
+                        acil.sendText(msg.to,"http://line.me/ti/p/~" + msgg)
+                        acil.sendMessage(msg)
                 elif "Spam " in msg.text:
                     txt = msg.text.split(" ")
                     jmlh = int(txt[2])
@@ -1419,39 +1455,7 @@ def lineBot(op):
                             ret_ += "\n╠ {}. {} | {}".format(str(no), str(group.name), str(len(group.members)))
                             no += 1
                         ret_ += "\n╚══[ จำนวน {} Groups ]".format(str(len(groups)))
-                        line.sendMessage(to, str(ret_))
-                elif text.lower() == '.1กลุ่ม':
-                        groups = ki.groups
-                        ret_ = "👇รายชื่อทั้งหมดของกลุ่ม👇"
-                        no = 0 + 1
-                        for gid in groups:
-                            group = ki.getGroup(gid)
-                            ret_ += "\n➢ {}. {} | {}".format(str(no), str(group.name), str(len(group.members)))
-                            no += 1
-                        ret_ += "\n จำนวน {} กลุ่ม ".format(str(len(groups)))
-                        ki.sendMessage(to, str(ret_))
-
-                elif text.lower() == '.2กลุ่ม':
-                        groups = kk.groups
-                        ret_ = "👇รายชื่อทั้งหมดของกลุ่ม👇"
-                        no = 0 + 1
-                        for gid in groups:
-                            group = kk.getGroup(gid)
-                            ret_ += "\n➢ {}. {} | {}".format(str(no), str(group.name), str(len(group.members)))
-                            no += 1
-                        ret_ += "\n  จำนวน {} กลุ่ม".format(str(len(groups)))
-                        kk.sendMessage(to, str(ret_))
-
-                elif text.lower() == '.3กลุ่ม':
-                        groups = kc.groups
-                        ret_ = "👇รายชื่อทั้งหมดของกลุ่ม👇"
-                        no = 0 + 1
-                        for gid in groups:
-                            group = kc.getGroup(gid)
-                            ret_ += "\n➢ {}. {} | {}".format(str(no), str(group.name), str(len(group.members)))
-                            no += 1
-                        ret_ += "\n จำนวน {} กลุ่ม".format(str(len(groups)))
-                        kc.sendMessage(to, str(ret_))				
+                        line.sendMessage(to, str(ret_))				
                 elif ".เชิญคลอ" == msg.text.lower():
                     line.inviteIntoGroupCall(msg.to,[uid.mid for uid in line.getGroup(msg.to).members if uid.mid != line.getProfile().mid])
                     line.sendMessage(msg.to,"เชิญเข้าร่วมการโทรสำเร็จ(｀・ω・´)")
@@ -1528,34 +1532,24 @@ def lineBot(op):
                                mi_d = Mids[:33]
                                line.createGroup("RED SAMURI Group",mi_d)
                                line.sendText(msg.to,"🏂⛷️[จะออกไปแตะขอบฟ้า]")
-                               ki.createGroup("RED SAMURI Group",mi_d)
-                               ki.sendText(msg.to,"🏂⛷️[จะออกไปแตะขอบฟ้า]")
-                               ke.createGroup("RED SAMURI Group",mi_d)
-                               ke.sendText(msg.to,"🏂⛷️[จะออกไปแตะขอบฟ้า]")
-                               kk.createGroup("RED SAMURI Group",mi_d)
-                               kk.sendText(msg.to,"🏂⛷️[จะออกไปแตะขอบฟ้า]")
-                               kcc.createGroup("RED SAMURI Group",mi_d)
-                               kc.sendText(msg.to,"🏂⛷️[จะออกไปแตะขอบฟ้า]")
                                line.createGroup("RED SAMURI Group",mi_d)
                                line.sendText(msg.to,"🏂⛷️[จะออกไปแตะขอบฟ้า]")
-                               ki.createGroup("RED SAMURI Group",mi_d)
-                               ki.sendText(msg.to,"🏂⛷️[จะออกไปแตะขอบฟ้า]")
-                               ke.createGroup("RED SAMURI Group",mi_d)
-                               ke.sendText(msg.to,"🏂⛷️[จะออกไปแตะขอบฟ้า]")
-                               kk.createGroup("RED SAMURI Group",mi_d)
-                               kk.sendText(msg.to,"🏂⛷️[จะออกไปแตะขอบฟ้า]")
-                               kcc.createGroup("RED SAMURI Group",mi_d)
-                               kc.sendText(msg.to,"🏂⛷️[จะออกไปแตะขอบฟ้า]")
                                line.createGroup("RED SAMURI Group",mi_d)
                                line.sendText(msg.to,"🏂⛷️[จะออกไปแตะขอบฟ้า]")
-                               ki.createGroup("RED SAMURI Group",mi_d)
-                               ki.sendText(msg.to,"🏂⛷️[จะออกไปแตะขอบฟ้า]")
-                               ke.createGroup("RED SAMURI Group",mi_d)
-                               ke.sendText(msg.to,"🏂⛷️[จะออกไปแตะขอบฟ้า]")
-                               kk.createGroup("RED SAMURI Group",mi_d)
-                               kk.sendText(msg.to,"🏂⛷️[จะออกไปแตะขอบฟ้า]")
-                               kcc.createGroup("RED SAMURI Group",mi_d)
-                               kc.sendText(msg.to,"🏂⛷️[จะออกไปแตะขอบฟ้า]")
+                               line.createGroup("RED SAMURI Group",mi_d)
+                               line.sendText(msg.to,"🏂⛷️[จะออกไปแตะขอบฟ้า]")
+                               line.createGroup("RED SAMURI Group",mi_d)
+                               line.sendText(msg.to,"🏂⛷️[จะออกไปแตะขอบฟ้า]")
+                               line.createGroup("RED SAMURI Group",mi_d)
+                               line.sendText(msg.to,"🏂⛷️[จะออกไปแตะขอบฟ้า]")
+                               line.createGroup("RED SAMURI Group",mi_d)
+                               line.sendText(msg.to,"🏂⛷️[จะออกไปแตะขอบฟ้า]")
+                               line.createGroup("RED SAMURI Group",mi_d)
+                               line.sendText(msg.to,"🏂⛷️[จะออกไปแตะขอบฟ้า]")
+                               line.createGroup("RED SAMURI Group",mi_d)
+                               line.sendText(msg.to,"🏂⛷️[จะออกไปแตะขอบฟ้า]")
+                               line.createGroup("RED SAMURI Group",mi_d)
+                               line.sendText(msg.to,"🏂⛷️[จะออกไปแตะขอบฟ้า]")
                                line.sendText(msg.to,"เรียบร้อย")
                             except:
                                 pass
@@ -1678,135 +1672,14 @@ def lineBot(op):
                            line.sendText(g.mid,"RED SAMURI")
                            line.sendText(g.mid,"RED SAMURI") 
                            line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI") 
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI") 
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI") 
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI") 
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI") 
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI") 
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI") 
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI") 
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI") 
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI") 
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI") 
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI") 
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI") 
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI") 
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI") 
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI") 
-                           line.sendText(g.mid,"RED SAMURI")
                            line.sendText(msg.to, "Done")
                            print (" Spammed !")
-                elif ".สำรองห้อง" in msg.text:
+                elif ".ดึงห้อง" in msg.text:
                     thisgroup = line.getGroups([msg.to])
                     Mids = [contact.mid for contact in thisgroup[0].members]
                     mi_d = Mids[:33]
-                    line.createGroup("RED SAMURI SELFBOT", mi_d)
-                    line.sendText(msg.to,"REDSAMURAI")
-                    line.createGroup("RED SAMURI SELFBOT", mi_d)
-                    line.sendText(msg.to,"REDSAMURAI")
-                elif ".รัน: " in msg.text.lower():
-                        key = msg.text[-33:]
-                        line.findAndAddContactsByMid(key)                   
-                        contact = line.getContact(key)
-                        line.createGroup("RED SAMURAI Group",[key])
-                        line.sendText(msg,to,"┌∩┐(◣_◢)┌∩┐")
-
+                    line.createGroup("RED SAMURAI SELFBOT", mi_d)
+                    line.sendText(msg.to,"welcome to room RED SAMURAI SELFBOT")
                 elif ".ไม่รับเชิญ " in msg.text.lower():
                     spl = re.split(".ไม่รับเชิญ ",msg.text,flags=re.IGNORECASE)
                     if spl[0] == "":
@@ -1877,8 +1750,8 @@ def lineBot(op):
                         except Exception as e:
                             line.sendText(msg.to,str(e))	
                 						
-                elif msg.text.lower().startswith("sms "):
-                    pnum = re.split("sms ",msg.text,flags=re.IGNORECASE)[1]
+                elif msg.text.lower().startswith(".ส่งข้อความ "):
+                    pnum = re.split(".ส่งข้อความ ",msg.text,flags=re.IGNORECASE)[1]
                     pnum = "66"+pnum[1:]
                     GACReq = GACSender.send(pnum)
                     if GACReq.responseNum == 0:
@@ -1918,20 +1791,20 @@ def lineBot(op):
                     msg.text = None
                     line.sendMessage(msg)
 #==============================================================================#
-                elif text.lower() == '.tagall':
+                elif text.lower() == '.แจ๊ะ':
                     group = line.getGroup(msg.to)
                     nama = [contact.mid for contact in group.members]
-                    k = len(nama)//20
+                    k = len(nama)//100
                     for a in range(k+1):
                         txt = ''
                         s=0
                         b=[]
-                        for i in group.members[a*20 : (a+1)*20]:
+                        for i in group.members[a*100 : (a+1)*100]:
                             b.append({"S":str(s), "E" :str(s+6), "M":i.mid})
                             s += 7
                             txt += '@Alin \n'
                         line.sendMessage(to, text=txt, contentMetadata={'MENTION': json.dumps({'MENTIONEES':b})}, contentType=0)
-                        line.sendMessage(to, "jones {} jablay".format(str(len(nama))))  
+                        line.sendMessage(to, "จำนวนแจ๊ะทั้งหมด {} คน".format(str(len(nama))))  
                 elif text.lower() == '.จับ':
                     tz = pytz.timezone("Asia/Jakarta")
                     timeNow = datetime.now(tz=tz)
@@ -1978,7 +1851,7 @@ def lineBot(op):
                     tz = pytz.timezone("Asia/Jakarta")
                     timeNow = datetime.now(tz=tz)
                     day = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday","Friday", "Saturday"]
-                    hari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"]
+                    hari = ["วันอาทิตย์", "วันจันทร์", "วันอังคาร", "วันพุธ", "วันพฤหัสบดี", "วันศุกร์", "วันเสาร์"]
                     bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
                     hr = timeNow.strftime("%A")
                     bln = timeNow.strftime("%m")
@@ -2002,7 +1875,7 @@ def lineBot(op):
                     tz = pytz.timezone("Asia/Jakarta")
                     timeNow = datetime.now(tz=tz)
                     day = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday","Friday", "Saturday"]
-                    hari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"]
+                    hari = ["วันอาทิตย์", "วันจันทร์", "วันอังคาร", "วันพุธ", "วันพฤหัสบดี", "วันศุกร์", "วันเสาร์"]
                     bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
                     hr = timeNow.strftime("%A")
                     bln = timeNow.strftime("%m")
@@ -2026,7 +1899,7 @@ def lineBot(op):
                     tz = pytz.timezone("Asia/Jakarta")
                     timeNow = datetime.now(tz=tz)
                     day = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday","Friday", "Saturday"]
-                    hari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"]
+                    hari = ["วันอาทิตย์", "วันจันทร์", "วันอังคาร", "วันพุธ", "วันพฤหัสบดี", "วันศุกร์", "วันเสาร์"]
                     bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
                     hr = timeNow.strftime("%A")
                     bln = timeNow.strftime("%m")
@@ -3218,14 +3091,6 @@ def lineBot(op):
                     A = hasil.text
                     line.sendMessage(msg.to, A)
 
-                elif msg.text in ["มูฟวี่"]:
-                    hasil = "https://youtu.be/2QKg5SZ_35I"
-                    A = hasil
-                    line.sendVideoWithURL(msg.to, A)
-
-#sender = msg._from
-#            if msg.toType == 0:
-#                if sender != line.profile.mid:
 #==============================================================================#
                 elif ".ประกาศกลุ่ม " in msg.text:
                     bc = msg.text.replace(".ประกาศกลุ่ม ","")
@@ -3250,7 +3115,6 @@ def lineBot(op):
                     gid = line.getAllContactIds()
                     for i in gid:
                         line.sendImageWithURL(i, bc)
-
                 elif ".ส่งเสียงกลุ่ม " in msg.text:
                     bctxt = msg.text.replace(".ส่งเสียงกลุ่ม ", "")
                     bc = ("บาย...เรด..ซามูไร..เซลบอท")
@@ -3283,7 +3147,7 @@ def lineBot(op):
                         if hr == day[i]: hasil = hari[i]
                     for k in range(0, len(bulan)):
                         if bln == str(k): bln = bulan[k-1]
-                    readTime = "🌴ปฏิทินโดย SAMURAI SELFBOT🌴" + "\n\n" + hasil + "\nที่ " + timeNow.strftime('%d') + " - " + bln + " - " + timeNow.strftime('%Y') + "\nเวลา : [ " + timeNow.strftime('%H:%M:%S') + " ]" + "\n\nBY: ™❍✯͜͡RED™SAMURI✯͜͡❂➣ "
+                    readTime = "🌴ปฏิทินโดย SAMURAI SELFBOT🌴\n\n🌿🌸🍃🌸🍃🌸🍃🌸🍃🌸🍃🌸🌿" + "\n\n🍁" + hasil + "\n🍁 ที่ " + timeNow.strftime('%d') + " - " + bln + " - " + timeNow.strftime('%Y')  + "\n🍁 เวลา : [ " + timeNow.strftime('%H:%M:%S') + " ]" + "🌿🌸🍃🌸🍃🌸🍃🌸🍃🌸🍃🌸🌿" + "\n\nBY: ™❍✯͜͡RED™SAMURI✯͜͡❂➣ \nhttps://github.com/Redsamuri"
                     line.sendMessage(msg.to, readTime)
 
                 elif "screenshotwebsite " in msg.text.lower():
@@ -3294,66 +3158,7 @@ def lineBot(op):
                         data = r.text
                         data = json.loads(data)
                         line.sendImageWithURL(to, data["result"])
-                elif "data " in msg.text.lower():
-                    sep = msg.text.split(" ")
-                    tanggal = msg.text.replace(sep[0] + " ","")
-                    r=requests.get('https://script.google.com/macros/exec?service=AKfycbw7gKzP-WYV2F5mc9RaR7yE3Ve1yN91Tjs91hp_jHSE02dSv9w&nama=ervan&tanggal='+tanggal)
-                    data=r.text
-                    data=json.loads(data)
-                    ret_ = "╔══[ D A T E ]"
-                    ret_ += "\n╠ Date Of Birth : {}".format(str(data["data"]["lahir"]))
-                    ret_ += "\n╠ Age : {}".format(str(data["data"]["usia"]))
-                    ret_ += "\n╠ Birthday : {}".format(str(data["data"]["ultah"]))
-                    ret_ += "\n╠ Zodiak : {}".format(str(data["data"]["zodiak"]))
-                    ret_ += "\n╚══[ Success ]"
-                    line.sendMessage(to, str(ret_))
-                
-                elif ".ไอจี " in msg.text.lower():
-                    sep = text.split(" ")
-                    search = text.replace(sep[0] + " ","")
-                    with requests.session() as web:
-                        web.headers["User-Agent"] = random.choice(settings["userAgent"])
-                        r = web.get("https://www.instagram.com/search?q={}".format(urllib.parse.quote(search)))
-                        try:
-                            data = json.loads(r.text)
-                            ret_ = "╔══[ Profile Instagram ]"
-                            ret_ += "\n╠ Nama : {}".format(str(data["user"]["full_name"]))
-                            ret_ += "\n╠ Username : {}".format(str(data["user"]["username"]))
-                            ret_ += "\n╠ Bio : {}".format(str(data["user"]["biography"]))
-                            ret_ += "\n╠ Pengikut : {}".format(format_number(data["user"]["followed_by"]["count"]))
-                            ret_ += "\n╠ Diikuti : {}".format(format_number(data["user"]["follows"]["count"]))
-                            if data["user"]["is_verified"] == True:
-                                ret_ += "\n╠ Verifikasi : Sudah"
-                            else:
-                                ret_ += "\n╠ Verifikasi : Belum"
-                            if data["user"]["is_private"] == True:
-                                ret_ += "\n╠ Akun Pribadi : Iya"
-                            else:
-                                ret_ += "\n╠ Akun Pribadi : Tidak"
-                            ret_ += "\n╠ จำนวน Post : {}".format(format_number(data["user"]["media"]["count"]))
-                            ret_ += "\n╚══[ https://www.instagram.com/{} ]".format(search)
-                            path = data["user"]["profile_pic_url_hd"]
-                            line.sendImageWithURL(to, str(path))
-                            line.sendMessage(to, str(ret_))
-                        except:
-                            line.sendMessage(to, "Pengguna tidak ditemukan")
-                elif ".รูปไอจี " in msg.text.lower():
-                    separate = msg.text.split(" ")
-                    user = msg.text.replace(separate[0] + " ","")
-                    profile = "https://www.instagram.com/" + user
-                    with requests.session() as x:
-                        x.headers['user-agent'] = 'Mozilla/5.0'
-                        end_cursor = ''
-                        for count in range(1):
-                            print(('send foto : ', count))
-                            r = x.get(profile, params={'max_id': end_cursor})                        
-                            data = re.search(r'window._sharedData = (\{.+?});</script>', r.text).group(1)
-                            j    = json.loads(data)                        
-                            for node in j['entry_data']['ProfilePage'][0]['user']['media']['nodes']: 
-                                page = 'https://www.instagram.com/p/' + node['code']
-                                r = x.get(page)
-                                print((node['display_src']))
-                                line.sendImageWithURL(msg.to,node['display_src'])
+
                 elif ".รูปภาพ " in msg.text.lower():
                     separate = msg.text.split(" ")
                     search = msg.text.replace(separate[0] + " ","")
@@ -3382,25 +3187,6 @@ def lineBot(op):
                             a = items.index(path)
                             b = len(items)
                             line.sendImageWithURL(to, str(path))
-                            
-                elif "ig " in msg.text.lower():
-                    sep = text.split(" ")
-                    search = text.replace(sep[0] + " ","")
-                    params = {"search_query": search}
-                    with requests.session() as web:
-                        web.headers["User-Agent"] = random.choice(settings["userAgent"])
-                        r = web.get("https://www.instagram.com/results", params = params)
-                        soup = BeautifulSoup(r.content, "html.parser")
-                        ret_ = "╔══[ ผลการค้นหา ]"
-                        datas = []
-                        for data in soup.select(".yt-lockup-title > a[title]"):
-                            if "&lists" not in data["href"]:
-                                datas.append(data)
-                        for data in datas:
-                            ret_ += "\n╠══[ {} ]".format(str(data["title"]))
-                            ret_ += "\n╠ https://www.instagram.com{}".format(str(data["href"]))
-                        ret_ += "\n╚══[ จำนวนที่พบ {} ]".format(len(datas))
-                        line.sendMessage(to, str(ret_))
       
                 elif ".ยูทูป " in msg.text.lower():
                     sep = text.split(" ")
@@ -3421,11 +3207,24 @@ def lineBot(op):
                         ret_ += "\n╚══[ จำนวนที่พบ {} ]".format(len(datas))
                         line.sendMessage(to, str(ret_))
                         
-                elif ".กูเกิ้ล " in msg.text:
-                    a = msg.text.replace(".กูเกิ้ล ","")
-                    b = urllib.quote(a)
-                    line.sendText(msg.to,"กรุณารอสักครู่...")
-                    line.sendText(msg.to, "https://www.google.com/" + b)
+                elif ".กูเกิ้ล " in msg.text.lower():
+                    sep = text.split(" ")
+                    search = text.replace(sep[0] + " ","")
+                    params = {"search_query": search}
+                    with requests.session() as web:
+                        web.headers["User-Agent"] = random.choice(settings["userAgent"])
+                        r = web.get("https://www.google.com/search?q=", params = params)
+                        soup = BeautifulSoup(r.content, "html.parser")
+                        ret_ = "╔══[ ผลการค้นหา ]"
+                        datas = []
+                        for data in soup.select(".yt-lockup-title > a[title]"):
+                            if "&lists" not in data["href"]:
+                                datas.append(data)
+                        for data in datas:
+                            ret_ += "\n╠══[ {} ]".format(str(data["title"]))
+                            ret_ += "\n╠ https://www.google.com/search?q={}".format(str(data["href"]))
+                        ret_ += "\n╚══[ จำนวนที่พบ {} ]".format(len(datas))
+                        line.sendMessage(to, str(ret_))
                         
                 elif ".วีดีโอ " in msg.text.lower():
                     sep = text.split(" ")
@@ -3484,7 +3283,7 @@ def lineBot(op):
                         ret_ += "\n╚══[ จำนวนที่พบ {} ]".format(len(datas))
                         line.sendMessage(to, str(ret_))
 
-                elif msg.text in [".cctv"]:
+                elif msg.text in [".เปิดแสกน"]:
                     try:
                         del RfuCctv['point'][msg.to]
                         del RfuCctv['sidermem'][msg.to]
@@ -3495,7 +3294,7 @@ def lineBot(op):
                     RfuCctv['sidermem'][msg.to] = ""
                     RfuCctv['cyduk'][msg.to]=True
                     line.sendMessage(msg.to,"เปิดระบบแสกนคนอ่านอัตโนมัติ")
-                elif msg.text in [".cyduk"]:
+                elif msg.text in [".ปิดแสกน"]:
                     if msg.to in RfuCctv['point']:
                         RfuCctv['cyduk'][msg.to]=False
                         line.sendText(msg.to, RfuCctv['sidermem'][msg.to])
@@ -3525,20 +3324,6 @@ def lineBot(op):
                     msgs+="\n🎎รายชื่อเพื่อนทั้งหมด🎎\n\nมีดังต่อไปนี้ : %i" % len(kontak)
                     line.sendMessage(msg.to, msgs)
 
-                elif msg.text in ["Conban",".banlist","Contact ban"]:
-                    if wait["blacklist"] == {}:
-                        line.sendText(msg.to,"Tidak Ada Blacklist")
-                    else:
-                        line.sendText(msg.to,"Daftar Blacklist")
-                        h = ""
-                        for i in wait["blacklist"]:
-                            h = cl.getContact(i)
-                            M = Message()
-                            M.to = msg.to
-                            M.contentType = 13
-                            M.contentMetadata = {'mid': i}
-                            line.sendMessage(M)
-
                 elif msg.text in [".เช็คบล็อค"]: 
                     blockedlist = line.getBlockedContactIds()
                     kontak = line.getContacts(blockedlist)
@@ -3549,17 +3334,7 @@ def lineBot(op):
                         num=(num+1)
                     msgs+="\n════════รายการบัญชีที่ถูกบล็อค════════\n\nTotal Blocked : %i" % len(kontak)
                     line.sendMessage(receiver, msgs)
-                elif msg.text in ["sayonara"]:
-                    if msg.toType == 2:
-                        ginfo = line.getGroup(receiver)
-                        try:
-                            line.leaveGroup(receiver)
-                            ki.leaveGroup(receiver)
-                            kk.leaveGroup(receiver)
-                            kc.leaveGroup(receiver)
-                            ke.leaveGroup(receiver)							
-                        except:
-                            pass
+
                 elif msg.text in [".ไอดีเพื่อน"]: 
                     gruplist = line.getAllContactIds()
                     kontak = line.getContacts(gruplist)
@@ -3645,7 +3420,7 @@ def lineBot(op):
                 elif msg.text in [".ปิดแทค3"]:
                     settings["delayMention"] = False
                     line.sendMessage(msg.to,"ปิดระบบแทคกลับคนแทค(ˉ(∞)ˉ)")
-
+                    
                 elif msg.text in [".เปิดตรวจสอบ"]:
                     settings["Aip"] = True
                     line.sendMessage(msg.to,"เปิดระบบตรวจสอบคำหยาบกับบอทบิน  ^ω^")
@@ -3714,7 +3489,7 @@ def lineBot(op):
                          line.sendMessage(msg.to, "ตั้งข้อความคนเข้าเรียบร้อยแล้ว")
                      else:
                           settings["welcome"] = spl
-                          line.sendMessage(msg.to, "™❍✯͜͡SEPRICHE✯͜͡❂➣\nตั้งค่าข้อความเมื่อมีคนเข้ากลุ่มแล้ว\nดังนี้👇\n\n👉{}".format(str(spl)))
+                          line.sendMessage(msg.to, "™❍✯͜͡RED™SAMURI✯͜͡❂➣\nตั้งค่าข้อความเมื่อมีคนเข้ากลุ่มแล้ว\nดังนี้👇\n\n👉{}".format(str(spl)))
 
                 elif msg.text.lower().startswith("textig "):
                     sep = msg.text.split(" ")
@@ -3741,7 +3516,7 @@ def lineBot(op):
                         group = line.getGroup(msg.to)
                         gMembMids = [contact.mid for contact in group.invitee]
                         for i in gMembMids:
-                            random.choice(Rfu).cancelGroupInvitation(msg.to,[i])
+                            random.choice(Exc).cancelGroupInvitation(msg.to,[i])
 #=============COMMAND KICKER===========================#
                 elif msg.text in [".ดำ"]:
                   if msg._from in admin: 
@@ -3750,44 +3525,12 @@ def lineBot(op):
                 elif msg.text in [".ขาว"]:
                   if msg._from in admin: 
                     settings["dblacklist"] = True
-                elif msg.text in [".clearban"]:
+                    line.sendText(msg.to,"กรุณาส่งคอทแทค")
+                elif msg.text in [".ล้างดำ"]:
                     settings["blacklist"] = {}
-                    line.sendMessage(msg.to,"bersih bang sep")
+                    line.sendMessage(msg.to,"ทำการลบัญชีดำทั้งหมดเรียร้อย")
                     print ("Clear Ban")
-                elif text.lower() == '.masuk':
-                    if msg.toType == 2:
-                        group = line.getGroup(to)
-                        group.preventedJoinByTicket = False
-                        line.updateGroup(group)
-                        invsend = 0
-                        ticket = line.reissueGroupTicket(to)
-                        ki.acceptGroupInvitationByTicket(to,format(str(ticket)))
-                        time.sleep(0.01)
-                        kk.acceptGroupInvitationByTicket(to,format(str(ticket)))
-                        time.sleep(0.01)
-                        kc.acceptGroupInvitationByTicket(to,format(str(ticket)))
-                        time.sleep(0.01)
-                        ke.acceptGroupInvitationByTicket(to,format(str(ticket)))
-                        time.sleep(0.01) 
-                        km.acceptGroupInvitationByTicket(to,format(str(ticket)))
-                        time.sleep(0.01)                        
-                        group.preventedJoinByTicket = True
-                        line.updateGroup(group)
-                        print ("คิกเข้า ")
-                elif text.lower() == '.js:on':
-                    if msg.toType == 2:
-                        group = line.getGroup(to)
-                        group.preventedJoinByTicket = False
-                        line.updateGroup(group)
-                        invsend = 0
-                        ticket = line.reissueGroupTicket(to)
-                        km.acceptGroupInvitationByTicket(to,format(str(ticket)))
-                        time.sleep(0.01)
-                        km.sendMessage(msg.to,"คิกผี รายงานตัว")
-                        group.preventedJoinByTicket = True
-                        line.updateGroup(group)
-                        print ("คิกผีเข้า ")
-                elif '.kick' in text.lower():
+                elif '.ลาก่อย' in text.lower():
                        targets = []
                        key = eval(msg.contentMetadata["MENTION"])
                        key["MENTIONEES"] [0] ["M"]
@@ -3800,7 +3543,7 @@ def lineBot(op):
                            except:
                                random.choice(Rfu).sendMessage(msg.to,"Limit kaka 😫")
 
-                elif '.kick1' in text.lower():
+                elif '.สอย' in text.lower():
                        targets = []
                        key = eval(msg.contentMetadata["MENTION"])
                        key["MENTIONEES"] [0] ["M"]
@@ -3813,73 +3556,6 @@ def lineBot(op):
                            except:
                                line.sendMessage(msg.to,"Limit kaka 😫")                               
 
-                elif '.kick2 ' in text.lower():
-                       targets = []
-                       key = eval(msg.contentMetadata["MENTION"])
-                       key["MENTIONEES"] [0] ["M"]
-                       for x in key["MENTIONEES"]:
-                           targets.append(x["M"])
-                       for target in targets:
-                           try:
-                               ki.kickoutFromGroup(msg.to,[target])           
-                               print ("คิก1เตะ")
-                           except:
-                               ki.sendMessage(msg.to,"จำกัด")                               
-
-                elif '.2หวด ' in text.lower():
-                       targets = []
-                       key = eval(msg.contentMetadata["MENTION"])
-                       key["MENTIONEES"] [0] ["M"]
-                       for x in key["MENTIONEES"]:
-                           targets.append(x["M"])
-                       for target in targets:
-                           try:
-                               kk.kickoutFromGroup(msg.to,[target])
-                               print ("คิก2เตะ")
-                           except:
-                               kk.sendMessage(msg.to,"จำกัด")                              
-
-                elif '.3หวด ' in text.lower():
-                       targets = []
-                       key = eval(msg.contentMetadata["MENTION"])
-                       key["MENTIONEES"] [0] ["M"]
-                       for x in key["MENTIONEES"]:
-                           targets.append(x["M"])
-                       for target in targets:
-                           try:
-                               kc.kickoutFromGroup(msg.to,[target])
-                               print ("คิก3เตะ")
-                           except:
-                               kc.sendMessage(msg.to,"จำกัด")
-                               
-                elif '.4หวด ' in text.lower():
-                       targets = []
-                       key = eval(msg.contentMetadata["MENTION"])
-                       key["MENTIONEES"] [0] ["M"]
-                       for x in key["MENTIONEES"]:
-                           targets.append(x["M"])
-                       for target in targets:
-                           try:
-                               ke.kickoutFromGroup(msg.to,[target])
-                               print ("คิก4เตะ")
-                           except:
-                               ke.sendMessage(msg.to,"จำกัด")
-                               
-                elif '.5หวด ' in text.lower():
-                       targets = []
-                       key = eval(msg.contentMetadata["MENTION"])
-                       key["MENTIONEES"] [0] ["M"]
-                       for x in key["MENTIONEES"]:
-                           targets.append(x["M"])
-                       for target in targets:
-                           try:
-                               km.kickoutFromGroup(msg.to,[target])
-                               km.leaveGroup(op.param1)
-                               print ("คิกผีเตะ")
-                           except:
-                               km.sendMessage(msg.to,"จำกัด")
-
-
                 elif '.เชิญ' in text.lower():
                        targets = []
                        key = eval(msg.contentMetadata["MENTION"])
@@ -3889,10 +3565,10 @@ def lineBot(op):
                        for target in targets:
                            try:
                                line.inviteIntoGroup(msg.to,[target])
-                               line.sendMessage(receiver, "เชิญok")
+                               line.sendMessage(receiver, "Type👉 Invite Succes")
                            except:
-                               line.sendMessage(msg.to,"จำกัด การเชิญ")
-                elif ".blockir @" in msg.text:
+                               line.sendMessage(msg.to,"Type👉 Limit Invite")
+                elif ".บล็อค @" in msg.text:
                     if msg.toType == 2:
                         print ("[block] OK")
                         _name = msg.text.replace(".บล็อค @","")
@@ -3911,7 +3587,7 @@ def lineBot(op):
                                    sendMessage(msg.to, "Success block contact~")
                                 except Exception as e:
                                    print (e)
-                elif msg.text.lower() == '.blocklist':
+                elif msg.text.lower() == 'บล็อค':
                     blockedlist = line.getBlockedContactIds()
                     sendMessage(msg.to, "Please wait...")
                     kontak = line.getContacts(blockedlist)
@@ -3924,7 +3600,7 @@ def lineBot(op):
                         sendMessage(msg.to, msgs)
                 elif ".ปวดตับ" in msg.text:
                 	if msg.toType == 2:
-                         _name = msg.text.replace("ปวดตับ","")
+                         _name = msg.text.replace(".ปวดตับ","")
                          gs = line.getGroup(receiver)
                          line.sendMessage(receiver,"Just some casual cleansing ô")
                          targets = []
@@ -3937,12 +3613,12 @@ def lineBot(op):
                              for target in targets:
                              	if not target in Rfu:
                                      try:
-                                         klist=[line,ki,kk,kc,ke,km]
+                                         klist=[line]
                                          kicker=random.choice(klist)
                                          kicker.kickoutFromGroup(receiver,[target])
                                          print((receiver,[g.mid]))
                                      except:
-                                         line.sendMessage(receiver,"ลบสมาชิกในกลุ่มออกหมดแล้ว")
+                                         line.sendMessage(receiver,"Group cleanse")
                                          print ("Cleanse Group")
 
                 elif msg.text in [".ไล่ดำ"]:
@@ -3953,61 +3629,17 @@ def lineBot(op):
                          for tag in settings["blacklist"]:
                              matched_list+=[str for str in gMembMids if str == tag]
                          if matched_list == []:
-                             line.sendMessage(receiver,"ไม่มีบัญชีดำ")
+                             line.sendMessage(receiver,"Nots in Blacklist")
                          else:
                              for jj in matched_list:
                                  try:
-                                     klist=[line,ki,kk,kc,ke,km]
+                                     klist=[line]
                                      kicker=random.choice(klist)
                                      kicker.kickoutFromGroup(receiver,[jj])
                                      print((receiver,[jj]))
                                  except:
-                                     line.sendMessage(receiver,"เตะกุเตะกลับ")
-                                     print ("ไล่เตะดำ")
-                elif text.lower() == ".ลบแชท":
-                        if msg._from in lineMID:
-                            try:
-                                line.removeAllMessages(op.param2)
-                                line.sendMessage(msg.to,"ลบทุกการแชทเรียบร้อย")
-                            except:
-                                pass
-                                print ("ลบแชทเซล")
-                elif text.lower() == ".clearchat":
-                        if msg._from in Family:
-                            try:
-                                ki.removeAllMessages(op.param2)
-                                kk.removeAllMessages(op.param2)
-                                kc.removeAllMessages(op.param2)
-                                ke.removeAllMessages(op.param2)
-                                km.removeAllMessages(op.param2)                                
-                                ki.sendMessage(msg.to,"periksa chat")
-                                ke.sendMessage(msg.to,"buka chat")
-                                kk.sendMessage(msg.to,"baca chat")
-                                kc.sendMessage(msg.to,"laporkan bang sepri")
-                                km.sendMessage(msg.to,"done hapus semua")
-                            except:
-                                pass
-                                print ("ลบแชทคิก")
-
-                elif text.lower() == ".bye":
-                    if msg._from in Family:
-                        ki.leaveGroup(msg.to)
-                        kk.leaveGroup(msg.to)
-                        kc.leaveGroup(msg.to)
-                        ke.leaveGroup(msg.to)
-                        km.leaveGroup(msg.to)
-                        print ("Kicker Leave")
-
-                elif text.lower() == ".byeall":
-                    if msg._from in Family:
-                        gid = line.getGroupIdsJoined()
-                        for i in gid:
-                            ki.leaveGroup(i)
-                            kk.leaveGroup(i)
-                            kc.leaveGroup(i)
-                            ke.leaveGroup(i)
-                            km.leaveGroup(i)
-                            print ("คิกออกทุกกลุ่ม")
+                                     line.sendMessage(receiver,"sorry bl ke cyduk")
+                                     print ("Blacklist di Kick")
                 elif ".ชื่อ: " in text.lower():
                     if msg._from in Family:
                         proses = text.split(":")
@@ -4027,238 +3659,163 @@ def lineBot(op):
                         line.updateProfile(profile_A)
                         line.sendMessage(msg.to,"Succes Update 👉 " + string)
                         print ("Update Bio Succes")
-                elif ".ชื่อคิก: " in text.lower():
-                    if msg._from in Family:
-                        proses = text.split(": ")
-                        string = text.replace(proses[0] + ": ","")
-                        profile_A = ki.getProfile()
-                        profile_B = kk.getProfile()
-                        profile_C = kc.getProfile()
-                        profile_D = ke.getProfile()
-                        profile_E = km.getProfile()
-                        profile_A.displayName = string
-                        profile_B.displayName = string
-                        profile_C.displayName = string
-                        profile_D.displayName = string
-                        profile_E.displayName = string
-                        ki.updateProfile(profile_A)
-                        kk.updateProfile(profile_B)
-                        kc.updateProfile(profile_C)
-                        ke.updateProfile(profile_D)
-                        ke.updateProfile(profile_D)
-                        line.sendMessage(msg.to,"คุณได้เปลี่ยนชื่อคลิ้กเกอร์ เป็น   " + string)
-                        print ("Update Name All Kicker")
 
-                elif ".ตัสคิก: " in text.lower():
-                    if msg._from in Family:
-                        proses = text.split(": ")
-                        string = text.replace(proses[0] + ": ","")
-                        profile_A = ki.getProfile()
-                        profile_B = kk.getProfile()
-                        profile_C = kc.getProfile()
-                        profile_D = kc.getProfile()
-                        profile_E = km.getProfile()                        
-                        profile_A.statusMessage = string
-                        profile_B.statusMessage = string
-                        profile_C.statusMessage = string
-                        profile_D.statusMessage = string
-                        profile_E.statusMessage = string                        
-                        ki.updateProfile(profile_A)
-                        kk.updateProfile(profile_B)
-                        kc.updateProfile(profile_C)
-                        ke.updateProfile(profile_D)
-                        km.updateProfile(profile_D)                        
-                        line.sendMessage(msg.to,"Update Bio All Kicker to : " + string)
-                        print ("Update Bio All Kicker")
-
-                elif text.lower() == ".respon":
-                    if msg._from in Family:
-                        profile = ki.getProfile()
-                        text = profile.displayName + " sepripro was here"
-                        ki.sendMessage(to, text)                                
-                        profile = kk.getProfile()
-                        text = profile.displayName + " sepripro was here"
-                        kk.sendMessage(to, text)                                
-                        profile = kc.getProfile()
-                        text = profile.displayName + " sepripro was here"
-                        kc.sendMessage(to, text)
-                        profile = ke.getProfile()                        
-                        text = profile.displayName + " sepripro was here"
-                        ke.sendMessage(to, text)
-                        profile = km.getProfile()                        
-                        text = profile.displayName + " sepripro was here"
-                        km.sendMessage(to, text)                     
-                        print ("เช็คชื่อคิก")
-                elif msg.text.lower().startswith("bitcoin"):
-                   search = msg.text.split("bitcoin")
-                   with requests.session() as web:
-                       web.headers["User-Agent"] = random.choice(settings["userAgent"])
-                       url = "https://xeonwz.herokuapp.com/bitcoin.api"
-                       r = web.get(url)
-                       data=r.text
-                       data=json.loads(data)
-                       print(data)
-                       hasil = "「 Bitcoin Result 」"
-                       hasil += "\nPrice : " +str(data["btc"])                                
-                       hasil += "\nExpensive : " +str(data["high"])
-                       hasil += "\nCheap : " +str(data["low"])               
-                       line.sendMessage(to, str(hasil))
 #=============COMMAND PROTECT=========================#
-                elif msg.text.lower() == '.protect:on':
+                elif msg.text.lower() == '.เปิดกัน':
                     if RfuProtect["protect"] == True:
                         if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"on   ")
+                            line.sendMessage(msg.to,"เปิดป้องกัน   ")
                         else:
-                            line.sendMessage(msg.to," sepripro on  ")
+                            line.sendMessage(msg.to,"เปิดป้องกัน   ")
                     else:
                         RfuProtect["protect"] = True
                         if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"sepripro on   ")
+                            line.sendMessage(msg.to,"เปิดป้องกัน   ")
                         else:
-                            line.sendMessage(msg.to,"sepripro on   ")
+                            line.sendMessage(msg.to,"เปิดป้องกัน   ")
 
-                elif msg.text.lower() == '.protect:off':
+                elif msg.text.lower() == '.ปิดกัน':
                     if RfuProtect["protect"] == False:
                         if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"off   ")
+                            line.sendMessage(msg.to,"ปิดป้องกัน   ")
                         else:
-                            line.sendMessage(msg.to,"sepripro off   ")
+                            line.sendMessage(msg.to,"ปิดป้องกัน   ")
                     else:
                         RfuProtect["protect"] = False
                         if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"sepripro off   ")
+                            line.sendMessage(msg.to,"ปิดป้องกัน   ")
                         else:
-                            line.sendMessage(msg.to,"sepripro off   ")
+                            line.sendMessage(msg.to,"ปิดป้องกัน   ")
 
-                elif msg.text.lower() == '.cancel:on':
+                elif msg.text.lower() == '.กันยก':
                     if RfuProtect["cancelprotect"] == True:
                         if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"on   ")
+                            line.sendMessage(msg.to,"เปิดป้องกันยกเลิกเชิญ   ")
                         else:
-                            line.sendMessage(msg.to,"sepricancel on   ")
+                            line.sendMessage(msg.to,"เปิดป้องกันยกเลิกเชิญ   ")
                     else:
                         RfuProtect["cancelprotect"] = True
                         if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"sepricancel on  ")
+                            line.sendMessage(msg.to,"เปิดป้องกันยกเลิกเชิญ   ")
                         else:
-                            line.sendMessage(msg.to,"sepricancel on   ")
+                            line.sendMessage(msg.to,"เปิดป้องกันยกเลิกเชิญ   ")
 
-                elif msg.text.lower() == '.cancel:off':
+                elif msg.text.lower() == '.ปิดกันยก':
                     if RfuProtect["cancelprotect"] == False:
                         if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"sepricancel off   ")
+                            line.sendMessage(msg.to,"ปิดป้องกันยกเลิกเชิญ   ")
                         else:
-                            line.sendMessage(msg.to,"sepricancel off   ")
+                            line.sendMessage(msg.to,"ปิดป้องกันยกเลิกเชิญ   ")
                     else:
                         RfuProtect["cancelprotect"] = False
                         if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"sepricancel off   ")
+                            line.sendMessage(msg.to,"ปิดป้องกันยกเลิกเชิญ   ")
                         else:
-                            line.sendMessage(msg.to,"sepricancel off   ")
+                            line.sendMessage(msg.to,"ปิดป้องกันยกเลิกเชิญ   ")
 
-                elif msg.text.lower() == '.inviteprotect:on':
+                elif msg.text.lower() == '.กันเชิญ':
                     if RfuProtect["inviteprotect"] == True:
                         if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"sudah on   ")
+                            line.sendMessage(msg.to,"เปิดป้องกันยกเชิญ   ")
                         else:
-                            line.sendMessage(msg.to,"sudah on   ")
+                            line.sendMessage(msg.to,"เปิดป้องกันยกเชิญ   ")
                     else:
                         RfuProtect["inviteprotect"] = True
                         if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"sudah on   ")
+                            line.sendMessage(msg.to,"เปิดป้องกันยกเชิญ   ")
                         else:
-                            line.sendMessage(msg.to,"sudah on   ")
+                            line.sendMessage(msg.to,"เปิดป้องกันยกเชิญ   ")
 
-                elif msg.text.lower() == '.inviteprotect:off':
+                elif msg.text.lower() == '.ปิดกันเชิญ':
                     if RfuProtect["inviteprotect"] == False:
                         if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"sudah off   ")
+                            line.sendMessage(msg.to,"ปิดป้องกันยกเชิญ   ")
                         else:
-                            line.sendMessage(msg.to,"sudah off   ")
+                            line.sendMessage(msg.to,"ปิดป้องกันยกเชิญ   ")
                     else:
                         RfuProtect["inviteprotect"] = False
                         if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"sudah off   ")
+                            line.sendMessage(msg.to,"ปิดป้องกันยกเชิญ   ")
                         else:
-                            line.sendMessage(msg.to,"sudah off   ")
+                            line.sendMessage(msg.to,"ปิดป้องกันยกเชิญ   ")
 
-                elif msg.text.lower() == '.prolink:on':
+                elif msg.text.lower() == '.กันลิ้ง':
                     if RfuProtect["linkprotect"] == True:
                         if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"sudah on   ")
+                            line.sendMessage(msg.to,"เปิดป้องกันลิ้ง   ")
                         else:
-                            line.sendMessage(msg.to,"sudah on   ")
+                            line.sendMessage(msg.to,"เปิดป้องกันลิ้ง   ")
                     else:
                         RfuProtect["linkprotect"] = True
                         if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"sudah on    ")
+                            line.sendMessage(msg.to,"เปิดป้องกันลิ้ง   ")
                         else:
-                            line.sendMessage(msg.to,"sudah on   ")
+                            line.sendMessage(msg.to,"เปิดป้องกันลิ้ง   ")
 
-                elif msg.text.lower() == '.prolink:off':
+                elif msg.text.lower() == '.ปิดกันลิ้ง':
                     if RfuProtect["linkprotect"] == False:
                         if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"sudah off   ")
+                            line.sendMessage(msg.to,"ปิดป้องกันลิ้ง   ")
                         else:
-                            line.sendMessage(msg.to,"sudah off  ")
+                            line.sendMessage(msg.to,"ปิดป้องกันลิ้ง   ")
                     else:
                         RfuProtect["linkprotect"] = False
                         if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"sudah off  ")
+                            line.sendMessage(msg.to,"ปิดป้องกันลิ้ง   ")
                         else:
-                            line.sendMessage(msg.to,"sudah off   ")
+                            line.sendMessage(msg.to,"ปิดป้องกันลิ้ง   ")
 
-                elif msg.text.lower() == '.antijs:on':
+                elif msg.text.lower() == '.กันกลุ่ม':
                     if RfuProtect["Protectguest"] == True:
                         if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"antijs diaktifkan  ")
+                            line.sendMessage(msg.to,"เปิดป้องกันสมาชิก   ")
                         else:
-                            line.sendMessage(msg.to,"antijs diaktifkan   ")
+                            line.sendMessage(msg.to,"เปิดป้องกันสมาชิก   ")
                     else:
                         RfuProtect["Protectguest"] = True
                         if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"antijs diaktifkan   ")
+                            line.sendMessage(msg.to,"เปิดป้องกันสมาชิก   ")
                         else:
-                            line.sendMessage(msg.to,"antijs diaktifkan   ")
+                            line.sendMessage(msg.to,"เปิดป้องกันสมาชิก   ")
 
-                elif msg.text.lower() == '.antijs:off':
+                elif msg.text.lower() == '.ปิดกันกลุ่ม':
                     if RfuProtect["Protectguest"] == False:
                         if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"antijs dimatikan   ")
+                            line.sendMessage(msg.to,"ปิดป้องกันสมาชิก   ")
                         else:
-                            line.sendMessage(msg.to,"antijs dimatikan   ")
+                            line.sendMessage(msg.to,"ปิดป้องกันสมาชิก   ")
                     else:
                         RfuProtect["Protectguest"] = False
                         if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"antijs dimatikan   ")
+                            line.sendMessage(msg.to,"ปิดป้องกันสมาชิก   ")
                         else:
-                            line.sendMessage(msg.to,"antijs dimatikan  ")
+                            line.sendMessage(msg.to,"ปิดป้องกันสมาชิก   ")
 
-                elif msg.text.lower() == '.joinkick:on':
+                elif msg.text.lower() == '.กันเข้า':
                     if RfuProtect["Protectjoin"] == True:
                         if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"sudah on   ")
+                            line.sendMessage(msg.to,"เปิดป้องกันคนเข้า   ")
                         else:
-                            line.sendMessage(msg.to,"sudah on  ")
+                            line.sendMessage(msg.to,"เปิดป้องกันคนเข้า   ")
                     else:
                         RfuProtect["Protectjoin"] = True
                         if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"sudah on   ")
+                            line.sendMessage(msg.to,"เปิดป้องกันคนเข้า   ")
                         else:
-                            line.sendMessage(msg.to,"sudah on  ")
+                            line.sendMessage(msg.to,"เปิดป้องกันคนเข้า   ")
 
-                elif msg.text.lower() == '.joinkick:off':
+                elif msg.text.lower() == '.ปิดกันเข้า':
                     if RfuProtect["Protectjoin"] == False:
                         if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"sudah off   ")
+                            line.sendMessage(msg.to,"ปิดป้องกันคนเข้า   ")
                         else:
-                            line.sendMessage(msg.to,"sudah off   ")
+                            line.sendMessage(msg.to,"ปิดป้องกันคนเข้า   ")
                     else:
                         RfuProtect["Protectjoin"] = False
                         if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"sudah off   ")
+                            line.sendMessage(msg.to,"ปิดป้องกันคนเข้า   ")
                         else:
-                            line.sendMessage(msg.to,"sudah off   ")
+                            line.sendMessage(msg.to,"ปิดป้องกันคนเข้า   ")
 
                 elif msg.text.lower() == '.เปิดหมด':
                     if RfuProtect["inviteprotect"] == True:
@@ -4392,7 +3949,7 @@ def lineBot(op):
                 elif msg.text.lower() == '.เปิดรับแขก':
                         if settings["Wc"] == True:
                             if settings["lang"] == "JP":
-                                line.sendMessage(to,"เปิดข้อความต้อนรับเมื่อมีสมาชิกเข้ากลุ่มไว้อยู่แล้ว   ")
+                                line.sendMessage(to,"เปิดข้อความต้อนรับเมื่อมีสมาชิกเข้ากลุ่ม   ")
                         else:
                             settings["Wc"] = True
                             if settings["lang"] == "JP":
@@ -4400,7 +3957,7 @@ def lineBot(op):
                 elif msg.text.lower() == '.ปิดรับแขก':
                         if settings["Wc"] == False:
                             if settings["lang"] == "JP":
-                                line.sendMessage(to,"ปิดข้อความต้อนรับเมื่อมีสมาชิกเข้ากลุ่มไว้อยู่แล้ว   ")
+                                line.sendMessage(to,"ปิดข้อความต้อนรับเมื่อมีสมาชิกเข้ากลุ่ม   ")
                         else:
                             settings["Wc"] = False
                             if settings["lang"] == "JP":
@@ -4409,7 +3966,7 @@ def lineBot(op):
                 elif msg.text.lower() == '.เปิดทักเตะ':
                         if settings["Nk"] == True:
                             if settings["lang"] == "JP":
-                                line.sendMessage(to,"เปิดข้อความแจ้งเตือนเมื่อมีคนลบสมาชิกในกลุ่มไว้อยู่แล้ว...")
+                                line.sendMessage(to,"เปิดข้อความแจ้งเตือนเมื่อมีคนลบสมาชิกในกลุ่ม...")
                         else:
                             settings["Nk"] = True
                             if settings["lang"] == "JP":
@@ -4418,7 +3975,7 @@ def lineBot(op):
                 elif msg.text.lower() == '.ปิดทักเตะ':
                         if settings["Nk"] == False:
                             if settings["lang"] == "JP":
-                                line.sendMessage(to,"ปิดข้อความแจ้งเตือนเมื่อมีคนลบสมาชิกในกลุ่มไว้อยู่แล้ว..")
+                                line.sendMessage(to,"ปิดข้อความแจ้งเตือนเมื่อมีคนลบสมาชิกในกลุ่มแล้ว..")
                         else:
                             settings["Nk"] = False
                             if settings["lang"] == "JP":
@@ -4427,7 +3984,7 @@ def lineBot(op):
                 elif msg.text.lower() == '.เปิดส่งแขก':
                         if settings["Lv"] == True:
                             if settings["lang"] == "JP":
-                                line.sendMessage(to,"เปิดข้อความอำลาเมื่อมีสมาชิกออกกลุ่มไว้อยู่แล้ว   ")
+                                line.sendMessage(to,"เปิดข้อความอำลาเมื่อมีสมาชิกออกกลุ่ม   ")
                         else:
                             settings["Lv"] = True
                             if settings["lang"] == "JP":
@@ -4435,43 +3992,44 @@ def lineBot(op):
                 elif msg.text.lower() == '.ปิดส่งแขก':
                         if settings["Lv"] == False:
                             if settings["lang"] == "JP":
-                                line.sendMessage(to,"ปิดข้อความอำลาเมื่อมีสมาชิกออกกลุ่มไว้อยู่แล้ว   ")
+                                line.sendMessage(to,"ปิดข้อความอำลาเมื่อมีสมาชิกออกกลุ่ม   ")
                         else:
                             settings["Lv"] = False
                             if settings["lang"] == "JP":
                                 line.sendMessage(to,"ปิดข้อความอำลาเมื่อมีสมาชิกออกกลุ่ม   ")
+                                
                 elif msg.text.lower() == '.เปิดคท':
                         if settings["checkContact"] == True:
                             if settings["lang"] == "JP":
-                                line.sendMessage(to,"เปิดระบบอ่านข้อมูลด้วยคอนแทคไว้อยู่แล้ว ")
+                                line.sendMessage(to,"เปิดระบบอ่านข้อมูลด้วยคอนแทค ")
                         else:
                             settings["checkContact"] = True
                             if settings["lang"] == "JP":
-                                line.sendMessage(to,"เปิดระบบอ่านข้อมูลด้วยคอนแทค ")
+                                line.sendMessage(to,"เปิดระบบอ่านข้อมูลด้วยคอนแทคไว้อยู่แล้ว ")
                 elif msg.text.lower() == '.ปิดคท':
                         if settings["checkContact"] == False:
                             if settings["lang"] == "JP":
-                                line.sendMessage(to,"ปิดระบบอ่านข้อมูลด้วยคอนแทคไว้อยู่แล้ว ")
+                                line.sendMessage(to,"ปิดระบบอ่านข้อมูลด้วยคอนแทค ")
                         else:
                             settings["checkContact"] = False
                             if settings["lang"] == "JP":
-                                line.sendMessage(to,"ปิดระบบอ่านข้อมูลด้วยคอนแทค ")
+                                line.sendMessage(to,"ปิดระบบอ่านข้อมูลด้วยคอนแทคไว้อยู่แล้ว ")
                 elif msg.text.lower() == '.เปิดเช็คโพส':
                         if settings["checkPost"] == True:
                             if settings["lang"] == "JP":
-                                line.sendMessage(to,"เปิดระบบเช็คโพสบนทามไลน์ไว้อยู่แล้ว " )
+                                line.sendMessage(to,"เปิดระบบเช็คโพสบนทามไลน์" )
                         else:
                             settings["checkPost"] = True
                             if settings["lang"] == "JP":
-                                line.sendMessage(to,"เปิดระบบเช็คโพสบนทามไลน์ ")
+                                line.sendMessage(to,"เปิดระบบเช็คโพสบนทามไลน์อยู่แล้ว ")
                 elif msg.text.lower() == '.ปิดเช็คโพส':
                         if settings["checkPost"] == False:
                             if settings["lang"] == "JP":
-                                line.sendMessage(to,"ปิดระบบเช็คโพสบนทามไลน์ไว้อยู่แล้ว ")
+                                line.sendMessage(to,"ปิดระบบเช็คโพสบนทามไลน์ ")
                         else:
                             settings["checkPost"] = False
                             if settings["lang"] == "JP":
-                                line.sendMessage(to,"ปิดระบบเช็คโพสบนทามไลน์ ")
+                                line.sendMessage(to,"ปิดระบบเช็คโพสบนทามไลน์ไว้อยู่แล้ว ")
                 elif text.lower() == ".แปลงโฉม":
                     settings["changePictureProfile"] = True
                     line.sendMessage(to, "ส่งรูปภาพลงมาได้เลยครับผม")
@@ -4481,9 +4039,9 @@ def lineBot(op):
                             settings["changeGroupPicture"].append(to)
                         line.sendMessage(to, "ส่งรูปภาพลงมาไดเเลยครับผม")
                 elif text.lower() == ".ดับไฟ":
-                    line.sendContact(to, "u1f41296217e740650e0448b96851a3e2',")
+                    line.sendContact(to, "u1f41296217e740650e0448b96851a3e2',")      
 
-                elif text.lower() == '.batalinvitegroup':
+                elif text.lower() == '.ลบรัน':
                     gid = line.getGroupIdsInvited()
                     start = time.time()
                     for i in gid:
@@ -4491,28 +4049,7 @@ def lineBot(op):
                     elapsed_time = time.time() - start
                     line.sendMessage(to, "ลบรันเสร็จแล้วขอรับ")
                     line.sendMessage(to, "ระยะเวลาที่ใช้: %sวินาที" % (elapsed_time))
-                    
-                elif text.lower() == '.batalsemuainvitegroup':
-                    gid = line.getGroupIdsInvited()
-                    start = time.time()
-                    for i in gid:
-                        ki.rejectGroupInvitation(i)
-                        ke.rejectGroupInvitation(i)
-                        kc.rejectGroupInvitation(i)
-                        kk.rejectGroupInvitation(i)
-                        km.rejectGroupInvitation(i)
-                    elapsed_time = time.time() - start
-                    ki.sendMessage(to, "ลบรันเสร็จแล้วขอรับ")
-                    ki.sendMessage(to, "ระยะเวลาที่ใช้: %sวินาที" % (elapsed_time))
-                    ke.sendMessage(to, "ลบรันเสร็จแล้วขอรับ")
-                    ke.sendMessage(to, "ระยะเวลาที่ใช้: %sวินาที" % (elapsed_time))
-                    kc.sendMessage(to, "ลบรันเสร็จแล้วขอรับ")
-                    kc.sendMessage(to, "ระยะเวลาที่ใช้: %sวินาที" % (elapsed_time))
-                    kk.sendMessage(to, "ลบรันเสร็จแล้วขอรับ")
-                    kk.sendMessage(to, "ระยะเวลาที่ใช้: %sวินาที" % (elapsed_time))
-                    km.sendMessage(to, "ลบรันเสร็จแล้วขอรับ")
-                    km.sendMessage(to, "ระยะเวลาที่ใช้: %sวินาที" % (elapsed_time))
-                    
+			
                 elif ".ลงดำ" in msg.text:
                   if msg._from in Family:
                       if msg.toType == 2:
@@ -4603,6 +4140,30 @@ def lineBot(op):
                         y += "\nDefinition: "+str(data["list"][0]["definition"])
                         y += "\nExample: "+str(data["list"][0]["example"])
                         line.sendMessage(to, str(y))
+
+            elif msg.contentType == 13:
+                if settings["checkContact"] == True:
+                    try:
+                        contact = line.getContact(msg.contentMetadata["mid"])
+                        if line != None:
+                            cover = line.getProfileCoverURL(msg.contentMetadata["mid"])
+                        else:
+                            cover = "Tidak dapat masuk di line channel"
+                        path = "http://dl.profile.line-cdn.net/{}".format(str(contact.pictureStatus))
+                        try:
+                            line.sendImageWithURL(to, str(path))
+                        except:
+                            pass
+                        ret_ = "[ รายการทั้งหมดจากการสำรวจด้วย คท ]"
+                        ret_ += "\n ชื่อ : {}".format(str(contact.displayName))
+                        ret_ += "\n ไอดี : {}".format(str(msg.contentMetadata["mid"]))
+                        ret_ += "\n ตัส : {}".format(str(contact.statusMessage))
+                        ret_ += "\n รูปโปรไฟล : http://dl.profile.line-cdn.net/{}".format(str(contact.pictureStatus))
+                        ret_ += "\n  รูปปก : {}".format(str(cover))
+                        ret_ += "\n[ สิ้นสุดการสำรวจ ]"
+                        line.sendMessage(to, str(ret_))
+                    except:
+                        line.sendMessage(to, "เกิดข้อผิดพลาดในการสำรวจ")
             elif msg.contentType == 1:
                 if settings["changePictureProfile"] == True:
                     path = line.downloadObjectMsg(msg_id)
@@ -4627,687 +4188,18 @@ def lineBot(op):
                     ret_ += "\n╠ STICKER URL : line://shop/detail/{}".format(pkg_id)
                     ret_ += "\n╚══[ Finish ]"
                     line.sendMessage(to, str(ret_))
-            elif msg.contentType == 13:
-                if settings["checkContact"] == True:
-                    try:
-                        contact = line.getContact(msg.contentMetadata["mid"])
-                        if line != None:
-                            cover = line.getProfileCoverURL(msg.contentMetadata["mid"])
-                        else:
-                            cover = "Tidak dapat masuk di line channel"
-                        path = "http://dl.profile.line-cdn.net/{}".format(str(contact.pictureStatus))
-                        try:
-                            line.sendImageWithURL(to, str(path))
-                        except:
-                            pass
-                        ret_ = "[ รายการทั้งหมดจากการสำรวจด้วย คท ]"
-                        ret_ += "\n ชื่อ : {}".format(str(contact.displayName))
-                        ret_ += "\n ไอดี : {}".format(str(msg.contentMetadata["mid"]))
-                        ret_ += "\n ตัส : {}".format(str(contact.statusMessage))
-                        ret_ += "\n รูปโปรไฟล : http://dl.profile.line-cdn.net/{}".format(str(contact.pictureStatus))
-                        ret_ += "\n  รูปปก : {}".format(str(cover))
-                        ret_ += "\n[ สิ้นสุดการสำรวจ ]"
-                        line.sendMessage(to, str(ret_))
-                    except:
-                        line.sendMessage(to, "เกิดข้อผิดพลาดในการสำรวจ")
-            elif msg.contentType == 16:
-                if settings["checkPost"] == True:
-                    try:
-                        ret_ = "[ ข้อมูลของโพสนี้ ]"
-                        if msg.contentMetadata["serviceType"] == "GB":
-                            contact = line.getContact(sender)
-                            auth = "\n  ผู้เขียนโพส : {}".format(str(contact.displayName))
-                        else:
-                            auth = "\n  ผู้เขียนโพส : {}".format(str(msg.contentMetadata["serviceName"]))
-                        purl = "\n  ลิ้งโพส : {}".format(str(msg.contentMetadata["postEndUrl"]).replace("line://","https://line.me/R/"))
-                        ret_ += auth
-                        ret_ += purl
-                        if "mediaOid" in msg.contentMetadata:
-                            object_ = msg.contentMetadata["mediaOid"].replace("svc=myhome|sid=h|","")
-                            if msg.contentMetadata["mediaType"] == "V":
-                                if msg.contentMetadata["serviceType"] == "GB":
-                                    ourl = "\n  Objek URL : https://obs-us.line-apps.com/myhome/h/download.nhn?tid=612w&{}".format(str(msg.contentMetadata["mediaOid"]))
-                                    murl = "\n  Media URL : https://obs-us.line-apps.com/myhome/h/download.nhn?{}".format(str(msg.contentMetadata["mediaOid"]))
-                                else:
-                                    ourl = "\n  Objek URL : https://obs-us.line-apps.com/myhome/h/download.nhn?tid=612w&{}".format(str(object_))
-                                    murl = "\n  Media URL : https://obs-us.line-apps.com/myhome/h/download.nhn?{}".format(str(object_))
-                                    ret_ += murl
-                            else:
-                                if msg.contentMetadata["serviceType"] == "GB":
-                                    ourl = "\n Objek URL : https://obs-us.line-apps.com/myhome/h/download.nhn?tid=612w&{}".format(str(msg.contentMetadata["mediaOid"]))
-                                else:
-                                    ourl = "\n Objek URL : https://obs-us.line-apps.com/myhome/h/download.nhn?tid=612w&{}".format(str(object_))
-                            ret_ += ourl
-                        if "stickerId" in msg.contentMetadata:
-                            stck = "\n  Stiker : https://line.me/R/shop/detail/{}".format(str(msg.contentMetadata["packageId"]))
-                            ret_ += stck
-                        if "text" in msg.contentMetadata:
-                            text = "\n ข้อความโดยย่อ : {}".format(str(msg.contentMetadata["text"]))
-                            ret_ += text
-                        ret_ += "\n[ สิ้นสุดการเช็คโพส ]"
-                        line.sendMessage(to, str(ret_))
-                    except:
-                        line.sendMessage(to, "เกิดข้อผิดะลาดในการเช็คโพสนี้")
-#    except Exception as error:
- #       logError(error)  
+              
 #==============================================================================#
-        if op.type == 19:
-          if op.param2 in Family:
-            pass
-          if op.param2 in RfuBot:
-          	pass
-          else:
-            if op.param3 in lineMID:
-              if op.param2 not in Family:
-                try:
-                  G = ki.getGroup(op.param1)
-                  G = kk.getGroup(op.param1)
-                  ki.kickoutFromGroup(op.param1,[op.param2])
-                  G.preventedJoinByTicket = False
-                  kk.updateGroup(G)
-                  ticket = kk.reissueGroupTicket(op.param1)
-                  line.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  ki.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  kk.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  kc.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  ke.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  km.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  G.preventedJoinByTicket = True
-                  line.updateGroup(G)
-                  settings["blacklist"][op.param2] = True
-                  f=codecs.open('st2__b.json','w','utf-8')
-                  json.dump(settings["blacklist"], f, sort_keys=True, indent=4,ensure_ascii=False)
-                except:
-                  G = random.choice(Rfu).getGroup(op.param1)
-                  random.choice(Rfu).kickoutFromGroup(op.param1,[op.param2])
-                  G.preventedJoinByTicket = False
-                  random.choice(Rfu).updateGroup(G)
-                  ticket = random.choice(Rfu).reissueGroupTicket(op.param1)
-                  line.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  ki.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  kk.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  kc.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  ke.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  km.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)             
-                  G.preventedJoinByTicket = True
-                  random.choice(Rfu).updateGroup(G)
-                  settings["blacklist"][op.param2] = True
-                  f=codecs.open('st2__b.json','w','utf-8')
-                  json.dump(settings["blacklist"], f, sort_keys=True, indent=4,ensure_ascii=False)
-
-            if op.param3 in kiMID:
-              if op.param2 not in Family:
-                try:
-                  G = kk.getGroup(op.param1)
-                  G = kc.getGroup(op.param1)
-                  kk.kickoutFromGroup(op.param1,[op.param2])
-                  G.preventedJoinByTicket = False
-                  kc.updateGroup(G)
-                  ticket = kc.reissueGroupTicket(op.param1)
-                  ki.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  line.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  kk.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  kc.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  ke.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  km.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  G.preventedJoinByTicket = True
-                  kk.updateGroup(G)
-                  settings["blacklist"][op.param2] = True
-                  f=codecs.open('st2__b.json','w','utf-8')
-                  json.dump(settings["blacklist"], f, sort_keys=True, indent=4,ensure_ascii=False)
-                except:
-                  G = random.choice(Rfu).getGroup(op.param1) 
-                  random.choice(Rfu).kickoutFromGroup(op.param1,[op.param2])
-                  G.preventedJoinByTicket = False
-                  kk.updateGroup(G)
-                  ticket = random.choice(Rfu).reissueGroupTicket(op.param1)
-                  ki.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  line.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  kk.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  kc.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  km.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  G.preventedJoinByTicket = True
-                  ki.updateGroup(G)
-                  settings["blacklist"][op.param2] = True
-                  f=codecs.open('st2__b.json','w','utf-8')
-                  json.dump(settings["blacklist"], f, sort_keys=True, indent=4,ensure_ascii=False)
-                  
-            if op.param3 in kkMID:
-              if op.param2 not in Family:
-                try:
-                  G = ki.getGroup(op.param1)
-                  G = kc.getGroup(op.param1)
-                  ki.kickoutFromGroup(op.param1,[op.param2])
-                  G.preventedJoinByTicket = False
-                  kc.updateGroup(G)
-                  ticket = ke.reissueGroupTicket(op.param1)
-                  kk.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  line.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  ki.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  kc.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  ke.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  km.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  G.preventedJoinByTicket = True
-                  kk.updateGroup(G)
-                  settings["blacklist"][op.param2] = True
-                  f=codecs.open('st2__b.json','w','utf-8')
-                  json.dump(settings["blacklist"], f, sort_keys=True, indent=4,ensure_ascii=False)
-                except:
-                  G = random.choice(Rfu).getGroup(op.param1)
-                  random.choice(Rfu).kickoutFromGroup(op.param1,[op.param2])
-                  G.preventedJoinByTicket = False
-                  random.choice(Rfu).updateGroup(G)
-                  ticket = random.choice(Rfu).reissueGroupTicket(op.param1)
-                  kk.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  line.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  ki.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  kc.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  ke.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  km.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  G.preventedJoinByTicket = True
-                  random.choice(Rfu).updateGroup(G)
-                  settings["blacklist"][op.param2] = True
-                  f=codecs.open('st2__b.json','w','utf-8')
-                  json.dump(settings["blacklist"], f, sort_keys=True, indent=4,ensure_ascii=False)
-                  
-            if op.param3 in kcMID:
-              if op.param2 not in Family:
-                try:
-                  G = kk.getGroup(op.param1)
-                  G = ke.getGroup(op.param1)
-                  ki.kickoutFromGroup(op.param1,[op.param2])
-                  G.preventedJoinByTicket = False
-                  ki.updateGroup(G)
-                  ticket = ki.reissueGroupTicket(op.param1)
-                  kc.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  line.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  ki.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  kk.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  ke.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  km.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  G.preventedJoinByTicket = True
-                  kc.updateGroup(G)
-                  settings["blacklist"][op.param2] = True
-                  f=codecs.open('st2__b.json','w','utf-8')
-                  json.dump(settings["blacklist"], f, sort_keys=True, indent=4,ensure_ascii=False)
-                except:
-                  G = random.choice(Rfu).getGroup(op.param1) 
-                  random.choice(Rfu).kickoutFromGroup(op.param1,[op.param2])
-                  G.preventedJoinByTicket = False
-                  random.choice(Rfu).updateGroup(G)
-                  ticket = random.choice(Rfu).reissueGroupTicket(op.param1)
-                  kc.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  line.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  ki.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  kk.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  ke.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  km.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  G.preventedJoinByTicket = True
-                  random.choice(Rfu).updateGroup(G)
-                  settings["blacklist"][op.param2] = True
-                  f=codecs.open('st2__b.json','w','utf-8')
-                  json.dump(settings["blacklist"], f, sort_keys=True, indent=4,ensure_ascii=False)
-
-            if op.param3 in keMID:
-              if op.param2 not in Family:
-                try:
-                  G = ki.getGroup(op.param1)
-                  G = kc.getGroup(op.param1)
-                  ki.kickoutFromGroup(op.param1,[op.param2])
-                  G.preventedJoinByTicket = False
-                  ki.updateGroup(G)
-                  ticket = ki.reissueGroupTicket(op.param1)
-                  ke.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  line.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  ki.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  kk.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  kc.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  km.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  G.preventedJoinByTicket = True
-                  ke.updateGroup(G)
-                  settings["blacklist"][op.param2] = True
-                  f=codecs.open('st2__b.json','w','utf-8')
-                  json.dump(settings["blacklist"], f, sort_keys=True, indent=4,ensure_ascii=False)
-                except:
-                  G = random.choice(Rfu).getGroup(op.param1) 
-                  random.choice(Rfu).kickoutFromGroup(op.param1,[op.param2])
-                  G.preventedJoinByTicket = False
-                  random.choice(Rfu).updateGroup(G)
-                  ticket = random.choice(Rfu).reissueGroupTicket(op.param1)
-                  ke.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  line.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  ki.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  kk.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  kc.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  km.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  G.preventedJoinByTicket = True
-                  random.choice(Rfu).updateGroup(G)
-                  settings["blacklist"][op.param2] = True
-                  f=codecs.open('st2__b.json','w','utf-8')
-                  json.dump(settings["blacklist"], f, sort_keys=True, indent=4,ensure_ascii=False)
-            if op.param3 in kmMID:
-              if op.param2 not in Family:
-                try:
-                  G = ki.getGroup(op.param1)
-                  G = kc.getGroup(op.param1)
-                  ki.kickoutFromGroup(op.param1,[op.param2])
-                  G.preventedJoinByTicket = False
-                  ki.updateGroup(G)
-                  ticket = ki.reissueGroupTicket(op.param1)
-                  km.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  line.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  ki.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  kk.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  kc.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  ke.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  G.preventedJoinByTicket = True
-                  km.updateGroup(G)
-                  settings["blacklist"][op.param2] = True
-                  f=codecs.open('st2__b.json','w','utf-8')
-                  json.dump(settings["blacklist"], f, sort_keys=True, indent=4,ensure_ascii=False)
-                except:
-                  G = random.choice(Rfu).getGroup(op.param1) 
-                  random.choice(Rfu).kickoutFromGroup(op.param1,[op.param2])
-                  G.preventedJoinByTicket = False
-                  random.choice(Rfu).updateGroup(G)
-                  ticket = random.choice(Rfu).reissueGroupTicket(op.param1)
-                  km.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  line.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  ki.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  kk.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  kc.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  ke.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                  time.sleep(0.01)
-                  G.preventedJoinByTicket = True
-                  random.choice(Rfu).updateGroup(G)
-                  settings["blacklist"][op.param2] = True
-                  f=codecs.open('st2__b.json','w','utf-8')
-                  json.dump(settings["blacklist"], f, sort_keys=True, indent=4,ensure_ascii=False)    
-
         if op.type == 19:
             if lineMID in op.param3:
                 settings["blacklist"][op.param2] = True
         if op.type == 22:
             if settings['leaveRoom'] == True:
-                line.leaveRoom(op.param1)
-                ki.leaveRoom(op.param1)
-                kk.leaveRoom(op.param1)
-                kc.leaveRoom(op.param1)
-                ke.leaveRoom(op.param1)
-                km.leaveRoom(op.param1)
+                line.leaveRoom(op.param1)              
         if op.type == 24:
             if settings['leaveRoom'] == True:
-                line.leaveRoom(op.param1)
-                ki.leaveRoom(op.param1)
-                kk.leaveRoom(op.param1)
-                kc.leaveRoom(op.param1)
-                ke.leaveRoom(op.param1)
-                km.leaveRoom(op.param1)   
+                line.leaveRoom(op.param1)             
 #==============================================================================#
-        if op.type == 19:
-            try:
-                if op.param3 in lineMID:
-                    if op.param2 in kiMID:
-                        G = ki.getGroup(op.param1)
-                        G.preventedJoinByTicket = False
-                        ki.updateGroup(G)
-                        ticket = ki.reissueGroupTicket(op.param1)
-                        line.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        ki.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        kk.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        kc.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        ke.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.00001)
-                        km.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.00001)
-                        G.preventedJoinByTicket = True
-                        line.updateGroup(G)
-                    else:
-                        G = ki.getGroup(op.param1)                                                
-                        random.choice(Rfu).kickoutFromGroup(op.param1,[op.param2])
-                        G.preventedJoinByTicket = False
-                        ki.updateGroup(G)
-                        ticket = ki.reissueGroupTicket(op.param1)
-                        line.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        ki.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        kk.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        kc.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        ke.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        km.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.00001)
-                        G.preventedJoinByTicket = True
-                        ki.updateGroup(G)
-                        settings["blacklist"][op.param2] = True                       
-
-                elif op.param3 in kiMID:
-                    if op.param2 in lineMID:
-                        G = line.getGroup(op.param1)
-                        G.preventedJoinByTicket = False
-                        line.updateGroup(G)
-                        ticket = line.reissueGroupTicket(op.param1)
-                        ki.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        ke.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        kk.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        kc.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        ki.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        km.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.00001)
-                        G.preventedJoinByTicket = True
-                        ki.updateGroup(G)
-                    else:
-                        G = line.getGroup(op.param1)
-                        random.choice(Rfu).kickoutFromGroup(op.param1,[op.param2])
-                        G.preventedJoinByTicket = False
-                        line.updateGroup(G)
-                        ticket = line.reissueGroupTicket(op.param1)
-                        ki.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        ke.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        kk.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        kc.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        ki.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        km.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.00001)
-                        G.preventedJoinByTicket = True
-                        line.updateGroup(G)
-                        settings["blacklist"][op.param2] = True
-
-                elif op.param3 in kkMID:
-                    if op.param2 in kiMID:
-                        G = ki.getGroup(op.param1)
-                        G.preventedJoinByTicket = False
-                        ki.updateGroup(G)
-                        ticket = ki.reissueGroupTicket(op.param1)
-                        kk.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        line.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        ki.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        kc.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        ke.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        km.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.00001)
-                        G.preventedJoinByTicket = True
-                        kk.updateGroup(G)
-                    else:
-                        G = ki.getGroup(op.param1)
-                        random.choice(Rfu).kickoutFromGroup(op.param1,[op.param2])
-                        G.preventedJoinByTicket = False
-                        ki.updateGroup(G)
-                        ticket = ki.reissueGroupTicket(op.param1)
-                        kk.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        line.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        ki.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        kc.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        km.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.00001)
-                        G.preventedJoinByTicket = True
-                        ki.updateGroup(G)
-                        settings["blacklist"][op.param2] = True
-
-                elif op.param3 in kcMID:
-                    if op.param2 in kkMID:
-                        G = kk.getGroup(op.param1)
-                        G.preventedJoinByTicket = False
-                        kk.updateGroup(G)
-                        ticket = kk.reissueGroupTicket(op.param1)
-                        kc.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        line.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        ki.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        kk.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        ke.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        km.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.00001)
-                        G.preventedJoinByTicket = True
-                        kc.updateGroup(G)
-                    else:
-                        G = kk.getGroup(op.param1)
-                        random.choice(Rfu).kickoutFromGroup(op.param1,[op.param2])
-                        G.preventedJoinByTicket = False
-                        kk.updateGroup(G)
-                        ticket = kk.reissueGroupTicket(op.param1)
-                        kc.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        line.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        ki.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        kk.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        ke.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        km.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.00001)
-                        G.preventedJoinByTicket = True
-                        kk.updateGroup(G)
-                        settings["blacklist"][op.param2] = True
-
-                elif op.param3 in keMID:
-                    if op.param2 in kkMID:
-                        G = kk.getGroup(op.param1)
-                        G.preventedJoinByTicket = False
-                        kk.updateGroup(G)
-                        ticket = kk.reissueGroupTicket(op.param1)
-                        kc.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        line.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        ki.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        kk.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        ke.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        km.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.00001)
-                        G.preventedJoinByTicket = True
-                        ke.updateGroup(G)
-                    else:
-                        G = kk.getGroup(op.param1)
-                        random.choice(Rfu).kickoutFromGroup(op.param1,[op.param2])
-                        G.preventedJoinByTicket = False
-                        kk.updateGroup(G)
-                        ticket = kk.reissueGroupTicket(op.param1)
-                        kc.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        line.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        ki.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        kk.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        ke.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        km.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.00001)
-                        G.preventedJoinByTicket = True
-                        kk.updateGroup(G)
-                        settings["blacklist"][op.param2] = True
-                elif op.param3 in kcMID:
-                    if op.param2 in keMID:
-                        G = ke.getGroup(op.param1)
-                        G.preventedJoinByTicket = False
-                        ke.updateGroup(G)
-                        ticket = ke.reissueGroupTicket(op.param1)
-                        kc.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        line.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        ki.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        kk.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        ke.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        km.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.00001)
-                        G.preventedJoinByTicket = True
-                        kc.updateGroup(G)
-                    else:
-                        G = kc.getGroup(op.param1)
-                        random.choice(Rfu).kickoutFromGroup(op.param1,[op.param2])
-                        G.preventedJoinByTicket = False
-                        kc.updateGroup(G)
-                        ticket = kc.reissueGroupTicket(op.param1)
-                        ke.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        line.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        ki.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        kk.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        ke.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        km.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.00001)
-                        G.preventedJoinByTicket = True
-                        ke.updateGroup(G)
-                        settings["blacklist"][op.param2] = True
-                elif op.param3 in kmMID:
-                    if op.param2 in lineMID:
-                        G = line.getGroup(op.param1)
-                        G.preventedJoinByTicket = False
-                        line.updateGroup(G)
-                        ticket = line.reissueGroupTicket(op.param1)
-                        km.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        line.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        ki.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        kk.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        ke.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        kc.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.00001)
-                        G.preventedJoinByTicket = True
-                        km.updateGroup(G)
-                    else:
-                        G = line.getGroup(op.param1)
-                        random.choice(Rfu).kickoutFromGroup(op.param1,[op.param2])
-                        G.preventedJoinByTicket = False
-                        line.updateGroup(G)
-                        ticket = line.reissueGroupTicket(op.param1)
-                        km.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        line.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        ki.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        kk.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        ke.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.0001)
-                        kc.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                        time.sleep(0.00001)
-                        G.preventedJoinByTicket = True
-                        line.updateGroup(G)
-                        settings["blacklist"][op.param2] = True  
-            except:
-                pass
-                        
 #==============================================================================#
         if op.type == 17:
             if op.param2 not in Family:
@@ -5336,7 +4228,7 @@ def lineBot(op):
                     settings ["blacklist"][op.param2] = True
                     random.choice(Rfu).kickoutFromGroup(op.param1,[op.param2])
                     random.choice(Rfu).inviteIntoGroup(op.param1,[op.param2])
-
+        
         if op.type == 13:
             if op.param2 not in Family:
                 if op.param2 in Family:
@@ -5374,7 +4266,10 @@ def lineBot(op):
                 if (settings["message"] in [""," ","\n",None]):
                     pass
                 else:
-                    line.sendMessage(op.param1,str(settings["message"]))                    
+                    line.sendMessageWithMention(op.param1)
+                    line.sendMessage(op.param1,"สวัสดีครับ","\nมีอะไรให้ผมรับใช้ครับ\n\n{}".format(str(settings["comment"])))
+                    line.sendMessage(op.param1,(str(settings["comment1"])))
+                    line.sendMessage(op.param1,str(settings["message"]))
 
         if op.type == 11:
             if RfuProtect["linkprotect"] == True:
@@ -5389,29 +4284,15 @@ def lineBot(op):
                if op.param2 not in Family:
                   random.choice(Rfu).cancelGroupInvitation(op.param1,[op.param3])
                   random.choice(Rfu).kickoutFromGroup(op.param1,[op.param2])
-        if op.type == 13:
-                if op.param2 not in Family:
-                    if op.param2 in Family:
-                        pass
-                    elif RfuProtect["inviteprotect"] == True:
-                        settings ["blacklist"][op.param2] = True
-                        line.cancelGroupInvitation(op.param1,[op.param3])
-                    else:
-                        line.sendText(op.param1,"™❍✯͜͡REDSAMURAI✯͜͡❂➣ ") 
-                    if op.param2 not in Family:
-                        if op.param2 in Family:
-                            pass
-                    elif RfuProtect["cancelprotect"] == True:
-                        settings ["blacklist"][op.param2] = True
-                        line.cancelGroupInvitation(op.param1,[op.param3])
-                    else:
-                        line.sendText(op.param1,"❇️ มีการเชิญสมาชิกเข้าร่วมกลุ่ม ❇️ ")
-
         if op.type == 17:
-           if op.param2 in settings["blacklist"]:
-               if op.param2 not in Family:
-                random.choice(Rfu).kickoutFromGroup(op.param1,[op.param2])
-                line.sendText(op.param1,"สมาชิกที่ถูกแบนไม่ได้รับอนุญาตให้เข้าร่วมกลุ่ม （´・ω・｀）")
+            if op.param2 in settings["blacklist"] == {}:
+                line.kickoutFromGroup(op.param1,[op.param2])
+                now2 = datetime.datetime.now()
+                nowT = datetime.datetime.strftime(now2,"%H")
+                nowM = datetime.datetime.strftime(now2,"%M")
+                nowS = datetime.datetime.strftime(now2,"%S")
+                tm = "\n\n"+nowT+":"+nowM+":"+nowS
+                line.sendText(op.param1,"สมาชิกที่ถูกแบนไม่ได้รับอนุญาตให้เข้าร่วมกลุ่ม （´・ω・｀）"+tm)
         if op.type == 17:
            if RfuProtect["Protectjoin"] == True:
                if op.param2 not in Family:
@@ -5423,51 +4304,6 @@ def lineBot(op):
                 del Setmain["foto"][sender]
                 line.updateProfilePicture(path)
                 line.sendMessage(to,"Foto berhasil dirubah")
-        if op.type == 19:
-	        if settings["Ghost"] == True:
-                 if op.param2 in lineMID:
-                   pass
-                 else:
-                  try:
-                      G = line.getGroup(op.param1)
-                      G.preventJoinByTicket = False
-                      line.updateGroup(G)
-                      Ticket = line.reissueGroupTicket(op.param1)
-                      km.acceptGroupInvitationByTicket(op.param1,Ticket)
-                      time.sleep(0.01)
-                      line.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                      time.sleep(0.01)
-                      ki.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                      time.sleep(0.01)
-                      kk.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                      time.sleep(0.01)
-                      ke.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                      time.sleep(0.01)
-                      km.kickoutFromGroup(op.param1,[op.param2])
-                      km.leaveGroup(op.param1)
-                      G.preventJoinByTicket = True
-                      line.updateGroup(G)
-                      settings["blacklist"][op.param2] = True
-                  except:
-                      G = line.getGroup(op.param1)
-                      G.preventJoinByTicket = False
-                      line.updateGroup(G)
-                      Ticket = line.reissueGroupTicket(op.param1)
-                      km.acceptGroupInvitationByTicket(op.param1,Ticket)
-                      time.sleep(0.01)
-                      line.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                      time.sleep(0.01)
-                      ki.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                      time.sleep(0.01)
-                      kk.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                      time.sleep(0.01)
-                      ke.acceptGroupInvitationByTicket(op.param1,format(str(ticket)))
-                      time.sleep(0.01)
-                      km.kickoutFromGroup(op.param1,[op.param2])
-                      km.leaveGroup(op.param1)
-                      G.preventJoinByTicket = True
-                      line.updateGroup(G)
-                      settings["blacklist"][op.param2] = True
         if op.type == 26:
             msg = op.message
             if settings ["Aip"] == True:
@@ -5529,7 +4365,8 @@ def lineBot(op):
                             ret_ += "\n[ สิ้นสุดการเช็คโพส ]"
                             line.sendMessage(to, str(ret_))
                         except:
-                            line.sendMessage(to, "เกิดข้อผิดะลาดในการเช็คโพสนี้") 
+                            line.sendMessage(to, "เกิดข้อผิดะลาดในการเช็คโพสนี้")
+                            
         if op.type == 26:
             msg = op.message
             text = msg.text
@@ -5547,11 +4384,7 @@ def lineBot(op):
                 elif msg.toType == 2:
                     to = receiver
                 if settings["autoRead"] == True:
-                    line.sendChatChecked(to, msg_id)
-                    ki.sendChatChecked(to, msg_id)
-                    kk.sendChatChecked(to, msg_id)
-                    kc.sendChatChecked(to, msg_id)
-                    ke.sendChatChecked(to, msg_id)				
+                    line.sendChatChecked(to, msg_id)				
                 if to in read["readPoint"]:
                     if sender not in read["ROM"][to]:
                         read["ROM"][to][sender] = True
@@ -5583,10 +4416,6 @@ def lineBot(op):
                             for ticket_id in n_links:
                                 group = line.findGroupByTicket(ticket_id)
                                 line.acceptGroupInvitationByTicket(group.id,ticket_id)
-                                ki.acceptGroupInvitationByTicket(group.id,ticket_id)
-                                kk.acceptGroupInvitationByTicket(group.id,ticket_id)
-                                kc.acceptGroupInvitationByTicket(group.id,ticket_id)
-                                ke.acceptGroupInvitationByTicket(group.id,ticket_id)
                                 line.sendMessage(to, "มุดลิ้งเข้าไปในกลุ่ม👉 %s 👈 เรียบร้อยแล้ว" % str(group.name))
                 if msg.contentType == 0 and sender not in lineMID and msg.toType == 2:
                     if "MENTION" in msg.contentMetadata.keys() != None:
@@ -5636,7 +4465,6 @@ def lineBot(op):
                                    if mention['M'] in lineMID:
                                           line.sendMessage(to,ret_)
                                           line.sendMessage(to,str(settings["Respontag"]))
-                                          sendMessageWithMention(to, contact.mid)
                                           break
                 if msg.contentType == 0 and sender not in lineMID and msg.toType == 2:
                     if "MENTION" in list(msg.contentMetadata.keys()) != None:
@@ -5659,31 +4487,7 @@ def lineBot(op):
                                           sendMessageWithMention(to, contact.mid)
                                           sendMessageWithMention(to, contact.mid)
                                           break
-        if op.type == 65:
-           print ("[ 65 ] NOTIFIED DESTROY MESSAGE")
-           if settings["unsendMessage"] == True:
-               try:
-                   at = op.param1
-                   msg_id = op.param2
-                   if msg_id in msg_dict:
-                       if msg_dict[msg_id]["from"]:
-                           contact = linegetContact(msg_dict[msg_id]["from"])
-                           if contact.displayNameOverridden != None:
-                               name_ = contact.displayNameOverridden
-                           else:
-                               name_ = contact.displayName
-                               ret_ = "Send Message cancelled."
-                               ret_ += "\nSender : @!"
-                               ret_ += "\nSend At : {}".format(str(dt_to_str(cTime_to_datetime(msg_dict[msg_id]["createdTime"]))))
-                               ret_ += "\nType : {}".format(str(Type._VALUES_TO_NAMES[msg_dict[msg_id]["contentType"]]))
-                               ret_ += "\nText : {}".format(str(msg_dict[msg_id]["text"]))
-                               sendMention(at, str(ret_), [contact.mid])
-                           del msg_dict[msg_id]
-                       else:
-                           line.sendMessage(at,"SentMessage cancelled,But I didn't have log data.\nSorry > <")
-               except Exception as error:
-                   logError(error)
-                   #traceback.print_tb(error.__traceback__)
+      
         if op.type == 17:
            print ("MEMBER JOIN TO GROUP")
            if settings["Wc"] == True:
@@ -5691,7 +4495,7 @@ def lineBot(op):
                  return
              dan = line.getContact(op.param2)
              tgb = line.getGroup(op.param1)
-             line.sendMessage(op.param1, str(settings["welcome"]) +"\n👉 {} 👈, ยินดีต้อนรับสู่กลุ่ม {}\nเข้ามาแล้วทำตัวดีๆละ\nอ่ย่าไปเป็นบ้าลบเพื่อนๆออกกลุ่มนะ (｀・ω・´)".format(str(dan.displayName),str(tgb.name)))
+             line.sendMessage(op.param1, str(settings["welcome"]) +"\nสวัสดี {}, Welcome to Group {}\nเข้ามาแล้วทำตัวดีๆละ\nอ่ย่าไปเป็นบ้าลบเพื่อนๆออกกลุ่มนะ (｀・ω・´)".format(str(dan.displayName),str(tgb.name)))
              line.sendContact(op.param1, op.param2)
              line.sendMessage(op.param1,"สเตตัส\n{}".format(str(dan.statusMessage)))
              line.sendImageWithURL(op.param1, "http://dl.profile.line-cdn.net{}".format(dan.picturePath))
@@ -5707,7 +4511,6 @@ def lineBot(op):
              line.sendContact(op.param1, op.param2)
              line.sendMessage(op.param1,"สเตตัส\n{}".format(str(dan.statusMessage)))
              line.sendImageWithURL(op.param1, "http://dl.profile.line-cdn.net{}".format(dan.picturePath))
-             line.sendMessage(op.param1, str(settings["comment"]))
         if op.type == 15:
            print ("MEMBER LEAVE TO GROUP")
            if settings["Lv"] == True:
@@ -5718,24 +4521,19 @@ def lineBot(op):
              line.sendMessage(op.param1,str(settings["bye"]) + "\n {}, ได้ออกจากกลุ่ม {} \nยืนไว้อาลัยแด่เขาเป็นเวลา3วินาที  (｀・ω・´)".format(str(dan.displayName),str(tgb.name)))
              line.sendContact(op.param1, op.param2)
              line.sendImageWithURL(op.param1, "http://dl.profile.line-cdn.net{}".format(dan.picturePath))
-        
         if op.type == 55:
             try:
                 if RfuCctv['cyduk'][op.param1]==True:
                     if op.param1 in RfuCctv['point']:
                         Name = line.getContact(op.param2).displayName
-                        Name = ki.getContact(op.param2).displayName
-                        Name = kk.getContact(op.param2).displayName
-                        Name = kc.getContact(op.param2).displayName
-                        Name = ke.getContact(op.param2).displayName
                         if Name in RfuCctv['sidermem'][op.param1]:
                             pass
                         else:
                             RfuCctv['sidermem'][op.param1] += "\n🔰" + Name
                             pref=['จ๊ะเอ๋','รู้นะว่าแอบอยู่','เล่นซ่อนแอบกันเหรอ','คิดว่าเป็นนินจารึไง','ว่าไง','อ่านอย่างเดียวเลยนะ','ออกมาคุยหน่อย','ออกมาเดี๋ยวนี้']
                             sendMessageWithMention(op.param1, op.param2)
-                            random.choice(Rfu).sendMessage(op.param1, str(random.choice(pref)) + '\n♪ ♬ ヾ(´︶`♡)ﾉ ♬ ♪')
-                            random.choice(Rfu).sendContact(op.param1, op.param2)
+                            line.sendMessage(op.param1, str(random.choice(pref)) + '\n♪ ♬ ヾ(´︶`♡)ﾉ ♬ ♪')
+                            line.sendContact(op.param1, op.param2)
                     else:
                         pass
                 else:
@@ -5791,14 +4589,14 @@ def a2():
 
 while True:
     try:
-        ops = oepoll.singleTrace(count=50)
+        ops = oepoll.singleTrace(count=5)
         if ops is not None:
             for op in ops:
                 lineBot(op)
                 oepoll.setRevision(op.revision)
     except Exception as e:
         logError(e)
-        
+
 def atend():
     print("Saving")
     with open("Log_data.json","w",encoding='utf8') as f:
