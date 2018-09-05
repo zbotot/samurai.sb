@@ -12,7 +12,7 @@ from googletrans import Translator
 
 nadya = LINETCR.LINE()
 #nadya.login(qr=True)
-nadya.login(token='EpS0tmC0ZTDhKOGiKDmb.fpzoe5O4f6/QVIFsn6/ZAW.l+ZRTs/GX3nkrHE/Y77Huo1aF65/TOARxV8ppihfEOQ=')
+nadya.login(token='EwkDbQUk7lTno6EYV2nc.16TgKHOKEZdzbqSPFT9+pa.YLCozJx+qz0tRQmy7BEnOs/2CAQUI9fM+Ay3o3QWikE=')
 nadya.loginResult()
 print "Nadya-Login Success\n\n=====[Sukses Login]====="
 
