@@ -1,277 +1,514 @@
 # -*- coding: utf-8 -*-
-from linepy import *
-from akad.ttypes import *
-from multiprocessing import Pool, Process
+#Chucky_Bot
+
+import LINETCR
+from LINETCR.lib.curve.ttypes import *
 from datetime import datetime
-from time import sleep
 from bs4 import BeautifulSoup
-from humanfriendly import format_timespan, format_size, format_number, format_length
-import time, random, sys, json, codecs, threading, glob, re, string, os, requests, subprocess, six, ast, pytz, urllib.request, urllib.parse, urllib.error, urllib.parse,antolib,subprocess,unicodedata,GACSender
-from gtts import gTTS
+from threading import Thread
 from googletrans import Translator
-#==============================================================================#
-botStart = time.time()
-#==============================================================================#
-#line = LINE()
-#line = LINE("เมล","พาส")
-line = LINE('EuLqsvDdB1hQBCHG7Ak3.TAVOkm2wqPizxdXz1JiGmW.WqjdmfB4EUijhQ86TRAZjLf7XHz5LeoRQKHR0wseDPg=')
-line.log("Auth Token : " + str(line.authToken))
-line.log("Timeline Token : " + str(line.tl.channelAccessToken))
+from gtts import gTTS
+import time,random,sys,json,codecs,threading,glob,urllib,urllib2,urllib3,re,ast,os,subprocess,requests,tempfile
 
-print ("Login Succes")
+nadya = LINETCR.LINE()
+#nadya.login(qr=True)
+nadya.login(token='EpS0tmC0ZTDhKOGiKDmb.fpzoe5O4f6/QVIFsn6/ZAW.l+ZRTs/GX3nkrHE/Y77Huo1aF65/TOARxV8ppihfEOQ=')
+nadya.loginResult()
+print "Nadya-Login Success\n\n=====[Sukses Login]====="
 
-lineMID = line.profile.mid
-lineProfile = line.getProfile()
-lineSettings = line.getSettings()
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
-oepoll = OEPoll(line)
-#call = Call(line)
-readOpen = codecs.open("read.json","r","utf-8")
-settingsOpen = codecs.open("temp.json","r","utf-8")
-read = json.load(readOpen)
-settings = json.load(settingsOpen)
-Rfu = [line]
-Exc = [line]
-lineMID = line.getProfile().mid
-bot1 = line.getProfile().mid
-RfuBot=[lineMID]
-Family=["ub5abe828cd964292195c3c59d6322033",lineMID]
-admin=['ub5abe828cd964292195c3c59d6322033',lineMID]
-RfuFamily = RfuBot + Family
 
-protectname = []
-protecturl = []
-protection = []
-autocancel = {}
-autoinvite = []
-autoleaveroom = []
-targets = []
-#==============================================================================#
-msg_dict = {}
+selfMessage ="""
+╔═════════════════════════
+║            ☆☞ S E L F ☜☆
+╠═════════════════════════
+╠➩〘Hi〙
+╠➩〘Me〙
+╠➩〘Mymid〙
+╠➩〘Mid @〙
+╠➩〘SearchID: (ID LINE)〙
+╠➩〘Checkdate (DD/MM/YY)〙
+╠➩〘Kalender〙
+╠➩〘Steal contact〙
+╠➩〘Pp @〙
+╠➩〘Cover @〙
+╠➩〘Auto like〙
+╠➩〘Scbc Text〙
+╠➩〘Cbc Text〙
+╠➩〘Gbc Text〙
+╠➩〘Getbio @〙
+╠➩〘Getinfo @〙
+╠➩〘Getname @〙
+╠➩〘Getprofile @〙
+╠➩〘Getcontact @〙
+╠➩〘Getvid @〙
+╠➩〘Friendlist〙
+╠➩〘Micadd @〙
+╠➩〘Micdel @〙
+╠➩〘Miclist〙
+╠═════════════════════════
+║             💠 By : Nadya 💠
+║    〽️ line.me/ti/p/~nad_nad. 〽️
+╚═════════════════════════
+"""
 
-settings = {
-    "autoAdd": False,
-    "autoJoin": True,
-    'autoCancel':{"on":True,"members":10},	
-    "autoLeave": True,
-    "autoRead": False,
-    "leaveRoom": False,
-    "detectMention": True,
-    "checkSticker": False,
-    "checkContact": False,
-    "checkPost": False,
-    "kickMention": False,
-    "potoMention": True,
-    "delayMention": False,
-    "lang":"JP",
-    "Wc": False,
-    "Lv": False,
-    "Nk": False,
-    "Api": False,
-    "Aip": False,
-    "blacklist":{},
-    "winvite": False,
-    "wblacklist": False,
-    "dblacklist": False,
-    "gift":False,
-    "likeOn":False,
-    "timeline":False,
+botMessage ="""
+╔═════════════════════════
+║             ☆☞ B O T ☜☆
+╠═════════════════════════
+╠➩〘Absen〙
+╠➩〘Respon〙
+╠➩〘Runtime〙
+╠➩〘Mycopy @〙
+╠➩〘Copycontact〙
+╠➩〘Mybackup〙
+╠➩〘Mybio (Text)〙
+╠➩〘Myname (Text)〙
+╠➩〘@bye〙
+╠➩〘Bot on/off〙
+╠═════════════════════════
+║             💠 By : Nadya 💠
+║    〽️ line.me/ti/p/~nad_nad. 〽️
+╚═════════════════════════
+"""
+
+mediaMessage ="""
+╔═════════════════════════
+║           ☆☞ M E D I A ☜☆
+╠═════════════════════════
+╠➩〘Gift〙
+╠➩〘Gift1 @ s/d Gift10 @〙
+╠➩〘Giftbycontact〙
+╠➩〘Gif gore〙
+╠➩〘Google: (Text)〙
+╠➩〘Playstore NamaApp〙
+╠➩〘Fancytext: Text〙
+╠➩〘/musik Judul-Penyanyi〙
+╠➩〘/lirik Judul-Penyanyi〙
+╠➩〘/musrik Judul-Penyanyi〙
+╠➩〘/ig UrsnameInstagram〙
+╠➩〘Checkig UrsnameInstagram〙
+╠➩〘/apakah Text (Kerang Ajaib)〙
+╠➩〘/kapan Text (Kerang Ajaib)〙
+╠➩〘/hari Text (Kerang Ajaib)〙
+╠➩〘/berapa Text (Kerang Ajaib)〙
+╠➩〘/berapakah Text〙
+╠➩〘Youtubelink: Judul Video〙
+╠➩〘Youtubevideo: Judul Video〙
+╠➩〘Youtubesearch: Judul Video〙
+╠➩〘Image NamaGambar〙
+╠➩〘Say-id Text〙
+╠➩〘Say-en Text〙
+╠➩〘Say-jp Text〙
+╠➩〘Image NamaGambar〙
+╠➩〘Tr-id Text (Translate En Ke ID〙
+╠➩〘Tr-en Text (Translate ID Ke En〙
+╠➩〘Tr-th Text (Translate ID Ke Th〙
+╠➩〘Id@en Text (Translate ID Ke En〙
+╠➩〘Id@th Text (Translate ID Ke TH〙
+╠➩〘En@id Text (Translate En Ke ID〙
+╠═════════════════════════
+║             💠 By : Nadya 💠
+║    〽️ line.me/ti/p/~nad_nad. 〽️
+╚═════════════════════════
+"""
+
+groupMessage ="""
+╔═════════════════════════
+║           ☆☞ G R O U P ☜☆
+╠═════════════════════════
+╠➩〘Welcome〙
+╠➩〘Say welcome〙
+╠➩〘Invite creator〙
+╠➩〘Setview〙
+╠➩〘Viewseen〙
+╠➩〘Gn: (NamaGroup)〙
+╠➩〘Tag all〙
+╠➩〘Recover〙
+╠➩〘Cancel〙
+╠➩〘Cancelall〙
+╠➩〘Gcreator〙
+╠➩〘Ginfo〙
+╠➩〘Gurl〙
+╠➩〘List group〙
+╠➩〘Pict group: (NamaGroup)〙
+╠➩〘Spam: (Text)〙
+╠➩〘Add all〙
+╠➩〘Kick: (Mid)〙
+╠➩〘Invite: (Mid)〙
+╠➩〘Invite〙
+╠➩〘Memlist〙
+╠➩〘Getgroup image〙
+╠➩〘Urlgroup Image〙
+╠═════════════════════════
+║             💠 By : Nadya 💠
+║    〽️ line.me/ti/p/~nad_nad. 〽️
+╚═════════════════════════
+"""
+tjia="u14f64e139a3817afaabe27d237afb36b"
+
+setMessage ="""
+╔═════════════════════════
+║              ☆☞ S E T ☜☆
+╠═════════════════════════
+╠➩〘Sambutan on/off〙
+╠➩〘Mimic on/off〙
+╠➩〘Url on/off〙
+╠➩〘Alwaysread on/off〙
+╠➩〘Sider on/off〙
+╠➩〘Contact on/off〙
+╠➩〘Sticker on〙
+╠➩〘Simisimi on/off〙
+╠═════════════════════════
+║             💠 By : Nadya 💠
+║    〽️ line.me/ti/p/~nad_nad. 〽️
+╚═════════════════════════
+"""
+
+creatorMessage ="""
+╔═════════════════════════
+║         ☆☞ C R E A T O R ☜☆
+╠═════════════════════════
+╠➩〘Crash〙
+╠➩〘Kickall〙
+╠➩〘Bc: (Text)〙
+╠➩〘Join group: (NamaGroup〙
+╠➩〘Leave group: (NamaGroup〙
+╠➩〘Leave all group〙
+╠➩〘Tag on/off〙
+╠➩〘Bot restart〙
+╠➩〘Turn off〙
+╠═════════════════════════
+║             💠 By : Nadya 💠
+║    〽️ line.me/ti/p/~nad_nad. 〽️
+╚═════════════════════════
+"""
+
+adminMessage ="""
+╔═════════════════════════
+║            ☆☞ A D M I N ☜☆
+╠═════════════════════════
+╠➩〘Allprotect on/off〙
+╠➩〘Ban〙
+╠➩〘Unban〙
+╠➩〘Ban @〙
+╠➩〘Unban @〙
+╠➩〘Ban list〙
+╠➩〘Clear ban〙
+╠➩〘Kill〙
+╠➩〘Kick @〙
+╠➩〘Set member: (Jumblah)〙
+╠➩〘Ban group: (NamaGroup〙
+╠➩〘Del ban: (NamaGroup〙
+╠➩〘List ban〙
+╠➩〘Kill ban〙
+╠➩〘Glist〙
+╠➩〘Glistmid〙
+╠➩〘Details group: (Gid)〙
+╠➩〘Cancel invite: (Gid)〙
+╠➩〘Invitemeto: (Gid)〙
+╠➩〘Acc invite〙
+╠➩〘Removechat〙
+╠➩〘Qr on/off〙
+╠➩〘Autokick on/off〙
+╠➩〘Autocancel on/off〙
+╠➩〘Invitepro on/off〙
+╠➩〘Join on/off〙
+╠➩〘Joincancel on/off〙
+╠➩〘Respon1 on/off〙
+╠➩〘Respon2 on/off〙
+╠➩〘Respon3 on/off〙
+╠➩〘Responkick on/off〙
+╠═════════════════════════
+║             💠 By : Nadya 💠
+║    〽️ line.me/ti/p/~nad_nad. 〽️
+╚═════════════════════════
+"""
+
+helpMessage ="""
+╔═════════════════════════
+║              ☆☞ H E L P ☜☆
+╠═════════════════════════
+╠➩〘Help self〙
+╠➩〘Help bot〙
+╠➩〘Help group〙
+╠➩〘Help set〙
+╠➩〘Help media〙
+╠➩〘Help admin〙
+╠➩〘Help creator〙
+╠➩〘Owner〙
+╠➩〘Pap owner〙
+╠➩〘Speed〙
+╠➩〘Speed test〙
+╠➩〘Status〙
+╠═════════════════════════
+║             💠 By : Nadya 💠
+║    〽️ line.me/ti/p/~nad_nad. 〽️
+╚═════════════════════════
+"""
+
+
+KAC=[nadya]
+mid = nadya.getProfile().mid
+Bots=[mid]
+Creator=["u14f64e139a3817afaabe27d237afb36b"]
+admin=["u14f64e139a3817afaabe27d237afb36b"]
+
+contact = nadya.getProfile()
+backup1 = nadya.getProfile()
+backup1.displayName = contact.displayName
+backup1.statusMessage = contact.statusMessage                        
+backup1.pictureStatus = contact.pictureStatus
+
+responsename = nadya.getProfile().displayName
+
+
+wait = {
+    "LeaveRoom":True,
+    "Bot":True,
+    "AutoJoin":False,
+    "AutoJoinCancel":False,
+    "memberscancel":30,
+    "Members":1,
+    "AutoCancel":False,
+    "AutoKick":False,
+    'pap':{},
+    'invite':{},
+    'steal':{},
+    'gift':{},
+    'copy':{},    
+    'likeOn':{},
+    'detectMention':False,
+    'detectMention2':True,
+    'detectMention3':False,
+    'kickMention':False,  
+    'sticker':False,  
+    'timeline':True,
+    "Timeline":True,
+    "comment":"Bot Auto Like ©By : Nadya\nContact Me : 👉 line.me/ti/p/~nad_nad.",    
     "commentOn":True,
     "commentBlack":{},
-    "wblack": False,
-    "dblack": False,
-    "clock": False,
-    "cName":"",
-    "cNames":"",
-    "changeGroupPicture": [],
-    "changePictureProfile":False,
-    "unsendMessage": False,
-    "autoJoinTicket": False,
-    "welcome":"🙏สวีสดีครับคนมาใหม่🙏",
-    "kick":"😱อุ๊ต๊ะ😱",
-    "bye":"🙌บาย..",
-    "Respontag":"😳",
-    "eror":"คุณใช้คำสั่งผิด กรุณาศึกษาวิธีใช้ หรือสอบถามกับผู้สร้าง โดยพิมคำสั่ง *.ผส*เพื่อแสดง คท ของผู้สร้าง",
-    "spam":{},
-    "invite": {},
-    "winvite": False,
-    "pnharfbot": {},
-    "pname": {},
-    "pro_name": {},
-    "message1":"รับแก้ไฟล์+เพิ่มไฟล์+แก้ภาษา\n💝ราคาดูที่หน้างาน💝\n👉มีบริการให้เช่าบอทSAMURAI\nราคา300บาทต่อเดือน💖\n#เพิ่มคิกเกอร์ตัวละ100👌\n🎀สนใจรีบทัก..บอทpython3ฟังชั่นล้นหลาม🎁กำลังรอให้คุณเป็นเจ้าของ\n(ผมจะอยู่ที่ห้องนี้แค่15นาทีนะจ๊ะ)\nselfbot by:\n╔══════════════┓\n╠™❍✯͜͡RED™SAMURAI✯͜͡❂➣ \n╚══════════════┛",
-    "message":"บัญชีนี้ถูกป้องกันโดย Selfbot By ™❍✯͜͡RED™SAMURI✯͜͡❂➣ระบบได้ทำการบล็อคคุณอัตโนมัติเนื่องจากคุณยังไม่ได้ยืนยันตัวตนกับผู้สร้างบอท\nสามารถยืนตัวตนได้ง่ายโดยการพิม unblockกับ™❍✯͜͡RED™SAMURI✯͜͡❂➣ระบบจะทำการปลดบล็อคท่านโดยอัตโนมัต",
-    "comment":"""🎋RED BOT LINE THAILAND🎋
-    ─┅═✥👊ᵀᴴᴬᴵᴸᴬᴺᴰ👊✥═┅─ 
-  💀[RED SAMURAI SELFBOT]💀 
-🎁🎁🎁🎁🎁🎁🎁🎁🎁🎁🎁
-🎀รับแก้ไฟล์+เพิ่มไฟล์+แก้ภาษา
-💝ราคาดูที่หน้างาน
-📌มีบริการให้เช่าเซลบอท SAMURAI 
-📌ร่างครึ่งคนครึ่งบอท
-📌ราคาว่ากันตามคุณภาพนะครับ
-📌ราคา300บาทต่อเดือน (ถูกมาก..)
-📌เพิ่มคิกเกอร์ตัวละ100👌
-👉บินได้ครับ
-👉รันได้ครับ
-👉ป้องกันกลุ่มเจอบินได้
-👉มีเปิดปิดแสกนคำหยาบกับบอทบิน
-👉แอบดูคนอ่านแบบดึง คท.ได้
-👉แทคได้
-👉รันแชทได้
-👉สั่งบล็อคใครก็ได้
-👉ลบแชทได้
-👉กันรันได้100%
-👉ลบรันได้
-👉มุดลิ้งได้
-👉เช็คโพส,เช็คคท,เช็คข้อมูลคนอื่นได้
-👉เช็คข้อมูลตัวเอง,เช็คข้อมูลกลุ่มได้
-👉ปฏิเสธคำเชิญแบบใส่ข้อความลงไปได้
-👉ดึงห้องรวมได้
-👉ตั้งปฏิเสธกลุ่มเชิญตามจำนวนสมาชิกได้
-👉เล่นเซลในแชทสตได้
-👉ตั้งข้อความคนเข้าคนออกได้
-👉ตั้งข้อความคนลบสมาชิกได้
-👉ตั้งข้อความคนแอดได้
-👉สมารถเรียกดูการตั้งค่าข้อความได้ทั้งหมด
-👉อัพเดตลูกเล่นใหม่ๆทุกเดือน
-🍷มีความสามารถอีกเยอะดูเอาระกัน🍷
-🎀สนใจรีบทัก🎀
-🎉บอทpython3ฟังชั่นล้นหลาม คุณภาพแน่นปึ๊ก
-🎁กำลังรอให้คุณเป็นเจ้าของ....
-🎋(สนใจรีบโทร📲0946345913📞)
-📌หรือจิ้มที่นี่👇👇👇👇👇
-https://line.me/ti/p/samuri5
-คุณจะได้เป็นเจ้าของ เซลบอทคุณภาพดีก่อนใครๆ
-(ทักก่อนจิ้ม...ไม่งั้นโดนออโต้บล็อคนะจ๊ะ)
-selfbot by:
-╔══════════════┓
-╠™❍✯͜͡RED™SAMURAI✯͜͡❂➣ 
-╚══════════════┛""",
-    "comment1":"""จำหน่าย ติ๊กไทย ติ๊กนอก อินโด ญี่ปุ่น
-ราคาเบาๆ ขายเอาชื่อเสียง ไม่เอากำไร  😂😂😂
-🚩อยากได้ตั๋วสิริ ลงบอทสิริ ห้องสิริ 
-🎀ไม่ต้องไปใหนครับที่นี่มีทุกอย่างที่คุณต้องการ 👔 
-🎀คุณสั่งมาเราจัดหาให้ได้แน่นอน🎁ไม่คิดค่าบริการเสริม
-🎀(ทำเอาชื่อเสียง😬😬😬) 
-🎆จะทำชื่อ🎆ทำปก 🎆ทำรูปโปรแบบเท่ห์ๆ 
-🎆อันนี้เราก็มีหน่วยรับบริการจัดทำให้นะคร๊าฟ
-💻เซิฟก็มีคับ ราคาตามท้องตลาด💻ไม่มีค่าบริการเสริม
-ทุกอย่างที่บอกมามีหลายราคาครับ และหลายคุณภาพ 
-สนใจอยากได้อะไรทักมาครับ 
-เรามีคนคอยติดต่อประสานงานให้ตลอด
-แล้วค่อยมาคุยกันถึงรายระเอียดของสินค้า
-อยากได้เสปกแบบใหนราคาเท่าไหร่..เรามีหมด
-ทักมาได้ที่  👇👇👇👇👇👇👇👇👇
-- https://line.me/ti/p/samuri5
-หรือโทรมาได้ที่เบอร์นี้👇👇👇👇👇👇
-- 094 634 5913
-ขอแสดงความนับถือ
-จากทีมงาน SAMURAI ทุกคน""",
+    "message":"Thx For Add Me (^_^)\nInvite Me To Your Group ヘ(^_^)ヘ",    
+    "blacklist":{},
+    "wblacklist":False,
+    "dblacklist":False,
+    "Qr":False,
+    "Contact":False,
+    "Sambutan":False,
+    "inviteprotect":False,    
+    "alwaysRead":False,    
+    "Sider":{},
+    "Simi":{},    
+    "lang":"JP",
+    "BlGroup":{}
+}
 
-    "userAgent": [
-        "Mozilla/5.0 (X11; U; Linux i586; de; rv:5.0) Gecko/20100101 Firefox/5.0",
-        "Mozilla/5.0 (X11; U; Linux amd64; rv:5.0) Gecko/20100101 Firefox/5.0 (Debian)",
-        "Mozilla/5.0 (X11; U; Linux amd64; en-US; rv:5.0) Gecko/20110619 Firefox/5.0",
-        "Mozilla/5.0 (X11; Linux) Gecko Firefox/5.0",
-        "Mozilla/5.0 (X11; Linux x86_64; rv:5.0) Gecko/20100101 Firefox/5.0 FirePHP/0.5",
-        "Mozilla/5.0 (X11; Linux x86_64; rv:5.0) Gecko/20100101 Firefox/5.0 Firefox/5.0",
-        "Mozilla/5.0 (X11; Linux x86_64) Gecko Firefox/5.0",
-        "Mozilla/5.0 (X11; Linux ppc; rv:5.0) Gecko/20100101 Firefox/5.0",
-        "Mozilla/5.0 (X11; Linux AMD64) Gecko Firefox/5.0",
-        "Mozilla/5.0 (X11; FreeBSD amd64; rv:5.0) Gecko/20100101 Firefox/5.0",
-        "Mozilla/5.0 (Windows NT 6.2; WOW64; rv:5.0) Gecko/20100101 Firefox/5.0",
-        "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:5.0) Gecko/20110619 Firefox/5.0",
-        "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:5.0) Gecko/20100101 Firefox/5.0",
-        "Mozilla/5.0 (Windows NT 6.1; rv:6.0) Gecko/20100101 Firefox/5.0",
-        "Mozilla/5.0 (Windows NT 6.1.1; rv:5.0) Gecko/20100101 Firefox/5.0",
-        "Mozilla/5.0 (Windows NT 5.2; WOW64; rv:5.0) Gecko/20100101 Firefox/5.0",
-        "Mozilla/5.0 (Windows NT 5.1; U; rv:5.0) Gecko/20100101 Firefox/5.0",
-        "Mozilla/5.0 (Windows NT 5.1; rv:2.0.1) Gecko/20100101 Firefox/5.0",
-        "Mozilla/5.0 (Windows NT 5.0; WOW64; rv:5.0) Gecko/20100101 Firefox/5.0",
-        "Mozilla/5.0 (Windows NT 5.0; rv:5.0) Gecko/20100101 Firefox/5.0"
-    ],
-    "mimic": {
-        "copy": False,
-        "status": False,
-        "target": {}
+settings = {
+    "simiSimi":{}
     }
-}
+    
+cctv = {
+    "cyduk":{},
+    "point":{},
+    "sidermem":{}
+}    
 
-RfuProtect = {
-    "protect": False,
-    "cancelprotect": False,
-    "inviteprotect": False,
-    "linkprotect": False,
-    "Protectguest": False,
-    "Protectjoin": False,
-    "autoAdd": True,
-}
-
-Setmain = {
-    "foto": {},
-}
-
-read = {
-    "readPoint": {},
-    "readMember": {},
-    "readTime": {},
+wait2 = {
+    "readPoint":{},
+    "readMember":{},
     "setTime":{},
-    "ROM": {}
-}
-
-myProfile = {
-	"displayName": "",
-	"statusMessage": "",
-	"pictureStatus": ""
-}
-
+    "ROM":{}
+    }
+    
 mimic = {
     "copy":False,
     "copy2":False,
     "status":False,
     "target":{}
-    }
-    
-RfuCctv={
-    "cyduk":{},
-    "point":{},
-    "sidermem":{}
-}
+    }    
 
-rfuSet = {
-    'setTime':{},
-    'ricoinvite':{},
-    'winvite':{},
-    }
-
-user1 = lineMID
-user2 = ""
-	
 setTime = {}
-setTime = rfuSet['setTime']
-
-contact = line.getProfile() 
-backup = line.getProfile() 
-backup.dispalyName = contact.displayName 
-backup.statusMessage = contact.statusMessage
-backup.pictureStatus = contact.pictureStatus
-
+setTime = wait2['setTime']
 mulai = time.time() 
 
-try:
-    with open("Log_data.json","r",encoding="utf_8_sig") as f:
-        msg_dict = json.loads(f.read())
-except:
-    print("Couldn't read Log data")
+def download_page(url):
+    version = (3,0)
+    cur_version = sys.version_info
+    if cur_version >= version:     
+        import urllib,request    
+        try:
+            headers = {}
+            headers['User-Agent'] = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"
+            req = urllib,request.Request(url, headers = headers)
+            resp = urllib,request.urlopen(req)
+            respData = str(resp.read())
+            return respData
+        except Exception as e:
+            print(str(e))
+    else:                        
+        import urllib2
+        try:
+            headers = {}
+            headers['User-Agent'] = "Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.27 Safari/537.17"
+            req = urllib2.Request(url, headers = headers)
+            response = urllib2.urlopen(req)
+            page = response.read()
+            return page
+        except:
+            return"Page Not found"
 
-myProfile["displayName"] = lineProfile.displayName
-myProfile["statusMessage"] = lineProfile.statusMessage
-myProfile["pictureStatus"] = lineProfile.pictureStatus
-#==============================================================================#
-#==============================================================================#            
-def Rapid1Say(mtosay):
-    line.sendText(Rapid1To,mtosay)
 
+def _images_get_next_item(s):
+    start_line = s.find('rg_di')
+    if start_line == -1:    
+        end_quote = 0
+        link = "no_links"
+        return link, end_quote
+    else:
+        start_line = s.find('"class="rg_meta"')
+        start_content = s.find('"ou"',start_line+90)
+        end_content = s.find(',"ow"',start_content-90)
+        content_raw = str(s[start_content+6:end_content-1])
+        return content_raw, end_content
+
+
+def _images_get_all_items(page):
+    items = []
+    while True:
+        item, end_content = _images_get_next_item(page)
+        if item == "no_links":
+            break
+        else:
+            items.append(item)      
+            time.sleep(0.1)        
+            page = page[end_content:]
+    return items
+    
+def waktu(secs):
+    mins, secs = divmod(secs,60)
+    hours, mins = divmod(mins,60)
+    return '%02d Jam %02d Menit %02d Detik' % (hours, mins, secs)      
+    
+def cms(string, commands): #/XXX, >XXX, ;XXX, ^XXX, %XXX, $XXX...
+    tex = ["+","@","/",">",";","^","%","$","＾","サテラ:","サテラ:","サテラ：","サテラ："]
+    for texX in tex:
+        for command in commands:
+            if string ==command:
+                return True
+    return False    
+
+def upload_tempimage(client):
+     '''
+         Upload a picture of a kitten. We don't ship one, so get creative!
+     '''
+     config = {
+         'album': album,
+         'name':  'bot auto upload',
+         'title': 'bot auto upload',
+         'description': 'bot auto upload'
+     }
+
+     print("Uploading image... ")
+     image = client.upload_from_path(image_path, config=config, anon=False)
+     print("Done")
+     print()
+
+     return image
+     
+def sendAudio(self, to_, path):
+       M = Message()
+       M.text = None
+       M.to = to_
+       M.contentMetadata = None
+       M.contentPreview = None
+       M.contentType = 3
+       M_id = self._client.sendMessage(0,M).id
+       files = {
+             'file': open(path,  'rb'),
+       }
+    
+def sendMessage(to, text, contentMetadata={}, contentType=0):
+    mes = Message()
+    mes.to, mes.from_ = to, profile.mid
+    mes.text = text
+    mes.contentType, mes.contentMetadata = contentType, contentMetadata
+    if to not in messageReq:
+        messageReq[to] = -1
+    messageReq[to] += 1
+    
+def sendImage(self, to_, path):
+      M = Message(to=to_, text=None, contentType = 1)
+      M.contentMetadata = None
+      M.contentPreview = None
+      M2 = self._client.sendMessage(0,M)
+      M_id = M2.id
+      files = {
+         'file': open(path, 'rb'),
+      }
+      params = {
+         'name': 'media',
+         'oid': M_id,
+         'size': len(open(path, 'rb').read()),
+         'type': 'image',
+         'ver': '1.0',
+      }
+      data = {
+         'params': json.dumps(params)
+      }
+      r = self.post_content('https://obs-sg.line-apps.com/talk/m/upload.nhn', data=data, files=files)
+      if r.status_code != 201:
+         raise Exception('Upload image failure.')
+      return True
+
+
+def sendImageWithURL(self, to_, url):
+      path = '%s/pythonLine-%i.data' % (tempfile.gettempdir(), randint(0, 9))
+      r = requests.get(url, stream=True)
+      if r.status_code == 200:
+         with open(path, 'w') as f:
+            shutil.copyfileobj(r.raw, f)
+      else:
+         raise Exception('Download image failure.')
+      try:
+         self.sendImage(to_, path)
+      except:
+         try:
+            self.sendImage(to_, path)
+         except Exception as e:
+            raise e
+
+def sendAudioWithURL(self, to_, url):
+        path = self.downloadFileWithURL(url)
+        try:
+            self.sendAudio(to_, path)
+        except Exception as e:
+            raise Exception(e)
+
+def sendAudioWithUrl(self, to_, url):
+        path = '%s/pythonLine-%1.data' % (tempfile.gettempdir(), randint(0, 9))
+        r = requests.get(url, stream=True, verify=False)
+        if r.status_code == 200:
+           with open(path, 'w') as f:
+              shutil.copyfileobj(r.raw, f)
+        else:
+           raise Exception('Download audio failure.')
+        try:
+            self.sendAudio(to_, path)
+        except Exception as e:
+            raise e
+            
+def downloadFileWithURL(self, fileUrl):
+        saveAs = '%s/pythonLine-%i.data' % (tempfile.gettempdir(), randint(0, 9))
+        r = self.get_content(fileUrl)
+        if r.status_code == 200:
+            with open(saveAs, 'wb') as f:
+                shutil.copyfileobj(r.raw, f)
+            return saveAs
+        else:
+            raise Exception('Download file failure.')
+            
 def summon(to, nama):
     aa = ""
     bb = ""
@@ -289,4317 +526,2950 @@ def summon(to, nama):
     msg.to = to
     msg.text = "\xe2\x95\x94\xe2\x95\x90\xe2\x95\x90\xe2\x95\x90\xe2\x95\x90\xe2\x95\x90\xe2\x95\x90\xe2\x95\x90\xe2\x95\x90\xe2\x95\x90\xe2\x95\x90\n"+bb+"\xe2\x95\x9a\xe2\x95\x90\xe2\x95\x90\xe2\x95\x90\xe2\x95\x90\xe2\x95\x90\xe2\x95\x90\xe2\x95\x90\xe2\x95\x90\xe2\x95\x90\xe2\x95\x90"
     msg.contentMetadata ={'MENTION':'{"MENTIONEES":['+aa+']}','EMTVER':'4'}
-    print ("TAG ALL")
+    print "[Command] Tag All"
     try:
-       line.sendMessage(msg)
+       nadya.sendMessage(msg)
     except Exception as error:
-       print(error)
+       print error          
+                        
+       
 
-def restartBot():
-    print ("RESTART SERVER")
-    time.sleep(3)
+def restart_program():
     python = sys.executable
-    os.execl(python, python, *sys.argv)
-    
-def logError(text):
-    line.log("[ แจ้งเตือน ] " + str(text))
-    time_ = datetime.now()
-    with open("errorLog.txt","a") as error:
-        error.write("\n[%s] %s" % (str(time), text))
+    os.execl(python, python, * sys.argv)
 
-def sendMention(to, mid, firstmessage, lastmessage):
+
+def bot(op):
     try:
-        arrData = ""
-        text = "%s " %(str(firstmessage))
-        arr = []
-        mention = "@x "
-        slen = str(len(text))
-        elen = str(len(text) + len(mention) - 1)
-        arrData = {'S':slen, 'E':elen, 'M':mid}
-        arr.append(arrData)
-        text += mention + str(lastmessage)
-        line.sendMessage(to, text, {'MENTION': str('{"MENTIONEES":' + json.dumps(arr) + '}')}, 0)
-    except Exception as error:
-        logError(error)
-        line.sendMessage(to, "[ INFO ] Error :\n" + str(error))
 
-def sendMessage(to, text, contentMetadata={}, contentType=0):
-    mes = Message()
-    mes.to, mes.from_ = to, profile.mid
-    mes.text = text
-    mes.contentType, mes.contentMetadata = contentType, contentMetadata
-    if to not in messageReq:
-        messageReq[to] = -1
-    messageReq[to] += 1
-        
-def sendMessageWithMention(to, lineMID):
-    try:
-        aa = '{"S":"0","E":"3","M":'+json.dumps(lineMID)+'}'
-        text_ = '@x '
-        line.sendMessage(to, text_, contentMetadata={'MENTION':'{"MENTIONEES":['+aa+']}'}, contentType=0)
-    except Exception as error:
-        logError(error)
-
-def cTime_to_datetime(unixtime):
-    return datetime.fromtimestamp(int(str(unixtime)[:len(str(unixtime))-3]))
-def dt_to_str(dt):
-    return dt.strftime('%H:%M:%S')
-  
-def delete_log():
-    ndt = datetime.now()
-    for data in msg_dict:
-        if (datetime.utcnow() - cTime_to_datetime(msg_dict[data]["createdTime"])) > timedelta(1):
-            if "path" in msg_dict[data]:
-                line.deleteFile(msg_dict[data]["path"])
-            del msg_dict[data]
-            
-def sendMention(to, text="", mids=[]):
-    arrData = ""
-    arr = []
-    mention = "@zeroxyuuki "
-    if mids == []:
-        raise Exception("Invalid mids")
-    if "@!" in text:
-        if text.count("@!") != len(mids):
-            raise Exception("Invalid mids")
-        texts = text.split("@!")
-        textx = ""
-        for mid in mids:
-            textx += str(texts[mids.index(mid)])
-            slen = len(textx)
-            elen = len(textx) + 15
-            arrData = {'S':str(slen), 'E':str(elen - 4), 'M':mid}
-            arr.append(arrData)
-            textx += mention
-        textx += str(texts[len(mids)])
-    else:
-        textx = ""
-        slen = len(textx)
-        elen = len(textx) + 15
-        arrData = {'S':str(slen), 'E':str(elen - 4), 'M':mids[0]}
-        arr.append(arrData)
-        textx += mention + str(text)
-    line.sendMessage(to, textx, {'MENTION': str('{"MENTIONEES":' + json.dumps(arr) + '}')}, 0)
-    
-def mentionMembers(to, mid):
-    try:
-        arrData = ""
-        textx = "╔══[Mention {} User]\n╠ ".format(str(len(mid)))
-        arr = []
-        no = 1
-        for i in mid:
-            mention = "@x\n"
-            slen = str(len(textx))
-            elen = str(len(textx) + len(mention) - 1)
-            arrData = {'S':slen, 'E':elen, 'M':i}
-            arr.append(arrData)
-            textx += mention
-            if no < len(mid):
-                no += 1
-                textx += "╠ "
-            else:
-                try:
-                    textx += "╚══[ {} ]".format(str(line.getGroup(to).name))
-                except:
-                    pass
-        line.sendMessage(to, textx, {'MENTION': str('{"MENTIONEES":' + json.dumps(arr) + '}')}, 0)
-    except Exception as error:
-        logError(error)
-        line.sendMessage(to, "[ INFO ] Error :\n" + str(error))
-
-def myhelp():
-    myHelp = """╔═════════════════════┓
-╠ BY:   ™❍✯͜͡RED™SAMURAI✯͜͡❂➣ 
-╚═════════════════════┛
-         ────┅═ই۝ई═┅────
-                     คำสั่งทั่วไป
-         ────┅═ই۝ई═┅────
-╔═════════════════════┓
-╠❂➣ เช็ค [เช็คการตั้งค่า]
-╠❂➣ ผส [คท.ผู้สร้าง]
-╠❂➣ ข้อมูล [ข้อมูลตัวเอง]
-╠❂➣ ข้อมูล @ [ข้อมูลคนแทค]
-╠❂➣ Help1 [คำสั่งเซลบอท]
-╠❂➣ Help2 [คำสั่งในกลุ่ม]
-╠❂➣ Help3 [คำสั่งตั้งค่า]
-╠❂➣ Help4 [คำสั่งโซเชล]
-╠❂➣ Help5 [คำสั่งพูดMp3]
-╠❂➣ Help6 [คำสั่งแปลภาษา]
-╠❂➣ Help7 [คำสั่งคิกเกอร์]
-╠❂➣ ไอดี @ [ไอดีคนแทค]
-╠❂➣ ชื่อ @ [ชื่อคนแทค]
-╠❂➣ ตัส @ [สเตตัสคนแทค]
-╠❂➣ รูป @ [รูปโปรไฟล์คนแทค]
-╠❂➣ ปก @ [รูปปกคนแทค]
-╠❂➣ คท @ [คทคนแท็ก]
-╠❂➣ วีดีโอโปร @ [วีดีโอคนแทค]
-╠❂➣ ไอดีล่อง [ไอดีคนใส่ล่องหน]
-╠❂➣ คทล่อง [คทคนใส่ล่องหน]
-╠❂➣ แทคล่อง [แทคคนใส่ร่องหน]
-╠❂➣ ปฏิทิน [เช็ควันเวลา]
-╠❂➣ Mimic on/off
-╠❂➣ MimicList[รายชื่อเลียนแบบ]
-╠❂➣ MimicAdd @[คนที่เลียนแบบ]
-╠❂➣ MimicDel @[คนที่เลิกเลียนแบบ]
-╠❂➣ ส่งเสียงกลุ่ม [ข้อความ]
-╠❂➣ ส่งเสียงแชท [ข้อความ]
-╠❂➣ ประกาศกลุ่ม [ข้อความ]
-╠❂➣ ประแชท [ข้อความ]
-╠❂➣ ส่งรูปภาพตามกลุ่ม [ลิ้งรูป]
-╠❂➣ ส่งรูปภาพตามแชท [ลิ้งรูป]
-╠❂➣ เริ่มใหม่ [รีบูสระบบใหม่]
-╠❂➣ เวลออน [เช็คเวลาออน]
-╰════✰™❍✯͜͡RED™SAMURAI✯͜͡❂➣ 
-
- *หมายเหตุ*  คำสั่งที่เป็นภาษาไทย
- ให้ใส่ . นำหน้าคำสั่งเวลาใช้ด้วยเด้อ"""
-    return myHelp
-
-def listgrup():
-    listGrup = """╔══════════════┓
-╠™❍✯͜͡RED™SAMURAI✯͜͡❂➣ 
-╚══════════════┛
- ────┅═ই۝ई═┅────
-             คำสั่งในกลุ่ม
- ────┅═ই۝ई═┅────
-╔══════════════┓
-╠❂➣ แอด
-╠❂➣ ชื่อกลุ่ม
-╠❂➣ ไอดีกลุ่ม
-╠❂➣ เปิดลิ้ง
-╠❂➣ ปิดลิ้ง
-╠❂➣ ลิ้ง
-╠❂➣ ลิ้งกลุ่ม
-╠❂➣ รายการกลุ่ม
-╠❂➣ สมาชิกกลุ่ม
-╠❂➣ ข้อมูลกลุ่ม
-╠❂➣ รูปกลุ่ม
-╠❂➣ แจ๊ะ
-╠❂➣ เช็คไอดี
-╠❂➣ ไอดีล่อง
-╠❂➣ คทล่อง
-╠❂➣ แทคล่อง
-╠❂➣ จับ
-╠❂➣ เลิกจับ
-╠❂➣ จับใหม่
-╠❂➣ อ่าน
-╠❂➣ .เปลี่ยนรูปกลุ่ม
-╠❂➣ เปิด/ปิดแสกน
-╠❂➣ เปิด/ปิดรับแขก
-╠❂➣ เปิด/ปิดส่งแขก
-╠❂➣ เปิด/ปิดทักเตะ
-╠❂➣ เปิด/ปิดพูด
-╠❂➣ เปิด/ปิดตรวจสอบ
-╠❂➣ เช็คดำ
-╠❂➣ ลงดำ
-╠❂➣ ล้างดำ
-╠❂➣ ไล่ดำ
-╠❂➣ ปวดตับ
-╰═✰™❍✯͜͡RED™SAMURAI✯͜͡❂➣"""
-    return listGrup
-
-def socmedia():
-    socMedia = """╔══════════════┓
-╠™❍✯͜͡RED™SAMURAI✯͜͡❂➣
-╚══════════════┛
- ────┅═ই۝ई═┅────
-        คำสั่งโซเชลมีเดี่ย
- ────┅═ই۝ई═┅────
-╔══════════════┓
-╠❂➣ ปฏิทิน
-╠❂➣ รูปภาพ [ชื่อรูปภาพ]
-╠❂➣ ค้นหารูปภาพ [ชื่อรูปภาพ]
-╠❂➣ ยูทูป [ข้อความ]
-╠❂➣ เพลง [ชื่อเพลง]
-╠❂➣ Lyric
-╠❂➣ ScreenshootWebsite
-╠❂➣ หนัง [ชื่อหนัง]
-╠❂➣ วีดีโอ [ชื่อวีดีโอ]
-╠❂➣ รูปการ์ตูน [ชื่อรูป]
-╠❂➣ ไอจี [ชื่อยูส]
-╠❂➣ Urban
-╠❂➣ กูเกิ้ล [ข้อความ]
-╰═✰™❍✯͜͡RED™SAMURAI✯͜͡❂➣"""
-    return socMedia
-
-def helpset():
-    helpSet = """╔══════════════┓
-╠™❍✯͜͡RED™SAMURAI✯͜͡❂➣
-╚══════════════┛
-  ────┅═ই۝ई═┅────
-           คำสั่งเซลบอท
-  ────┅═ই۝ई═┅────
-╔══════════════┓
-╠❂➣ โย่ว
-╠❂➣ ไอดี
-╠❂➣ ชื่อ
-╠❂➣ ตัส
-╠❂➣ รูปโปร
-╠❂➣ รูปปก
-╠❂➣ วัดรอบ
-╠❂➣ Sp
-╠❂➣ ทักเข้า
-╠❂➣ ทักออก
-╠❂➣ ทักเตะ
-╠❂➣ คอมเม้น
-╠❂➣ ข้อความแทค
-╠❂➣ ข้อความแอด
-╠❂➣ ชื่อ:
-╠❂➣ ตัส:
-╠❂➣ ทักเข้า:
-╠❂➣ ทักออก:
-╠❂➣ ทักเตะ:
-╠❂➣ ตั้งแทค:
-╠❂➣ ตั้งแอด:
-╠❂➣ คอมเม้น:
-╠❂➣ เวลออน
-╠❂➣ ดำ
-╠❂➣ ขาว
-╠❂➣ แบน @
-╠❂➣ ลบแบน @
-╠❂➣ บล็อค @
-╠❂➣ ลบรัน
-╠❂➣ ดึง
-╠❂➣ หวด @
-╠❂➣ สอย @
-╠❂➣ ลาก่อย @
-╠❂➣ ปลิว @
-╠❂➣ ดับไฟ
-╠❂➣ แปลงโฉม
-╠❂➣ เพื่อน
-╠❂➣ ไอดีเพื่อน
-╠❂➣ Gcancel:(จำนวนสมาชิก)
-╰═✰™❍✯͜͡RED™SAMURAI✯͜͡❂➣"""
-    return helpSet
-
-def helpsetting():
-    helpSetting = """╔══════════════┓
-╠™❍✯͜͡RED™SAMURAI✯͜͡❂➣
-╚══════════════┛
- ────┅═ই۝ई═┅────
-         คำสั่งการตั้งค่า
- ────┅═ই۝ई═┅────
-╔══════════════┓
-╠❂➣ เปิดกัน/ปิดกัน
-╠❂➣ กันยก/ปิดกันยก
-╠❂➣ กันเชิญ/ปิดกันเชิญ
-╠❂➣ กันลิ้ง/ปิดกันลิ้ง
-╠❂➣ กันเข้า/ปิดกันเข้า
-╠❂➣ เปิดหมด/ปิดหมด
-╠❂➣ เปิดกทม/ปิดกทม
-╠❂➣ เปิดเข้า/ปิดเข้า
-╠❂➣ เปิดออก/ปิดออก
-╠❂➣ เปิดติ๊ก/ปิดติ๊ก
-╠❂➣ เปิดบล็อค/ปิดบล็อค
-╠❂➣ เปิดมุด/ปิดมุด
-╠❂➣ เปิดเผือก/ปิดเผือก
-╠❂➣ เปิดอ่าน/ปิดอ่าน
-╠❂➣ เปิดพูด/ปิดพูด
-╠❂➣ เปิดแทค/ปิดแทค
-╠❂➣ เปิดแทค2/ปิดแทค2
-╠❂➣ เปิดแทค3/ปิดแทค3
-╠❂➣ เปิดแทคเจ็บ/ปิดแทคเจ็บ
-╠❂➣ เปิดคท/ปิดคท
-╠❂➣ เปิดตรวจสอบ/ปิดตรวจสอบ
-╠❂➣ เปิดเช็คโพส/ปิดเช็คโพส
-╠❂➣ เปิดแสกน/ปิดแสกน
-╠❂➣ เปิดรับแขก/ปิดรับแขก
-╠❂➣ เปิดส่งแขก/ปิดส่งแขก
-╠❂➣ เปิดทักเตะ/ปิดทักเตะ
-╠❂➣ เปิดข้อความ/ปิดข้อความ
-╰══™❍✯͜͡RED™SAMURAI✯͜͡❂➣"""
-    return helpSetting
-
-def helptexttospeech():
-    helpTextToSpeech =   """╔══════════════┓
-╠™❍✯͜͡RED™SAMURI✯͜͡❂➣ 
-╚══════════════┛
- ────┅═ই۝ई═┅────
-   คำสั่งพูดMp3ภาษาต่างๆ
-  ────┅═ই۝ई═┅────
-╔══════════════┓
-╠❂➣ af : แอฟริกัน
-╠❂➣ sq : อัลเบเนีย
-╠❂➣ hy : อาเมเนีย
-╠❂➣ bn : เบนจาลี
-╠❂➣ zh-cn : จีน
-╠❂➣ zh-tw : ใต้หวัน
-╠❂➣ cs : เช็ก
-╠❂➣ nl : ดัช
-╠❂➣ en : อังกฤษ
-╠❂➣ en-us : สหรัฐ
-╠❂➣ el : กรีก
-╠❂➣ id : อินโดนีเซีย
-╠❂➣ it : อิตาลี
-╠❂➣ ja : ญี่ปุ่น
-╠❂➣ ko : เกาหลี
-╠❂➣ la : ลาติน
-╠❂➣ ro : โรมาเนีย
-╠❂➣ ru : รัสเซีย
-╠❂➣ sr : เซอเบียร์
-╠❂➣ th : ไทย
-╠❂➣ vi : เวียดนาม
-╰═✰™❍✯͜͡RED™SAMURAI✯͜͡❂➣
-
-「วิธีใช้ : say-th ผมชื่อเรดนะครับ」"""
-    return helpTextToSpeech
-    
-def helplanguange():
-    helpLanguange =    """╔══════════════┓
-╠™❍✯͜͡RED™SAMURI✯͜͡❂➣
-╚══════════════┛
- ────┅═ই۝ई═┅────
-          คำสั่งแปลภาษา
- ────┅═ই۝ई═┅────
-╔══════════════┓
-╠❂➣ af : แอฟริกัน
-╠❂➣ sq : อัลเบเนีย
-╠❂➣ ar : อราบิค
-╠❂➣ hy : อาเมเนีย
-╠❂➣ bn : บังการี่
-╠❂➣ bs : บอสเนีย
-╠❂➣ bg : บังแกเรีย
-╠❂➣ zh-cn : จีน
-╠❂➣ zh-tw : ใต้หวัน
-╠❂➣ cs : เช็ก
-╠❂➣ nl : ดัช
-╠❂➣ en : อังกฤษ
-╠❂➣ et : เอสโตเนียน
-╠❂➣ el : กรีก
-╠❂➣ id : อินโดนีเซีย
-╠❂➣ ga : ไอริส
-╠❂➣ it : อิตาลี
-╠❂➣ ja : ญี่ปุ่น
-╠❂➣ kn : แคนาดา
-╠❂➣ la : ลาติน
-╠❂➣ lv : ลัตเวีย
-╠❂➣ ms : มาเลเซีย
-╠❂➣ mt : มอลเตส
-╠❂➣ mn : มองโกเลีย
-╠❂➣ my : พม่า
-╠❂➣ fa : เปอร์เซีย
-╠❂➣ pt : โปรตุเกศ
-╠❂➣ ro : โรมาเนีย
-╠❂➣ ru : รัสเซีย
-╠❂➣ th : ไทย
-╠❂➣ zu : ซูลู
-╰═✰™❍✯͜͡RED™SAMURAI✯͜͡❂➣
- 
-「วิธีใช้ : tr-th hello」"""
-    return helpLanguange
-#==============================================================================#
-def lineBot(op):
-    try:
         if op.type == 0:
             return
+
         if op.type == 5:
-            if settings["autoAdd"] == True:
-                line.blockContact(op.param1)
-        if op.type == 13:
-            if lineMID in op.param3:
-                G = line.getGroup(op.param1)
-                if settings["autoJoin"] == True:
-                    if settings["autoCancel"]["on"] == True:
-                        if len(G.members) <= settings["autoCancel"]["members"]:
-                            line.rejectGroupInvitation(op.param1)
-                        else:
-                            line.acceptGroupInvitation(op.param1)
-                    else:
-                        line.acceptGroupInvitation(op.param1)
-                elif settings["autoCancel"]["on"] == True:
-                    if len(G.members) <= settings["autoCancel"]["members"]:
-                        line.rejectGroupInvitation(op.param1)
-            else:
-                Inviter = op.param3.replace("",',')
-                InviterX = Inviter.split(",")
-                matched_list = []
-                for tag in settings["blacklist"]:
-                    matched_list+=[str for str in InviterX if str == tag]
-                if matched_list == []:
-                    pass
-                else:
-                    line.cancelGroupInvitation(op.param1, matched_list)				
-#        if op.type == 13:
-#            group = line.getGroup(op.param1)
-#            if settings["autoJoin"] == True:
-#                line.acceptGroupInvitation(op.param1)
-        if op.type == 24:
-            if settings["autoLeave"] == True:
-                line.leaveRoom(op.param1)
-                                     
-        if op.type == 25:
-            msg = op.message
-            if msg.contentType == 13:
-            	if settings["winvite"] == True:
-                     if msg._from in admin:
-                         _name = msg.contentMetadata["displayName"]
-                         invite = msg.contentMetadata["mid"]
-                         groups = line.getGroup(msg.to)
-                         pending = groups.invitee
-                         targets = []
-                         for s in groups.members:
-                             if _name in s.displayName:
-                                 line.sendText(msg.to,"-> " + _name + " \nทำการเชิญสำเร็จ")
-                                 break
-                             elif invite in settings["blacklist"]:
-                                 line.sendText(msg.to,"ขออภัย, " + _name + " บุคคนนี้อยู่ในรายการบัญชีดำ")
-                                 line.sendText(msg.to,"ใช้คำสั่ง!, \n➡ล้างดำ➡ดึง" )
-                                 break                             
-                             else:
-                                 targets.append(invite)
-                         if targets == []:
-                             pass
-                         else:
-                             for target in targets:
-                                 try:
-                                     line.findAndAddContactsByMid(target)
-                                     line.inviteIntoGroup(msg.to,[target])
-                                     line.sendText(msg.to,"เชิญคนนี้สำเร็จแล้ว : \n➡" + _name)
-                                     settings["winvite"] = False
-                                     break
-                                 except:
-                                     try:
-                                         line.findAndAddContactsByMid(invite)
-                                         line.inviteIntoGroup(op.param1,[invite])
-                                         settings["winvite"] = False
-                                     except:
-                                         line.sendText(msg.to,"😧ตรวจพบข้อผิดพลาดที่ไม่ทราบสาเหตุ😩อาจเป็นได้ว่าบัญชีของคุณถูกแบนเชิญ😨")
-                                         settings["winvite"] = False
-                                         break
-        if op.type == 25:
-            msg = op.message
-            if msg.contentType == 13:
-               if settings["wblack"] == True:
-                    if msg.contentMetadata["mid"] in settings["commentBlack"]:
-                        line.sendText(msg.to,"รับทราบ")
-                        settings["wblack"] = False
-                    else:
-                        settings["commentBlack"][msg.contentMetadata["mid"]] = True
-                        settings["wblack"] = False
-                        line.sendText(msg.to,"decided not to comment")
+           if wait["autoAdd"] == True:
+              nadya.findAndAddContactsByMid(op.param1)
+              if(wait["message"]in[""," ","\n",None]):
+                pass
+              else:
+                nadya.sendText(op.param1,str(wait["message"]))
 
-               elif settings["dblack"] == True:
-                   if msg.contentMetadata["mid"] in settings["commentBlack"]:
-                        del settings["commentBlack"][msg.contentMetadata["mid"]]
-                        line.sendText(msg.to,"ลบจากรายการที่ถูกแบนแล้ว")
-                        settings["dblack"] = False
 
-                   else:
-                        settings["dblack"] = False
-                        line.sendText(msg.to,"Tidak Ada Dalam Daftar Blacklist")
-               elif settings["wblacklist"] == True:
-                 if msg._from in admin: 
-                   if msg.contentMetadata["mid"] in settings["blacklist"]:
-                        line.sendText(msg.to,"Sudah Ada")
-                        settings["wblacklist"] = False
-                   else:
-                        settings["blacklist"][msg.contentMetadata["mid"]] = True
-                        settings["wblacklist"] = False
-                        line.sendText(msg.to,"เพิ่มบัญชีนี้ในรายการสีดำเรียบร้อยแล้ว")
-
-               elif settings["dblacklist"] == True:
-                 if msg._from in admin: 
-                   if msg.contentMetadata["mid"] in settings["blacklist"]:
-                        del settings["blacklist"][msg.contentMetadata["mid"]]
-                        line.sendText(msg.to,"เพิ่มบัญชีนี้ในรายการสีขาวเรียบร้อยแล้ว")
-                        settings["dblacklist"] = False
-
-                   else:
-                        settings["dblacklist"] = False
-                        line.sendText(msg.to,"Tidak Ada Dalam Da ftar Blacklist")
-                               
-        if op.type == 25:
-            msg = op.message
-            text = msg.text
-            msg_id = msg.id
-            receiver = msg.to
-            sender = msg._from
-            if msg.toType == 0 or msg.toType == 1 or msg.toType == 2:
-                if msg.toType == 0:
-                    if sender != line.profile.mid:
-                        to = sender
-                    else:
-                        to = receiver
-                elif msg.toType == 1:
-                    to = receiver
-                elif msg.toType == 2:
-                    to = receiver
-            if msg.contentType == 0:
-                if text is None:
-                    return
-#==============================================================================#
-                if ".พูด " in msg.text.lower():
-                    spl = re.split(".พูด ",msg.text,flags=re.IGNORECASE)
-                    if spl[0] == "":
-                        mts = spl[1]
-                        mtsl = mts.split()
-                        mtsTimeArg = len(mtsl) - 1
-                        mtsTime = mtsl[mtsTimeArg]
-                        del mtsl[mtsTimeArg]
-                        mtosay = " ".join(mtsl)
-                        global Rapid1To
-                        Rapid1To = msg.to
-                        RapidTime = mtsTime
-                        rmtosay = []
-                        for count in range(0,int(RapidTime)):
-                            rmtosay.insert(count,mtosay)
-                        p = Pool(20)
-                        p.map(Rapid1Say,rmtosay)
-                        p.close()
-                if text.lower() == 'help':
-                    myHelp = myhelp()
-                    line.sendMessage(to, str(myHelp))
-                elif text.lower() == 'help1':
-                    helpSet = helpset()
-                    line.sendMessage(to, str(helpSet))
-                    sendMessageWithMention(to, lineMID)
-                elif text.lower() == 'help2':
-                    listGrup = listgrup()
-                    line.sendMessage(to, str(listGrup))
-                elif text.lower() == 'help3':
-                    helpSetting = helpsetting()
-                    line.sendMessage(to, str(helpSetting))
-                elif text.lower() == 'help4':
-                    socMedia = socmedia()
-                    line.sendMessage(to, str(socMedia))
-                elif text.lower() == 'help5':
-                    helpTextToSpeech = helptexttospeech()
-                    line.sendMessage(to, str(helpTextToSpeech))
-                elif text.lower() == 'help6':
-                    helpLanguange = helplanguange()
-                    line.sendMessage(to, str(helpLanguange))
-#==============================================================================#
-                elif text.lower() == '.speed':
-                    start = time.time()
-                    line.sendMessage(to, "proses...")
-                    elapsed_time = time.time() - start
-                    line.sendMessage(msg.to, "[ %s Seconds ] [ " % (elapsed_time) + str(int(round((time.time() - start) * 1000)))+" ms ]")
-                elif text.lower() == '.sp':
-                    start = time.time()
-                    line.sendMessage(to, "proses")
-                    elapsed_time = time.time() - start
-                    line.sendMessage(msg.to, "[ %s Seconds ] [ " % (elapsed_time) + str(int(round((time.time() - start) * 1000)))+" ms ]")
-                elif text.lower() == '.restart':
-                    line.sendMessage(to, "succses Restaring.")
-                    line.sendMessage(to, "Success Restarting.")
-                    restartBot()
-                elif text.lower() == '.runtime':
-                    timeNow = time.time()
-                    runtime = timeNow - botStart
-                    runtime = format_timespan(runtime)
-                    line.sendMessage(to, "sepribot aktif selama {}".format(str(runtime)))
-                elif text.lower() == '.myprofile':
-                    try:
-                        arr = []
-                        owner = "u9f09cfcb17d037e2936b751bd9d40ead"
-                        creator = line.getContact(owner)
-                        contact = line.getContact(lineMID)
-                        grouplist = line.getGroupIdsJoined()
-                        contactlist = line.getAllContactIds()
-                        blockedlist = line.getBlockedContactIds()
-                        ret_ = "╔══[ ™❍✯͜͡SEPRICHE✯͜͡❂➣]"
-                        ret_ += "\n╠۝ nama ═ {}".format(contact.displayName)
-                        ret_ += "\n╠۝ group ═ {}".format(str(len(grouplist)))
-                        ret_ += "\n╠۝ teman ═ {}".format(str(len(contactlist)))
-                        ret_ += "\n╠۝ blokir ═ {}".format(str(len(blockedlist)))
-                        ret_ += "\n╠══[status] ═ {}".format(contact.statusMessage)
-                        ret_ += "\n╠۝ nama tampilan ═ {}".format(creator.displayName)
-                        ret_ += "\n╚══[ ™❍✯͜͡SEPRICHE✯͜͡❂➣]"
-                        line.sendContact(to, owner)
-                        line.sendMessage(to, str(ret_))
-                    except Exception as e:
-                        line.sendMessage(msg.to, str(e))
-#==============================================================================#
-                elif text.lower() == '.status':
-                    try:
-                        ret_ = "╔════[ Status ]═════┓"
-                        if settings["autoAdd"] == True: ret_ += "\n╠ ออโต้บล็อค✔"
-                        else: ret_ += "\n╠ ออโต้บล็อค   ✘ "
-                        if settings["autoJoinTicket"] == True: ret_ += "\n╠ มุดลิ้ง✔"
-                        else: ret_ += "\n╠ มุดลิ้ง   ✘ "
-                        if settings["autoJoin"] == True: ret_ += "\n╠ เข้าห้องออโต้ ✔"
-                        else: ret_ += "\n╠ เข้าห้องออโต้    ✘ "
-                        if settings["Api"] == True: ret_ += "\n╠ บอทApi✔"
-                        else: ret_ += "\n╠ บอทApi   ✘ "
-                        if settings["Aip"] == True: ret_ += "\n╠ แสกนคำพูด+คำสั่งบิน✔"
-                        else: ret_ += "\n╠ แสกนคำพูด+คำสั่งบิน   ✘ "
-                        if settings["Wc"] == True: ret_ += "\n╠ ข้อความต้อนรับสมาชิก ✔"
-                        else: ret_ += "\n╠ ข้อความต้อนรับสมาชิก    ✘ "
-                        if settings["Lv"] == True: ret_ += "\n╠ ข้อความอำลาสมาชิก ✔"
-                        else: ret_ += "\n╠ ข้อความอำลาสมาชิก    ✘ "
-                        if settings["Nk"] == True: ret_ += "\n╠ ข้อความแจ้งเตือนคนลบ ✔"
-                        else: ret_ += "\n╠ ข้อความแจ้งเตือนคนลบ    ✘ "
-                        if settings["autoCancel"]["on"] == True:ret_+="\n╠ ปฏิเสธกลุ่มเชิญที่มีสมาชิกต่ำกว่า: " + str(settings["autoCancel"]["members"]) + " → ✔"
-                        else: ret_ += "\n╠ ปฏิเสธกลุ่มเชิญ    ✘ "						
-                        if settings["autoLeave"] == True: ret_ += "\n╠ ออกแชทรวม ✔"
-                        else: ret_ += "\n╠ ออกแชทรวม ✘ "
-                        if settings["autoRead"] == True: ret_ += "\n╠ อ่านออโต้ ✔"
-                        else: ret_ += "\n╠ อ่านออโต้   ✘ "				
-                        if settings["checkContact"] == True: ret_ += "\n╠ อ่านคท ✔"
-                        else: ret_ += "\n╠ อ่านคท        ✘ "
-                        if settings["checkPost"] == True: ret_ += "\n╠ เช็คโพส ✔"
-                        else: ret_ += "\n╠ เช็คโพส        ✘ "
-                        if settings["checkSticker"] == True: ret_ += "\n╠ Sticker ✔"
-                        else: ret_ += "\n╠ Sticker        ✘ "
-                        if settings["detectMention"] == True: ret_ += "\n╠ ตอบกลับคนแทค ✔"
-                        else: ret_ += "\n╠ ตอบกลับคนแทค ✘ "
-                        if settings["potoMention"] == True: ret_ += "\n╠ แสดงภาพคนแทค ✔"
-                        else: ret_ += "\n╠ แสดงภาพคนแทค ✘ "
-                        if settings["kickMention"] == True: ret_ += "\n╠ เตะคนแทค ✔"
-                        else: ret_ += "\n╠ เตะคนแทค ✘ "
-                        if settings["delayMention"] == True: ret_ += "\n╠ แทคกลับคนแทค ✔"
-                        else: ret_ += "\n╠ แทคกลับคนแทค ✘ "
-                        if RfuProtect["inviteprotect"] == True: ret_ += "\n╠ กันเชิญ ✔"
-                        else: ret_ += "\n╠ กันเชิญ ✘ "
-                        if RfuProtect["cancelprotect"] == True: ret_ += "\n╠ กันยกเชิญ ✔"
-                        else: ret_ += "\n╠ กันยกเชิญ ✘ "
-                        if RfuProtect["protect"] == True: ret_ += "\n╠ ป้องกัน ✔"
-                        else: ret_ += "\n╠ ป้องกัน ✘ "
-                        if RfuProtect["linkprotect"] == True: ret_ += "\n╠ ป้องกันเปิดลิ้ง ✔"
-                        else: ret_ += "\n╠ ป้องกันเปิดลิ้ง ✘ "
-                        if RfuProtect["Protectguest"] == True: ret_ += "\n╠ ป้องกันสมาชิก ✔"
-                        else: ret_ += "\n╠ ป้องกันสมาชิก ✘ "
-                        if RfuProtect["Protectjoin"] == True: ret_ += "\n╠ ป้องกันเข้ากลุ่ม ✔"
-                        else: ret_ += "\n╠ ป้องกันเข้ากลุ่ม ✘ "						
-                        ret_ += "\n╚════[ SepriBot ]═════┛"
-                        line.sendMessage(to, str(ret_))
-                    except Exception as e:
-                        line.sendMessage(msg.to, str(e))
-                elif text.lower() == '.autoadd:on':
-                    settings["autoAdd"] = True
-                    line.sendMessage(to, "Auto add enabled.")
-                elif text.lower() == '.autoadd:off':
-                    settings["autoAdd"] = False
-                    line.sendMessage(to, "Auto add disabled.")
-                elif text.lower() == '.autojoin:on':
-                    settings["autoJoin"] = True
-                    line.sendMessage(to, "Autojoin enabled.")
-                elif text.lower() == '.autojoin:off':
-                    settings["autoJoin"] = False
-                    line.sendMessage(to, "Auto Join disabled.")
-                elif "gcancel:" in msg.text:
-                    try:
-                        strnum = msg.text.replace("gcancel:","")
-                        if strnum == "off":
-                                settings["autoCancel"]["on"] = False
-                                if settings["lang"] == "JP":
-                                    line.sendText(msg.to,str(settings["eror"]))
-                                else:
-                                    line.sendText(msg.to,"关了邀请拒绝。要时开请指定人数发送")
-                        else:
-                                num =  int(strnum)
-                                settings["autoCancel"]["on"] = True
-                                if settings["lang"] == "JP":
-                                    line.sendText(msg.to, " สมาชิกในกลุ่มที่ไม่ถึง" + strnum + "จะถูกปฏิเสธคำเชิญโดยอัตโนมัติ")
-                                else:
-                                    line.sendText(msg.to,strnum + "使人以下的小组用自动邀请拒绝")
-                    except:
-                        if settings["lang"] == "JP":
-                                line.sendText(msg.to,str(settings["eror"]))
-                        else:
-                                line.sendText(msg.to,"Bizarre ratings")					
-                elif text.lower() == '.autoleave:on':
-                    settings["autoLeave"] = True
-                    line.sendMessage(to, "leave on")
-                elif text.lower() == '.autoleave:off':
-                    settings["autoLeave"] = False
-                    line.sendMessage(to, "Autoleave disabled.")
-                elif text.lower() == '.autoread:on':
-                    settings["autoRead"] = True
-                    line.sendMessage(to, "Autoread message enabled.")
-                elif text.lower() == '.autoread:off':
-                    settings["autoRead"] = False
-                    line.sendMessage(to, "Autoread message disabled.")
-                elif text.lower() == '.sticker:on':
-                    settings["checkSticker"] = True
-                    line.sendMessage(to, "Check sticker enabled.")
-                elif text.lower() == '.sticker:off':
-                    settings["checkSticker"] = False
-                    line.sendMessage(to, "Check sticker disabled.")
-                elif text.lower() == '.autojointicket:on':
-                    settings["autoJoinTicket"] = True
-                    line.sendMessage(to, "Autojoin byTicket  enabled.")
-                elif text.lower() == '.autojointicket:off':
-                    settings["autoJoinTicket"] = False
-                    line.sendMessage(to, "Autojoin byTicket  disabled.")
-                elif text.lower() == '.unsendmessage:on':
-                    settings["unsendMessage"] = True
-                    line.sendMessage(to, "unsendMessage  enabled.")
-                elif text.lower() == '.unsendmessage:off':
-                    settings["unsendMessage"] = False
-                    line.sendMessage(to, "unsendMessage disabled.")           
-#==============================================================================#
-                elif msg.text.lower() == ".me":
-                    me = line.getContact(lineMID)
-                    line.sendMessage(msg.to,"[nama]")
-                    sendMessageWithMention(to, lineMID)
-                    line.sendMessage(msg.to,"[status]\n" + me.statusMessage)
-                    line.sendContact(to, lineMID)
-                    line.sendImageWithURL(msg.to,"http://dl.profile.line-cdn.net/" + me.pictureStatus)
-                    cover = line.getProfileCoverURL(lineMID)
-                    line.sendImageWithURL(msg.to, cover)
-                    line.sendMessage(msg.to,str(settings["comment"]))
-                elif text.lower() == '.mi':
-                    sendMessageWithMention(to, lineMID)
-                    line.sendContact(to, lineMID)
-                elif text.lower() == '.mie':
-                    sendMessageWithMention(to, lineMID)
-                    line.sendContact(to, "ub5abe828cd964292195c3c59d6322033")
-                elif text.lower() == '.mid':
-                    line.sendMessage(msg.to,"[MID]\n" +  lineMID)
-                elif text.lower() == '.displayname':
-                    me = line.getContact(lineMID)
-                    line.sendMessage(msg.to,"[DisplayName]\n" + me.displayName)
-                elif text.lower() == '.mystatus':
-                    me = line.getContact(lineMID)
-                    line.sendMessage(msg.to,"[StatusMessage]\n" + me.statusMessage)
-                elif text.lower() == '.mypp':
-                    me = line.getContact(lineMID)
-                    line.sendImageWithURL(msg.to,"http://dl.profile.line-cdn.net/" + me.pictureStatus)
-                elif text.lower() == '.myppvideo':
-                    me = line.getContact(lineMID)
-                    line.sendVideoWithURL(msg.to,"http://dl.profile.line-cdn.net/" + me.pictureStatus + "/vp")
-                elif text.lower() == '.mycover':
-                    me = line.getContact(lineMID)
-                    cover = line.getProfileCoverURL(lineMID)    
-                    line.sendImageWithURL(msg.to, cover)
-                elif text.lower() == '.คอมเม้น':
-                    line.sendMessage(msg.to,str(settings["comment"]))
-                elif text.lower() == '.cekwelcome':
-                    line.sendMessage(msg.to, str(settings["welcome"]))
-                elif text.lower() == '.cekbye':
-                    line.sendMessage(msg.to, str(settings["bye"]))
-                elif text.lower() == '.cekkick':
-                    line.sendMessage(msg.to, str(settings["kick"]))
-                elif text.lower() == '.cekmessage':
-                    line.sendMessage(msg.to, str(settings["message"]))
-                elif text.lower() == '.cekrespontag':
-                    line.sendMessage(msg.to, str(settings["Respontag"]))
-                elif text.lower() == '.แทคล่อง':
-                    gs = line.getGroup(to)
-                    targets = []
-                    for g in gs.members:
-                        if g.displayName in "":
-                            targets.append(g.mid)
-                    if targets == []:
-                        line.sendMessage(to, "ม่มีคนใส่ร่องหนในกลุ่มนี้😂")
-                    else:
-                        mc = ""
-                        for target in targets:
-                            mc += sendMessageWithMention(to,target) + "\n"
-                        line.sendMessage(to, mc)
-                elif text.lower() == '.ไอดีล่อง':
-                    gs = line.getGroup(to)
-                    lists = []
-                    for g in gs.members:
-                        if g.displayName in "":
-                            lists.append(g.mid)
-                    if lists == []:
-                        line.sendMessage(to, "ไม่มีmidคนใส่ร่องหน🤗")
-                    else:
-                        mc = ""
-                        for mi_d in lists:
-                            mc += "->" + mi_d + "\n"
-                        line.sendMessage(to,mc)
-                elif text.lower() == '.คทล่อง':
-                    gs = line.getGroup(to)
-                    lists = []
-                    for g in gs.members:
-                        if g.displayName in "":
-                            lists.append(g.mid)
-                    if lists == []:
-                        line.sendMessage(to, "ไม่มีคนใส่ร่องหนในกลุ่มนี้😂")
-                    else:
-                        for ls in lists:
-                            contact = line.getContact(ls)
-                            mi_d = contact.mid
-                            line.sendContact(to, mi_d)
-                elif msg.text.lower().startswith(".คท "):
-                    if 'MENTION' in list(msg.contentMetadata.keys())!= None:
-                        names = re.findall(r'@(\w+)', text)
-                        mention = ast.literal_eval(msg.contentMetadata['MENTION'])
-                        mentionees = mention['MENTIONEES']
-                        lists = []
-                        for mention in mentionees:
-                            if mention["M"] not in lists:
-                                lists.append(mention["M"])
-                        for ls in lists:
-                            contact = line.getContact(ls)
-                            mi_d = contact.mid
-                            line.sendContact(msg.to, mi_d)
-                elif msg.text.lower().startswith(".getmid "):
-                    if 'MENTION' in list(msg.contentMetadata.keys())!= None:
-                        names = re.findall(r'@(\w+)', text)
-                        mention = ast.literal_eval(msg.contentMetadata['MENTION'])
-                        mentionees = mention['MENTIONEES']
-                        lists = []
-                        for mention in mentionees:
-                            if mention["M"] not in lists:
-                                lists.append(mention["M"])
-                        ret_ = "[ Mid User ]"
-                        for ls in lists:
-                            ret_ += "\n{}" + ls
-                        line.sendMessage(msg.to, str(ret_))
-                elif msg.text.lower().startswith(".displayname "):
-                    if 'MENTION' in list(msg.contentMetadata.keys())!= None:
-                        names = re.findall(r'@(\w+)', text)
-                        mention = ast.literal_eval(msg.contentMetadata['MENTION'])
-                        mentionees = mention['MENTIONEES']
-                        lists = []
-                        for mention in mentionees:
-                            if mention["M"] not in lists:
-                                lists.append(mention["M"])
-                        for ls in lists:
-                            contact = line.getContact(ls)
-                            line.sendMessage(msg.to, "[ Display Name ]\n" + contact.displayName)
-                elif msg.text.lower().startswith(".statusmessage "):
-                    if 'MENTION' in list(msg.contentMetadata.keys())!= None:
-                        names = re.findall(r'@(\w+)', text)
-                        mention = ast.literal_eval(msg.contentMetadata['MENTION'])
-                        mentionees = mention['MENTIONEES']
-                        lists = []
-                        for mention in mentionees:
-                            if mention["M"] not in lists:
-                                lists.append(mention["M"])
-                        for ls in lists:
-                            contact = line.getContact(ls)
-                            line.sendMessage(msg.to, "[ Status Message ]\n{}" + contact.statusMessage)
-                elif msg.text.lower().startswith(".picture "):
-                    if 'MENTION' in list(msg.contentMetadata.keys())!= None:
-                        names = re.findall(r'@(\w+)', text)
-                        mention = ast.literal_eval(msg.contentMetadata['MENTION'])
-                        mentionees = mention['MENTIONEES']
-                        lists = []
-                        for mention in mentionees:
-                            if mention["M"] not in lists:
-                                lists.append(mention["M"])
-                        for ls in lists:
-                            path = "http://dl.profile.line.naver.jp/" + line.getContact(ls).pictureStatus
-                            line.sendImageWithURL(msg.to, str(path))
-                elif msg.text.lower().startswith(".วีดีโอโปร "):
-                    if 'MENTION' in list(msg.contentMetadata.keys())!= None:
-                        names = re.findall(r'@(\w+)', text)
-                        mention = ast.literal_eval(msg.contentMetadata['MENTION'])
-                        mentionees = mention['MENTIONEES']
-                        lists = []
-                        for mention in mentionees:
-                            if mention["M"] not in lists:
-                                lists.append(mention["M"])
-                        for ls in lists:
-                            path = "http://dl.profile.line.naver.jp/" + line.getContact(ls).pictureStatus + "/vp"
-                            line.sendImageWithURL(msg.to, str(path))
-                elif msg.text.lower().startswith(".ปก "):
-                    if line != None:
-                        if 'MENTION' in list(msg.contentMetadata.keys())!= None:
-                            names = re.findall(r'@(\w+)', text)
-                            mention = ast.literal_eval(msg.contentMetadata['MENTION'])
-                            mentionees = mention['MENTIONEES']
-                            lists = []
-                            for mention in mentionees:
-                                if mention["M"] not in lists:
-                                    lists.append(mention["M"])
-                            for ls in lists:
-                                path = line.getProfileCoverURL(ls)
-                                line.sendImageWithURL(msg.to, str(path))
-                elif ".โพส " in msg.text:
-                    tl_text = msg.text.replace(".โพส ","")
-                    line.sendText(msg.to,"line://home/post?userMid="+lineMID+"&postId="+line.new_post(tl_text)["result"]["post"]["postInfo"]["postId"])
-                elif ".ก๊อป " in msg.text:
-                  if msg._from in admin:
-                    targets = []
-                    key = eval(msg.contentMetadata["MENTION"])
-                    key["MENTIONEES"][0]["M"]
-                    for x in key["MENTIONEES"]:
-                            targets.append(x["M"])
-                    for target in targets:
-                        try:
-                            contact = line.getContact(target)
-                            X = contact.displayName
-                            profile = line.getProfile()
-                            profile.displayName = X
-                            line.updateProfile(profile)
-                            line.sendMessage(msg.to, "Success...")
-                        #---------------------------------------
-                            Y = contact.statusMessage
-                            lol = line.getProfile()
-                            lol.statusMessage = Y
-                            line.updateProfile(lol)
-                        #---------------------------------------
-                            settings["changePictureProfile"] = True
-                            me = line.getContact(target)     
-                            line.sendImageWithURL(msg.to,"http://dl.profile.line-cdn.net/" + me.pictureStatus)
-                        except Exception as e:
-                            line.sendMessage(msg.to, "Failed!")
-                            print (e)
-
-                elif msg.text in [".คืนร่าง"]:
-                    try:
-                        line.updateProfile.pictureStatus(myProfile["pictureStatus"])
-                        line.updateProfile.statusMessage(myProfile["statusMessage"])
-                        line.updateProfile.displayName(myProfile["displayName"])
-                        line.sendMessage(msg.to, "กลับร่างเดิมแล้ว")
-                    except Exception as e:
-                        line.sendText(msg.to, str (e))
-                        
-                elif msg.text in ["Allprotect on",".เปิดกทม"]:
-                        settings["kickMention"] = True
-                        settings["Aip"] = False
-                        RfuProtect["protect"] = True
-                        RfuProtect["cancelprotect"] = True
-                        RfuProtect["inviteprotect"] = True 
-                        RfuProtect["linkprotect"] = True 
-                        RfuProtect["Protectguest"] = True
-                        RfuProtect["Protectjoin"] = True
-                        line.sendText(msg.to,"การตั้งค่าชุดรักษาความปลอดภัยทั้งหมด เปิด👌")
-						
-                elif msg.text in ["Allprotect off",".ปิดกทม"]:
-                        settings["kickMention"] = False
-                        settings["Aip"] = False
-                        RfuProtect["protect"] = False
-                        RfuProtect["cancelprotect"] = False
-                        RfuProtect["inviteprotect"] = False 
-                        RfuProtect["linkprotect"] = False 
-                        RfuProtect["Protectguest"] = False
-                        RfuProtect["Protectjoin"] = False
-                        line.sendText(msg.to,"การตั้งค่าชุดรักษาความปลอดภัยทั้งหมด ปิด👌")
-                        
-                elif msg.text in ["Allmsg on",".เปิดข้อความ"]:
-                        settings["Wc"] = True
-                        settings["Lv"] = True
-                        settings["Nk"] = True
-                        settings["autoRead"] = True
-                        settings["checkSticker"] = True 
-                        settings["checkContact"] = True 
-                        settings["checkPost"] = True
-                        settings["potoMention"] = True
-                        settings["detectMention"] = True
-                        settings["delayMention"] = True
-                        settings["Api"] = True
-                        line.sendText(msg.to,"การตั้งค่าชุดข้อความทั้งหมด เปิด👌")
-						
-                elif msg.text in ["Allmsg off",".ปิดข้อความ"]:
-                        settings["Wc"] = False
-                        settings["Lv"] = False
-                        settings["Nk"] = False
-                        settings["autoRead"] = True
-                        settings["checkSticker"] = False 
-                        settings["checkContact"] = False 
-                        settings["checkPost"] = False
-                        settings["detectMention"] = False
-                        settings["potoMention"] = False
-                        settings["delayMention"] = False
-                        settings["Api"] = False
-                        line.sendText(msg.to,"การตั้งค่าชุดข้อความทั้งหมด ปิด👌")
-#==============================================================================#
-                elif msg.text.lower().startswith("mimicadd "):
-                    targets = []
-                    key = eval(msg.contentMetadata["MENTION"])
-                    key["MENTIONEES"][0]["M"]
-                    for x in key["MENTIONEES"]:
-                        targets.append(x["M"])
-                    for target in targets:
-                        try:
-                            settings["mimic"]["target"][target] = True
-                            line.sendMessage(msg.to,"Mimic has been added as")
-                            break
-                        except:
-                            line.sendMessage(msg.to,"Added Target Fail !")
-                            break
-                elif msg.text.lower().startswith("mimicdel "):
-                    targets = []
-                    key = eval(msg.contentMetadata["MENTION"])
-                    key["MENTIONEES"][0]["M"]
-                    for x in key["MENTIONEES"]:
-                        targets.append(x["M"])
-                    for target in targets:
-                        try:
-                            del settings["mimic"]["target"][target]
-                            line.sendMessage(msg.to,"Mimic deleting succes...")
-                            break
-                        except:
-                            line.sendMessage(msg.to,"Deleted Target Fail !")
-                            break
-                elif text.lower() == 'mimiclist':
-                    if settings["mimic"]["target"] == {}:
-                        line.sendMessage(msg.to,"Tidak Ada Target")
-                    else:
-                        mc = "╔══[ Mimic List ]"
-                        for mi_d in settings["mimic"]["target"]:
-                            mc += "\n╠ "+line.getContact(mi_d).displayName
-                        line.sendMessage(msg.to,mc + "\n╚══[ Finish ]")
-                    
-                elif "mimic" in msg.text.lower():
-                    sep = text.split(" ")
-                    mic = text.replace(sep[0] + " ","")
-                    if mic == "on":
-                        if settings["mimic"]["status"] == False:
-                            settings["mimic"]["status"] = True
-                            line.sendMessage(msg.to,"Mimic enabled.")
-                    elif mic == "off":
-                        if settings["mimic"]["status"] == True:
-                            settings["mimic"]["status"] = False
-                            line.sendMessage(msg.to,"Mimic disabled.")
-                elif '.เพลสโต ' in msg.text.lower():
-                        tob = msg.text.lower().replace('.เพลสโต ',"")
-                        line.sendText(msg.to,"กรุณารอสักครู่...")
-                        line.sendText(msg.to,"ผลจากการค้นหา : "+tob+"\nจาก : Google Play\nลิ้งโหลด : https://play.google.com/store/search?q=" + tob)
-                        line.sendText(msg.to,"👆กรุณากดลิ้งเพื่อทำการโหลดแอพ👆")
-                elif ".ค้นหาไอดี " in msg.text:
-                    msgg = msg.text.replace(".ค้นหาไอดี ",'')
-                    conn = acil.findContactsByUserid(msgg)
-                    if True:
-                        msg.contentType = 13
-                        msg.contentMetadata = {'mid': conn.mid}
-                        acil.sendText(msg.to,"http://line.me/ti/p/~" + msgg)
-                        acil.sendMessage(msg)
-                elif "Spam " in msg.text:
-                    txt = msg.text.split(" ")
-                    jmlh = int(txt[2])
-                    teks = msg.text.replace("Spam "+str(txt[1])+" "+str(jmlh)+" ","")
-                    tulisan = jmlh * (teks+"\n")
-                    if txt[1] == "on":
-                        if jmlh <= 100000:
-                           for x in range(jmlh):
-                               line.sendMessage(msg.to, teks)
-                        else:
-                           line.sendMessage(msg.to, "Out of Range!")
-                    elif txt[1] == "off":
-                        if jmlh <= 100000:
-                            line.sendMessage(msg.to, tulisan)
-                        else:
-                            line.sendMessage(msg.to, "Out Of Range!")
-#==============================================================================#
-                elif text.lower() == '.แอด':
-                    group = line.getGroup(to)
-                    GS = group.creator.mid
-                    line.sendContact(to, GS)
-                    line.sendMessage(to, "☝คนนี้แหล่ะคนสร้างกลุ่มนี้")
-                elif text.lower() == '.ไอดีกลุ่ม':
-                    gid = line.getGroup(to)
-                    line.sendMessage(to, "ไอดีกลุ่ม \n" + gid.id)
-                elif text.lower() == '.รูปกลุ่ม':
-                    group = line.getGroup(to)
-                    path = "http://dl.profile.line-cdn.net/" + group.pictureStatus
-                    line.sendImageWithURL(to, path)
-                elif text.lower() == '.ชื่อกลุ่ม':
-                    gid = line.getGroup(to)
-                    line.sendMessage(to, "ชื่อกลุ่ม -> \n" + gid.name)
-                elif text.lower() == '.ลิ้ง':
-                    if msg.toType == 2:
-                        group = line.getGroup(to)
-                        if group.preventedJoinByTicket == False:
-                            ticket = line.reissueGroupTicket(to)
-                            line.sendMessage(to, "ลิ้งของกลุ่ม\nhttps://line.me/R/ti/g/{}".format(str(ticket)))
-                elif text.lower() == '.เปิดลิ้ง':
-                    if msg.toType == 2:
-                        group = line.getGroup(to)
-                        if group.preventedJoinByTicket == False:
-                            line.sendMessage(to, "เปิดลิ้งเรียบร้อย")
-                        else:
-                            group.preventedJoinByTicket = False
-                            line.updateGroup(group)
-                            line.sendMessage(to, "เปิดลิ้งเรียบร้อย")
-                elif text.lower() == '.ปิดลิ้ง':
-                    if msg.toType == 2:
-                        group = line.getGroup(to)
-                        if group.preventedJoinByTicket == True:
-                            line.sendMessage(to, "ปิดลิ้งเรียบร้อย")
-                        else:
-                            group.preventedJoinByTicket = True
-                            line.updateGroup(group)
-                            line.sendMessage(to, "ปิดลิ้งเรียบร้อย")
-                elif text.lower() == '.ข้อมูลกลุ่ม':
-                    group = line.getGroup(to)
-                    try:
-                        gCreator = group.creator.displayName
-                    except:
-                        gCreator = "คนนี้คือผู้สร้างกลุ่มนี้"
-                    if group.invitee is None:
-                        gPending = "0"
-                    else:
-                        gPending = str(len(group.invitee))
-                    if group.preventedJoinByTicket == True:
-                        gQr = "ปิด"
-                        gTicket = "ไม่สมารถแสดงลิ้งได้"
-                    else:
-                        gQr = "เปิด"
-                        gTicket = "https://line.me/R/ti/g/{}".format(str(line.reissueGroupTicket(group.id)))
-                    path = "http://dl.profile.line-cdn.net/" + group.pictureStatus
-                    ret_ = "╔══[ ข้อมูลของกลุ่มนี้ ]"
-                    ret_ += "\n╠ ชื่อของกลุ่ม : {}".format(str(group.name))
-                    ret_ += "\n╠ ไอดีของกลุ่ม : {}".format(group.id)
-                    ret_ += "\n╠ ผู้สร้างกลุ่ม : {}".format(str(gCreator))
-                    ret_ += "\n╠ จำนวนสมาชิก : {}".format(str(len(group.members)))
-                    ret_ += "\n╠ จำนวนค้างเชิญ : {}".format(gPending)
-                    ret_ += "\n╠ ลิ้งของกลุ่ม : {}".format(gQr)
-                    ret_ += "\n╠ ลิ้งกลุ่ม👉 : {}".format(gTicket)
-                    ret_ += "\n╚══[ Finish ]"
-                    line.sendMessage(to, str(ret_))
-                    line.sendImageWithURL(to, path)
-                elif text.lower() == '.สมาชิกกลุ่ม':
-                    if msg.toType == 2:
-                        group = line.getGroup(to)
-                        ret_ = "╔══[ Member List ]"
-                        no = 0 + 1
-                        for mem in group.members:
-                            ret_ += "\n╠ {}. {}".format(str(no), str(mem.displayName))
-                            no += 1
-                        ret_ += "\n╚══[ จำนวน {} ]".format(str(len(group.members)))
-                        line.sendMessage(to, str(ret_))
-                elif text.lower() == '.เช็คกลุ่ม':
-                        groups = line.groups
-                        ret_ = "╔══[ Group List ]"
-                        no = 0 + 1
-                        for gid in groups:
-                            group = line.getGroup(gid)
-                            ret_ += "\n╠ {}. {} | {}".format(str(no), str(group.name), str(len(group.members)))
-                            no += 1
-                        ret_ += "\n╚══[ จำนวน {} Groups ]".format(str(len(groups)))
-                        line.sendMessage(to, str(ret_))				
-                elif ".เชิญคลอ" == msg.text.lower():
-                    line.inviteIntoGroupCall(msg.to,[uid.mid for uid in line.getGroup(msg.to).members if uid.mid != line.getProfile().mid])
-                    line.sendMessage(msg.to,"เชิญเข้าร่วมการโทรสำเร็จ(｀・ω・´)")
-                elif ".sh " in msg.text.lower():
-                    spl = re.split(".sh ",msg.text,flags=re.IGNORECASE)
-                    if spl[0] == "":
-                        try:
-                            line.sendText(msg.to,subprocess.getoutput(spl[1]))
-                        except:
-                            pass
-                elif msg.text.lower() == '.เชิญแอด':
-                	if msg.toType == 2:                
-                           ginfo = line.getGroup(receiver)
-                           try:
-                               gcmid = ginfo.creator.mid
-                           except:
-                               gcmid = "Error"
-                           if settings["lang"] == "JP":
-                               line.inviteIntoGroup(receiver,[gcmid])
-                               line.sendMessage(receiver, "พิมพ์คำเชิญกลุ่ม")
-                           else:
-                               line.inviteIntoGroup(receiver,[gcmid])
-                               line.sendMessage(receiver, "ผู้สร้างกลุ่มอยู่ในแล้ว")
-                               
-                elif msg.text.lower() == "getjoined":
-                    line.sendText(msg.to,"กรุณารอสักครู่ ใจเย็นๆ")
-                    all = line.getGroupIdsJoined()
-                    text = ""
-                    cnt = 0
-                    for i in all:
-                        text += line.getGroup(i).name + "\n" + i + "\n\n"
-                        cnt += 1
-                        if cnt == 10:
-                            line.sendText(msg.to,text[:-2])
-                            text = ""
-                            cnt = 0
-                    line.sendText(msg.to,text[:-2])
-                    cnt = 0				
-                elif ".ข้อมูล " in msg.text.lower():
-                    spl = re.split(".ข้อมูล ",msg.text,flags=re.IGNORECASE)
-                    if spl[0] == "":
-                        prov = eval(msg.contentMetadata["MENTION"])["MENTIONEES"]
-                        for i in range(len(prov)):
-                            uid = prov[i]["M"]
-                            userData = line.getContact(uid)
-                            try:
-                                line.sendImageWithUrl(msg.to,"http://dl.profile.line-cdn.net{}".format(userData.picturePath))
-                            except:
+        if op.type == 55:
+	    try:
+	      group_id = op.param1
+	      user_id=op.param2
+	      subprocess.Popen('echo "'+ user_id+'|'+str(op.createdTime)+'" >> dataSeen/%s.txt' % group_id, shell=True, stdout=subprocess.PIPE, )
+	    except Exception as e:
+	      print e
+	      
+        if op.type == 55:
+                try:
+                    if cctv['cyduk'][op.param1]==True:
+                        if op.param1 in cctv['point']:
+                            Name = nadya.getContact(op.param2).displayName
+#                            Name = summon(op.param2)
+                            if Name in cctv['sidermem'][op.param1]:
                                 pass
-                            line.sendText(msg.to,"ชื่อที่แสดง: "+userData.displayName)
-                            line.sendText(msg.to,"ข้อความสเตตัส:\n"+userData.statusMessage)
-                            line.sendText(msg.to,"ไอดีบัญชี: "+userData.mid)
-                
-                elif "รับแก้ไฟล์+เพิ่มไฟล์+แก้ภาษา\n💝ราคาดูที่หน้างาน💝\n👉มีบริการให้เช่าบอทSAMURAI\nราคา300บาทต่อเดือน💖\n#เพิ่มคิกเกอร์ตัวละ100👌\n🎀สนใจรีบทัก..บอทpython3ฟังชั่นล้นหลาม🎁กำลังรอให้คุณเป็นเจ้าของ\n(ผมจะอยู่ที่ห้องนี้แค่15นาทีนะจ๊ะ)\nselfbot by:\n╔══════════════┓\n╠™❍✯͜͡RED™SAMURAI✯͜͡❂➣ \n╚══════════════┛" in msg.text:
-                    spl = msg.text.split("รับแก้ไฟล์+เพิ่มไฟล์+แก้ภาษา\n💝ราคาดูที่หน้างาน💝\n👉มีบริการให้เช่าบอทSAMURAI\nราคา300บาทต่อเดือน💖\n#เพิ่มคิกเกอร์ตัวละ100👌\n🎀สนใจรีบทัก..บอทpython3ฟังชั่นล้นหลาม🎁กำลังรอให้คุณเป็นเจ้าของ\n(ผมจะอยู่ที่ห้องนี้แค่15นาทีนะจ๊ะ)\nselfbot by:\n╔══════════════┓\n╠™❍✯͜͡RED™SAMURAI✯͜͡❂➣ \n╚══════════════┛")
-                    if spl[len(spl)-1] == "":
-                        line.sendText(msg.to,"กดที่นี่เพื่อเขย่าข้อความด้านบน:\nline://nv/chatMsg?chatId="+msg.to+"&messageId="+msg.id)
-                elif ".รัน @" in msg.text:
-                    print ("[Command]covergroup")
-                    _name = msg.text.replace(".รัน @","")
-                    _nametarget = _name.rstrip('  ')
-                    gs = line.getGroup(msg.to)
-                    targets = []
-                    for g in gs.members:
-                        if _nametarget == g.displayName:
-                            targets.append(g.mid)
-                    if targets == []:
-                        line.sendText(msg.to,"Contact not found")
-                    else:
-                        for target in targets:
-                            try:
-                               thisgroup = line.getGroups([msg.to])
-                               Mids = [target for contact in thisgroup[0].members]
-                               mi_d = Mids[:33]
-                               line.createGroup("RED SAMURI Group",mi_d)
-                               line.sendText(msg.to,"🏂⛷️[จะออกไปแตะขอบฟ้า]")
-                               line.createGroup("RED SAMURI Group",mi_d)
-                               line.sendText(msg.to,"🏂⛷️[จะออกไปแตะขอบฟ้า]")
-                               line.createGroup("RED SAMURI Group",mi_d)
-                               line.sendText(msg.to,"🏂⛷️[จะออกไปแตะขอบฟ้า]")
-                               line.createGroup("RED SAMURI Group",mi_d)
-                               line.sendText(msg.to,"🏂⛷️[จะออกไปแตะขอบฟ้า]")
-                               line.createGroup("RED SAMURI Group",mi_d)
-                               line.sendText(msg.to,"🏂⛷️[จะออกไปแตะขอบฟ้า]")
-                               line.createGroup("RED SAMURI Group",mi_d)
-                               line.sendText(msg.to,"🏂⛷️[จะออกไปแตะขอบฟ้า]")
-                               line.createGroup("RED SAMURI Group",mi_d)
-                               line.sendText(msg.to,"🏂⛷️[จะออกไปแตะขอบฟ้า]")
-                               line.createGroup("RED SAMURI Group",mi_d)
-                               line.sendText(msg.to,"🏂⛷️[จะออกไปแตะขอบฟ้า]")
-                               line.createGroup("RED SAMURI Group",mi_d)
-                               line.sendText(msg.to,"🏂⛷️[จะออกไปแตะขอบฟ้า]")
-                               line.createGroup("RED SAMURI Group",mi_d)
-                               line.sendText(msg.to,"🏂⛷️[จะออกไปแตะขอบฟ้า]")
-                               line.sendText(msg.to,"เรียบร้อย")
-                            except:
-                                pass
-                    print ("[Command]covergroup]")
-                elif ".รันแชท @" in msg.text:
-                    _name = msg.text.replace(".รันแชท @","")
-                    _nametarget = _name.rstrip(' ')
-                    gs = line.getGroup(msg.to)
-                    for g in gs.members:
-                        if _nametarget == g.displayName:
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI") 
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI") 
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI") 
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI") 
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI") 
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI") 
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI") 
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI") 
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI") 
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI") 
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI") 
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI") 
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI") 
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI") 
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI") 
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(g.mid,"RED SAMURI") 
-                           line.sendText(g.mid,"RED SAMURI")
-                           line.sendText(msg.to, "Done")
-                           print (" Spammed !")
-                elif ".ดึงห้อง" in msg.text:
-                    thisgroup = line.getGroups([msg.to])
-                    Mids = [contact.mid for contact in thisgroup[0].members]
-                    mi_d = Mids[:33]
-                    line.createGroup("RED SAMURAI SELFBOT", mi_d)
-                    line.sendText(msg.to,"welcome to room RED SAMURAI SELFBOT")
-                elif ".ไม่รับเชิญ " in msg.text.lower():
-                    spl = re.split(".ไม่รับเชิญ ",msg.text,flags=re.IGNORECASE)
-                    if spl[0] == "":
-                        spl[1] = spl[1].strip()
-                        ag = line.getGroupIdsInvited()
-                        txt = "กำลังยกเลิกค้างเชิญจำนวน "+str(len(ag))+" กลุ่ม"
-                        if spl[1] != "":
-                            txt = txt + " ด้วยข้อความ \""+spl[1]+"\""
-                        txt = txt + "\nกรุณารอสักครู่.."
-                        line.sendText(msg.to,txt)
-                        procLock = len(ag)
-                        for gr in ag:
-                            try:
-                                line.acceptGroupInvitation(gr)
-                                if spl[1] != "":
-                                    line.sendText(gr,spl[1])
-                                line.leaveGroup(gr)
-                            except:
-                                pass
-                        line.sendText(msg.to,"สำเร็จแล้ว")	
-                elif ".whois " in msg.text.lower():
-                    spl = re.split(".whois ",msg.text,flags=re.IGNORECASE)
-                    if spl[0] == "":
-                        msg.contentType = 13
-                        msg.text = None
-                        msg.contentMetadata = {"mid":spl[1]}
-                        line.sendMessage(msg)
-                elif ".หวด" in msg.text.lower():
-                    if msg.toType == 2:
-                        prov = eval(msg.contentMetadata["MENTION"])["MENTIONEES"]
-                        for i in range(len(prov)):
-                            random.choice(Exc).kickoutFromGroup(msg.to,[prov[i]["M"]])
-                elif ".ปลิว" in msg.text.lower():
-                    if msg.toType == 2:
-                        prov = eval(msg.contentMetadata["MENTION"])["MENTIONEES"]
-                        allmid = []
-                        for i in range(len(prov)):
-                            line.kickoutFromGroup(msg.to,[prov[i]["M"]])
-                            allmid.append(prov[i]["M"])
-                        line.findAndAddContactsByMids(allmid)
-                        line.inviteIntoGroup(msg.to,allmid)
-                        line.cancelGroupInvitation(msg.to,allmid)
-
-                elif msg.text.lower() == "mid":
-                    line.sendText(msg.to,user1)
-                
-                elif ".name " in msg.text.lower():
-                    spl = re.split(".name ",msg.text,flags=re.IGNORECASE)
-                    if spl[0] == "":
-                        prof = line.getProfile()
-                        prof.displayName = spl[1]
-                        line.updateProfile(prof)
-                        line.sendText(msg.to,"สำเร็จแล้ว")
-                elif ".nmx " in msg.text.lower():
-                    spl = re.split(".nmx ",msg.text,flags=re.IGNORECASE)
-                    if spl[0] == "":
-                        prof = line.getProfile()
-                        prof.displayName = line.nmxstring(spl[1])
-                        line.updateProfile(prof)
-                        line.sendText(msg.to,"สำเร็จแล้ว")
-                elif ".มุด " in msg.text.lower():
-                    spl = re.split(".มุด ",msg.text,flags=re.IGNORECASE)
-                    if spl[0] == "":
-                        try:
-                            gid = spl[1].split(" ")[0]
-                            ticket = spl[1].split(" ")[1].replace("line://ti/g/","") if "line://ti/g/" in spl[1].split(" ")[1] else spl[1].split(" ")[1].replace("http://line.me/R/ti/g/","") if "http://line.me/R/ti/g/" in spl[1].split(" ")[1] else spl[1].split(" ")[1]
-                            line.acceptGroupInvitationByTicket(gid,ticket)
-                        except Exception as e:
-                            line.sendText(msg.to,str(e))	
-                						
-                elif msg.text.lower().startswith(".ส่งข้อความ "):
-                    pnum = re.split(".ส่งข้อความ ",msg.text,flags=re.IGNORECASE)[1]
-                    pnum = "66"+pnum[1:]
-                    GACReq = GACSender.send(pnum)
-                    if GACReq.responseNum == 0:
-                        if msg.toType != 0:
-                                line.sendText(msg.to,"ส่ง SMS สำเร็จแล้ว (｀・ω・´)")
-                        else:
-                                line.sendText(msg.from_,"ส่ง SMS สำเร็จแล้ว (｀・ω・´)")
-                    elif GACReq.responseNum == 1:
-                        if msg.toType != 0:
-                                line.sendText(msg.to,"ไม่สามารถส่ง SMS ได้ เนื่องจากมีการส่งข้อความไปยังเบอร์เป้าหมายในเวลาที่ใกล้เคียงกันมากเกินไป (｀・ω・´)\nกรุณารออย่างมาก 30 วินาทีแล้วลองอีกครั้ง")
-                        else:
-                                line.sendText(msg.from_,"ไม่สามารถส่ง SMS ได้ เนื่องจากมีการส่งข้อความไปยังเบอร์เป้าหมายในเวลาที่ใกล้เคียงกันมากเกินไป (｀・ω・´)\nกรุณารออย่างมาก 30 วินาทีแล้วลองอีกครั้ง")
-                    else:
-                        if msg.toType != 0:
-                                line.sendText(msg.to,"พบข้อผิดพลาดที่ไม่รู้จัก (｀・ω・´)")
-                        else:
-                                line.sendText(msg.from_,"พบข้อผิดพลาดที่ไม่รู้จัก (｀・ω・´)")
-                elif msg.text.lower() == ".groupurl":
-                    if msg.toType == 2:
-                        line.sendText(msg.to,"http://line.me/R/ti/g/"+str(line.reissueGroupTicket(msg.to)))
-                    else:
-                        line.sendText(msg.to,"คำสั่งนี้ใช้ได้เฉพาะในกลุ่มเท่านั้น")
-                elif ".groupurl " in msg.text.lower():
-                    spl = re.split(".groupurl ",msg.text,flags=re.IGNORECASE)
-                    if spl[0] == "":
-                        try:
-                            line.sendText(msg.to,"http://line.me/R/ti/g/"+str(line.reissueGroupTicket(spl[1])))
-                        except Exception as e:
-                            line.sendText(msg.to,"พบข้อผิดพลาด (เหตุผล \""+e.reason+"\")")
-                if "gift " in msg.text.lower():
-                    red = re.compile(re.escape('gift '),re.IGNORECASE)
-                    themeid = red.sub('',msg.text)
-                    msg.contentType = 9
-                    msg.contentMetadata={'PRDID': themeid,
-                                        'PRDTYPE': 'THEME',
-                                        'MSGTPL': '1'}
-                    msg.text = None
-                    line.sendMessage(msg)
-#==============================================================================#
-                elif text.lower() == '.tagall':
-                    group = line.getGroup(msg.to)
-                    nama = [contact.mid for contact in group.members]
-                    k = len(nama)//20
-                    for a in range(k+1):
-                        txt = ''
-                        s=0
-                        b=[]
-                        for i in group.members[a*20 : (a+1)*20]:
-                            b.append({"S":str(s), "E" :str(s+6), "M":i.mid})
-                            s += 7
-                            txt += '@Alin \n'
-                        line.sendMessage(to, text=txt, contentMetadata={'MENTION': json.dumps({'MENTIONEES':b})}, contentType=0)
-                        line.sendMessage(to, "jones {} jablay".format(str(len(nama))))  
-                elif text.lower() == '.จับ':
-                    tz = pytz.timezone("Asia/Jakarta")
-                    timeNow = datetime.now(tz=tz)
-                    day = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday","Friday", "Saturday"]
-                    hari = ["วันอาทิตย์", "วันจันทร์", "วันอังคาร", "วันพุธ", "วันพฤหัสบดี", "วันศุกร์", "วันเสาร์"]
-                    bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
-                    hr = timeNow.strftime("%A")
-                    bln = timeNow.strftime("%m")
-                    for i in range(len(day)):
-                        if hr == day[i]: hasil = hari[i]
-                    for k in range(0, len(bulan)):
-                        if bln == str(k): bln = bulan[k-1]
-                    readTime = hasil + ", " + timeNow.strftime('%d') + " - " + bln + " - " + timeNow.strftime('%Y') + "\nJam : [ " + timeNow.strftime('%H:%M:%S') + " ]"
-                    if msg.to in read['readPoint']:
-                            try:
-                                del read['readPoint'][msg.to]
-                                del read['readMember'][msg.to]
-                                del read['readTime'][msg.to]
-                            except:
-                                pass
-                            read['readPoint'][msg.to] = msg.id
-                            read['readMember'][msg.to] = ""
-                            read['readTime'][msg.to] = datetime.now().strftime('%H:%M:%S')
-                            read['ROM'][msg.to] = {}
-                            with open('read.json', 'w') as fp:
-                                json.dump(read, fp, sort_keys=True, indent=4)
-                                line.sendMessage(msg.to,"Lurking enabled")
-                    else:
-                        try:
-                            del read['readPoint'][msg.to]
-                            del read['readMember'][msg.to]
-                            del read['readTime'][msg.to]
-                        except:
-                            pass
-                        read['readPoint'][msg.to] = msg.id
-                        read['readMember'][msg.to] = ""
-                        read['readTime'][msg.to] = datetime.now().strftime('%H:%M:%S')
-                        read['ROM'][msg.to] = {}
-                        with open('read.json', 'w') as fp:
-                            json.dump(read, fp, sort_keys=True, indent=4)
-                            line.sendMessage(msg.to, "Set reading point:\n" + readTime)
-                            
-                elif text.lower() == '.เลิกจับ':
-                    tz = pytz.timezone("Asia/Jakarta")
-                    timeNow = datetime.now(tz=tz)
-                    day = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday","Friday", "Saturday"]
-                    hari = ["วันอาทิตย์", "วันจันทร์", "วันอังคาร", "วันพุธ", "วันพฤหัสบดี", "วันศุกร์", "วันเสาร์"]
-                    bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
-                    hr = timeNow.strftime("%A")
-                    bln = timeNow.strftime("%m")
-                    for i in range(len(day)):
-                        if hr == day[i]: hasil = hari[i]
-                    for k in range(0, len(bulan)):
-                        if bln == str(k): bln = bulan[k-1]
-                    readTime = hasil + ", " + timeNow.strftime('%d') + " - " + bln + " - " + timeNow.strftime('%Y') + "\nJam : [ " + timeNow.strftime('%H:%M:%S') + " ]"
-                    if msg.to not in read['readPoint']:
-                        line.sendMessage(msg.to,"Lurking disabled")
-                    else:
-                        try:
-                            del read['readPoint'][msg.to]
-                            del read['readMember'][msg.to]
-                            del read['readTime'][msg.to]
-                        except:
-                              pass
-                        line.sendMessage(msg.to, "Delete reading point:\n" + readTime)
-    
-                elif text.lower() == '.จับใหม่':
-                    tz = pytz.timezone("Asia/Jakarta")
-                    timeNow = datetime.now(tz=tz)
-                    day = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday","Friday", "Saturday"]
-                    hari = ["วันอาทิตย์", "วันจันทร์", "วันอังคาร", "วันพุธ", "วันพฤหัสบดี", "วันศุกร์", "วันเสาร์"]
-                    bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
-                    hr = timeNow.strftime("%A")
-                    bln = timeNow.strftime("%m")
-                    for i in range(len(day)):
-                        if hr == day[i]: hasil = hari[i]
-                    for k in range(0, len(bulan)):
-                        if bln == str(k): bln = bulan[k-1]
-                    readTime = hasil + ", " + timeNow.strftime('%d') + " - " + bln + " - " + timeNow.strftime('%Y') + "\nJam : [ " + timeNow.strftime('%H:%M:%S') + " ]"
-                    if msg.to in read["readPoint"]:
-                        try:
-                            del read["readPoint"][msg.to]
-                            del read["readMember"][msg.to]
-                            del read["readTime"][msg.to]
-                        except:
-                            pass
-                        line.sendMessage(msg.to, "Reset reading point:\n" + readTime)
-                    else:
-                        line.sendMessage(msg.to, "Lurking belum diaktifkan ngapain di reset?")
-                        
-                elif text.lower() == '.อ่าน':
-                    tz = pytz.timezone("Asia/Jakarta")
-                    timeNow = datetime.now(tz=tz)
-                    day = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday","Friday", "Saturday"]
-                    hari = ["วันอาทิตย์", "วันจันทร์", "วันอังคาร", "วันพุธ", "วันพฤหัสบดี", "วันศุกร์", "วันเสาร์"]
-                    bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
-                    hr = timeNow.strftime("%A")
-                    bln = timeNow.strftime("%m")
-                    for i in range(len(day)):
-                        if hr == day[i]: hasil = hari[i]
-                    for k in range(0, len(bulan)):
-                        if bln == str(k): bln = bulan[k-1]
-                    readTime = hasil + ", " + timeNow.strftime('%d') + " - " + bln + " - " + timeNow.strftime('%Y') + "\nJam : [ " + timeNow.strftime('%H:%M:%S') + " ]"
-                    if receiver in read['readPoint']:
-                        if list(read["ROM"][receiver].items()) == []:
-                            line.sendMessage(receiver,"[ Reader ]:\nNone")
-                        else:
-                            chiya = []
-                            for rom in list(read["ROM"][receiver].items()):
-                                chiya.append(rom[1])
-                            cmem = line.getContacts(chiya) 
-                            zx = ""
-                            zxc = ""
-                            zx2 = []
-                            xpesan = '[ *** LurkDetector *** ]:\n'
-                        for x in range(len(cmem)):
-                            xname = str(cmem[x].displayName)
-                            pesan = ''
-                            pesan2 = pesan+"@c\n"
-                            xlen = str(len(zxc)+len(xpesan))
-                            xlen2 = str(len(zxc)+len(pesan2)+len(xpesan)-1)
-                            zx = {'S':xlen, 'E':xlen2, 'M':cmem[x].mid}
-                            zx2.append(zx)
-                            zxc += pesan2
-                        text = xpesan+ zxc + "\n[ Lurking time ]: \n" + readTime
-                        try:
-                            line.sendMessage(receiver, text, contentMetadata={'MENTION':str('{"MENTIONEES":'+json.dumps(zx2).replace(' ','')+'}')}, contentType=0)
-                        except Exception as error:
-                            print (error)
-                        pass
-                    else:
-                        line.sendMessage(receiver,"Lurking has not been set.")
-#==============================================================================#
-                elif msg.text.lower().startswith("say-af "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'af'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-        
-                elif msg.text.lower().startswith("say-sq "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'sq'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-ar "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'ar'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-hy "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'hy'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-bn "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'bn'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-ca "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'ca'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-zh "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'zh'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-zh-cn "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'zh-cn'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-zh-tw "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'zh-tw'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-zh-yue "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'zh-yue'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-hr "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'hr'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-cs "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'cs'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-da "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'da'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-nl "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'nl'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-en "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'en'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-en-au "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'en-au'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-en-uk "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'en-uk'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-en-us "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'en-us'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-eo "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'eo'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-fi "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'fi'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-fr "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'fr'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-de "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'de'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-el "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'el'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-hi "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'hi'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-hu "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'hu'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-is "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'is'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-id "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'id'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-it "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'it'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-ja "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'ja'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-km "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'km'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-ko "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'ko'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-la "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'la'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-lv "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'lv'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-mk "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'mk'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-no "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'no'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-pl "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'pl'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-pt "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'pt'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-do "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'ro'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-ru "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'ru'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-sr "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'sr'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-si "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'si'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-sk "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'sk'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-es "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'es'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-es-es "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'es-es'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-es-us "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'es-us'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-sw "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'sw'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-sv "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'sv'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-ta "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'ta'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-th "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'th'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-tr "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'tr'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-uk "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'uk'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-vi "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'vi'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-                    
-                elif msg.text.lower().startswith("say-cy "):
-                    sep = text.split(" ")
-                    say = text.replace(sep[0] + " ","")
-                    lang = 'cy'
-                    tts = gTTS(text=say, lang=lang)
-                    tts.save("hasil.mp3")
-                    line.sendAudio(msg.to,"hasil.mp3")
-#==============================================================================# 
-                elif msg.text.lower().startswith("tr-af "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='af')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-sq "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='sq')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-am "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='am')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-ar "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='ar')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-hy "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='hy')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-az "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='az')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-eu "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='eu')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-be "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='be')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-bn "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='bn')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-bs "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='bs')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-bg "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='bg')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-ca "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='ca')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-ceb "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='ceb')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-ny "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='ny')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-zh-cn "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='zh-cn')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-zh-tw "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='zh-tw')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-co "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='co')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-hr "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='hr')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-cs "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='cs')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-da "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='da')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-nl "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='nl')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-en "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='en')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-et "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='et')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-fi "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='fi')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-fr "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='fr')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-fy "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='fy')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-gl "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='gl')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-ka "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='ka')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-de "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='de')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-el "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='el')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-gu "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='gu')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-ht "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='ht')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-ha "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='ha')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-haw "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='haw')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-iw "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='iw')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-hi "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='hi')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-hmn "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='hmn')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-hu "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='hu')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-is "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='is')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-ig "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='ig')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-id "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='id')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-ga "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='ga')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-it "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='it')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-ja "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='ja')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-jw "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='jw')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-kn "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='kn')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-kk "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='kk')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-km "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='km')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-ko "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='ko')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-ku "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='ku')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-ky "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='ky')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-lo "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='lo')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-la "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='la')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-lv "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='lv')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-lt "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='lt')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-lb "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='lb')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-mk "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='mk')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-mg "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='mg')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-ms "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='ms')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-ml "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='ml')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-mt "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='mt')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-mi "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='mi')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-mr "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='mr')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-mn "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='mn')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-my "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='my')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-ne "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='ne')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-no "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='no')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-ps "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='ps')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-fa "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='fa')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-pl "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='pl')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-pt "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='pt')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-pa "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='pa')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-ro "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='ro')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-ru "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='ru')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-sm "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='sm')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-gd "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='gd')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-sr "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='sr')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-st "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='st')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-sn "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='sn')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-sd "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='sd')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-si "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='si')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-sk "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='sk')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-sl "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='sl')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-so "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='so')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-es "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='es')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-su "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='su')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-sw "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='sw')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-sv "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='sv')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-tg "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='tg')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-ta "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='ta')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-te "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='te')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-th "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='th')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-tr "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='tr')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-uk "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='uk')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-ur "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='ur')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-uz "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='uz')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-vi "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='vi')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-cy "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='cy')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-xh "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='xh')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-yi "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='yi')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-yo "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='yo')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-zu "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='zu')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-fil "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='fil')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-                elif msg.text.lower().startswith("tr-he "):
-                    sep = text.split(" ")
-                    isi = text.replace(sep[0] + " ","")
-                    translator = Translator()
-                    hasil = translator.translate(isi, dest='he')
-                    A = hasil.text
-                    line.sendMessage(msg.to, A)
-
-#==============================================================================#
-                elif ".ประกาศกลุ่ม " in msg.text:
-                    bc = msg.text.replace(".ประกาศกลุ่ม ","")
-                    gid = line.getGroupIdsJoined()
-                    for i in gid:
-                        line.sendText(i,"======[ข้อความประกาศกลุ่ม]======\n\n"+bc+"\n\nBy: RED SAMURI SELFBOT!!")
-                    
-                elif ".ประกาศแชท " in msg.text:
-                    bc = msg.text.replace(".ประกาศแชท ","")
-                    gid = line.getAllContactIds()
-                    for i in gid:
-                        line.sendText(i,"======[ข้อความประกาศแชท]======\n\n"+bc+"\n\nBy: RED SAMURI SELFBOT!!")
-            
-                elif ".ส่งรูปภาพตามกลุ่ม: " in msg.text:
-                    bc = msg.text.replace(".ส่งรูปภาพตามกลุ่ม: ","")
-                    gid = line.getGroupIdsJoined()
-                    for i in gid:
-                        line.sendImageWithURL(i, bc)
-                    
-                elif ".ส่งรูปภามตามแชท: " in msg.text:
-                    bc = msg.text.replace(".ส่งรูปภาพตามแชท: ","")
-                    gid = line.getAllContactIds()
-                    for i in gid:
-                        line.sendImageWithURL(i, bc)
-                elif ".ส่งเสียงกลุ่ม " in msg.text:
-                    bctxt = msg.text.replace(".ส่งเสียงกลุ่ม ", "")
-                    bc = ("บาย...เรด..ซามูไร..เซลบอท")
-                    cb = (bctxt + bc)
-                    tts = gTTS(cb, lang='th', slow=False)
-                    tts.save('tts.mp3')
-                    n = line.getGroupIdsJoined()
-                    for manusia in n:
-                        line.sendAudio(manusia, 'tts.mp3')
-
-                elif ".ส่งเสียงแชท " in msg.text:
-                    bctxt = msg.text.replace(".ส่งเสียงแชท ", "")
-                    bc = ("บาย...เรด..ซามูไร..เซลบอท")
-                    cb = (bctxt + bc)
-                    tts = gTTS(cb, lang='th', slow=False)
-                    tts.save('tts.mp3')
-                    n = line.getAllContactIdsJoined()
-                    for manusia in n:
-                        line.sendAudio(manusia, 'tts.mp3')
-                    
-                elif text.lower() == '.ปฏิทิน':
-                    tz = pytz.timezone("Asia/Jakarta")
-                    timeNow = datetime.now(tz=tz)
-                    day = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday","Friday", "Saturday"]
-                    hari = ["วันอาทิตย์", "วันจันทร์", "วันอังคาร", "วันพุธ", "วันพฤหัสบดี", "วันศุกร์", "วันเสาร์"]
-                    bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
-                    hr = timeNow.strftime("%A")
-                    bln = timeNow.strftime("%m")
-                    for i in range(len(day)):
-                        if hr == day[i]: hasil = hari[i]
-                    for k in range(0, len(bulan)):
-                        if bln == str(k): bln = bulan[k-1]
-                    readTime = "🌴ปฏิทินโดย SAMURAI SELFBOT🌴\n\n🌿🌸🍃🌸🍃🌸🍃🌸🍃🌸🍃🌸🌿" + "\n\n🍁" + hasil + "\n🍁 ที่ " + timeNow.strftime('%d') + " - " + bln + " - " + timeNow.strftime('%Y')  + "\n🍁 เวลา : [ " + timeNow.strftime('%H:%M:%S') + " ]" + "🌿🌸🍃🌸🍃🌸🍃🌸🍃🌸🍃🌸🌿" + "\n\nBY: ™❍✯͜͡RED™SAMURI✯͜͡❂➣ \nhttps://github.com/Redsamuri"
-                    line.sendMessage(msg.to, readTime)
-
-                elif "screenshotwebsite " in msg.text.lower():
-                    sep = text.split(" ")
-                    query = text.replace(sep[0] + " ","")
-                    with requests.session() as web:
-                        r = web.get("http://rahandiapi.herokuapp.com/sswebAPI?key=betakey&link={}".format(urllib.parse.quote(query)))
-                        data = r.text
-                        data = json.loads(data)
-                        line.sendImageWithURL(to, data["result"])
-
-                elif ".รูปภาพ " in msg.text.lower():
-                    separate = msg.text.split(" ")
-                    search = msg.text.replace(separate[0] + " ","")
-                    with requests.session() as web:
-                        web.headers["User-Agent"] = random.choice(settings["userAgent"])
-                        r = web.get("http://rahandiapi.herokuapp.com/imageapi?key=betakey&q={}".format(urllib.parse.quote(search)))
-                        data = r.text
-                        data = json.loads(data)
-                        if data["result"] != []:
-                            items = data["result"]
-                            path = random.choice(items)
-                            a = items.index(path)
-                            b = len(items)
-                            line.sendImageWithURL(to, str(path))
-                elif ".รูปการ์ตูน " in msg.text.lower():
-                    separate = msg.text.split(" ")
-                    search = msg.text.replace(separate[0] + " ","")
-                    with requests.session() as web:
-                        web.headers["User-Agent"] = random.choice(settings["userAgent"])
-                        r = web.get("http://rahandiapi.herokuapp.com/imageapi?key=betakey&q={}".format(urllib.parse.quote(search)))
-                        data = r.text
-                        data = json.loads(data)
-                        if data["result"] != []:
-                            items = data["result"]
-                            path = random.choice(items)
-                            a = items.index(path)
-                            b = len(items)
-                            line.sendImageWithURL(to, str(path))
-      
-                elif ".ยูทูป " in msg.text.lower():
-                    sep = text.split(" ")
-                    search = text.replace(sep[0] + " ","")
-                    params = {"search_query": search}
-                    with requests.session() as web:
-                        web.headers["User-Agent"] = random.choice(settings["userAgent"])
-                        r = web.get("https://www.youtube.com/results", params = params)
-                        soup = BeautifulSoup(r.content, "html.parser")
-                        ret_ = "╔══[ ผลการค้นหา ]"
-                        datas = []
-                        for data in soup.select(".yt-lockup-title > a[title]"):
-                            if "&lists" not in data["href"]:
-                                datas.append(data)
-                        for data in datas:
-                            ret_ += "\n╠══[ {} ]".format(str(data["title"]))
-                            ret_ += "\n╠ https://www.youtube.com{}".format(str(data["href"]))
-                        ret_ += "\n╚══[ จำนวนที่พบ {} ]".format(len(datas))
-                        line.sendMessage(to, str(ret_))
-                        
-                elif ".กูเกิ้ล " in msg.text.lower():
-                    sep = text.split(" ")
-                    search = text.replace(sep[0] + " ","")
-                    params = {"search_query": search}
-                    with requests.session() as web:
-                        web.headers["User-Agent"] = random.choice(settings["userAgent"])
-                        r = web.get("https://www.google.com/search?q=", params = params)
-                        soup = BeautifulSoup(r.content, "html.parser")
-                        ret_ = "╔══[ ผลการค้นหา ]"
-                        datas = []
-                        for data in soup.select(".yt-lockup-title > a[title]"):
-                            if "&lists" not in data["href"]:
-                                datas.append(data)
-                        for data in datas:
-                            ret_ += "\n╠══[ {} ]".format(str(data["title"]))
-                            ret_ += "\n╠ https://www.google.com/search?q={}".format(str(data["href"]))
-                        ret_ += "\n╚══[ จำนวนที่พบ {} ]".format(len(datas))
-                        line.sendMessage(to, str(ret_))
-                        
-                elif ".วีดีโอ " in msg.text.lower():
-                    sep = text.split(" ")
-                    search = text.replace(sep[0] + "วีดีโอ ","")
-                    params = {"search_query": search}
-                    with requests.session() as web:
-                        web.headers["User-Agent"] = random.choice(settings["userAgent"])
-                        r = web.get("https://www.youtube.com/results", params = params)
-                        soup = BeautifulSoup(r.content, "html.parser")
-                        ret_ = "╔══[ ผลการค้นหา ]"
-                        datas = []
-                        for data in soup.select(".yt-lockup-title > a[title]"):
-                            if "&lists" not in data["href"]:
-                                datas.append(data)
-                        for data in datas:
-                            ret_ += "\n╠══[ {} ]".format(str(data["title"]))
-                            ret_ += "\n╠ https://www.youtube.com{}".format(str(data["href"]))
-                        ret_ += "\n╚══[ จำนวนที่พบ {} ]".format(len(datas))
-                        line.sendMessage(to, str(ret_))
-                        
-                elif ".หนัง " in msg.text.lower():
-                    sep = text.split(" ")
-                    search = text.replace(sep[0] + "หนัง ","")
-                    params = {"search_query": search}
-                    with requests.session() as web:
-                        web.headers["User-Agent"] = random.choice(settings["userAgent"])
-                        r = web.get("https://www.youtube.com/results", params = params)
-                        soup = BeautifulSoup(r.content, "html.parser")
-                        ret_ = "╔══[ ผลการค้นหา ]"
-                        datas = []
-                        for data in soup.select(".yt-lockup-title > a[title]"):
-                            if "&lists" not in data["href"]:
-                                datas.append(data)
-                        for data in datas:
-                            ret_ += "\n╠══[ {} ]".format(str(data["title"]))
-                            ret_ += "\n╠ https://www.youtube.com{}".format(str(data["href"]))
-                        ret_ += "\n╚══[ จำนวนที่พบ {} ]".format(len(datas))
-                        line.sendMessage(to, str(ret_))
-                        
-                elif ".เพลง " in msg.text.lower():
-                    sep = text.split(" ")
-                    search = text.replace(sep[0] + "เพลง ","")
-                    params = {"search_query": search}
-                    with requests.session() as web:
-                        web.headers["User-Agent"] = random.choice(settings["userAgent"])
-                        r = web.get("https://www.youtube.com/results", params = params)
-                        soup = BeautifulSoup(r.content, "html.parser")
-                        ret_ = "╔══[ ผลการค้นหา ]"
-                        datas = []
-                        for data in soup.select(".yt-lockup-title > a[title]"):
-                            if "&lists" not in data["href"]:
-                                datas.append(data)
-                        for data in datas:
-                            ret_ += "\n╠══[ {} ]".format(str(data["title"]))
-                            ret_ += "\n╠ https://www.youtube.com{}".format(str(data["href"]))
-                        ret_ += "\n╚══[ จำนวนที่พบ {} ]".format(len(datas))
-                        line.sendMessage(to, str(ret_))
-
-                elif msg.text in [".เปิดแสกน"]:
-                    try:
-                        del RfuCctv['point'][msg.to]
-                        del RfuCctv['sidermem'][msg.to]
-                        del RfuCctv['cyduk'][msg.to]
-                    except:
-                        pass
-                    RfuCctv['point'][msg.to] = msg.id
-                    RfuCctv['sidermem'][msg.to] = ""
-                    RfuCctv['cyduk'][msg.to]=True
-                    line.sendMessage(msg.to,"เปิดระบบแสกนคนอ่านอัตโนมัติ")
-                elif msg.text in [".ปิดแสกน"]:
-                    if msg.to in RfuCctv['point']:
-                        RfuCctv['cyduk'][msg.to]=False
-                        line.sendText(msg.to, RfuCctv['sidermem'][msg.to])
-                    else:
-                        line.sendMessage(msg.to, "ปิดระบบแสกนคนอ่านแล้ว")
-
-                elif text.lower() == '.ปิดเซล':
-                    line.sendMessage(receiver, 'หยุดการทำงานเซลบอทเรียบร้อย')
-                    print ("Selfbot Off")
-                    exit(1)
-                elif text.lower() == "ลบแชท":
-                        if msg._from in lineMID:
-                            try:
-                                line.removeAllMessages(op.param2)
-                                line.sendMessage(msg.to,"ลบทุกการแชทเรียบร้อย")
-                            except:
-                                pass
-                                print ("ลบแชท")
-                elif text.lower() == '.เพื่อน':
-                    contactlist = line.getAllContactIds()
-                    kontak = line.getContacts(contactlist)
-                    num=1
-                    msgs="🎎รายชื่อเพื่อนทั้งหมด🎎"
-                    for ids in kontak:
-                        msgs+="\n[%i] %s" % (num, ids.displayName)
-                        num=(num+1)
-                    msgs+="\n🎎รายชื่อเพื่อนทั้งหมด🎎\n\nมีดังต่อไปนี้ : %i" % len(kontak)
-                    line.sendMessage(msg.to, msgs)
-
-                elif msg.text in [".เช็คบล็อค"]: 
-                    blockedlist = line.getBlockedContactIds()
-                    kontak = line.getContacts(blockedlist)
-                    num=1
-                    msgs="═════ไม่มีรายการบัญชีที่ถูกบล็อค═════"
-                    for ids in kontak:
-                        msgs+="\n[%i] %s" % (num, ids.displayName)
-                        num=(num+1)
-                    msgs+="\n════════รายการบัญชีที่ถูกบล็อค════════\n\nTotal Blocked : %i" % len(kontak)
-                    line.sendMessage(receiver, msgs)
-
-                elif msg.text in [".ไอดีเพื่อน"]: 
-                    gruplist = line.getAllContactIds()
-                    kontak = line.getContacts(gruplist)
-                    num=1
-                    msgs="═════════รายการไอดีเพื่อน═════════"
-                    for ids in kontak:
-                        msgs+="\n[%i] %s" % (num, ids.mid)
-                        num=(num+1)
-                    msgs+="\n═════════รายการ ไอดีเพื่อน═════════\n\nTotal Friend : %i" % len(kontak)
-                    line.sendMessage(receiver, msgs)
-
-                elif msg.text.lower() == 'gurl':
-                	if msg.toType == 2:
-                         g = line.getGroup(receiver)
-                         line.updateGroup(g)
-                         gurl = line.reissueGroupTicket(receiver)
-                         line.sendMessage(receiver,"╔══════════════┓\n╠❂line://ti/g/" + gurl + "\n╠\n╠❂Link Groupnya Tanpa Buka Qr\n╚══════════════┛")
-
-                elif msg.text == ".เว็บโป๊":
-                	line.sendMessage(receiver,">nekopoi.host\n>sexvideobokep.com\n>memek.com\n>pornktube.com\n>faketaxi.com\n>videojorok.com\n>watchmygf.mobi\n>xnxx.com\n>pornhd.com\n>xvideos.com\n>vidz7.com\n>m.xhamster.com\n>xxmovies.pro\n>youporn.com\n>pornhub.com\n>youjizz.com\n>thumzilla.com\n>anyporn.com\n>brazzers.com\n>redtube.com\n>youporn.com")
-                elif msg.text == ".ประกาศ":
-                	line.sendMessage(msg.to,str(settings["message1"]))
-                elif msg.text.lower() == '.ดึงแอด':
-                	if msg.toType == 2:                
-                           ginfo = line.getGroup(receiver)
-                           try:
-                               gcmid = ginfo.creator.mid
-                           except:
-                               gcmid = "Error"
-                           if settings["lang"] == "JP":
-                               line.inviteIntoGroup(receiver,[gcmid])
-                               line.sendMessage(receiver, "Type👉 Invite Pembuat Group Succes")
-                           else:
-                               line.inviteIntoGroup(receiver,[gcmid])
-                               line.sendMessage(receiver, "Pembuat Group Sudah di dalam")
-
-                elif msg.text in [".ไม่รับเชิญ"]:
-                    if msg.toType == 2:
-                        ginfo = line.getGroup(receiver)
-                        try:
-                            line.leaveGroup(receiver)							
-                        except:
-                            pass
-                elif msg.text in [".เช็คไอดี"]: 
-                    gruplist = line.getAllContactIds()
-                    kontak = line.getContacts(gruplist)
-                    num=1
-                    msgs="™❍✯͜͡RED™SAMURI✯͜͡❂➣"
-                    for ids in kontak:
-                        msgs+="\n[%i] %s" % (num, ids.mid)
-                        num=(num+1)
-                    msgs+="\nจำนวน  %i" % len(kontak)
-                    line.sendMessage(receiver, msgs)
-                    
-                elif msg.text in [".เปิดแทคเจ็บ"]:
-                    settings["kickMention"] = True
-                    line.sendMessage(msg.to,"เปิดระบบเตะคนแท็ก")
-                
-                elif msg.text in [".ปิดแทคเจ็บ"]:
-                    settings["kickMention"] = False
-                    line.sendMessage(msg.to,"ปิดระบบเตะคนแท็ก")
-                    
-                elif msg.text in [".เปิดแทค","Tag on"]:
-                        settings['detectMention'] = True
-                        line.sendMessage(msg.to,"Respon enabled.")
-                
-                elif msg.text in [".ปิดแทค","Tag off"]:
-                        settings['detectMention'] = False
-                        line.sendMessage(msg.to,"Respon disabled.")
-
-                elif msg.text in [".เปิดแทค2"]:
-                    settings["potoMention"] = True
-                    line.sendMessage(msg.to,"AutoRespon enabled.")
-                
-                elif msg.text in [".ปิดแทค2"]:
-                    settings["potoMention"] = False
-                    line.sendMessage(msg.to,"Autorespon disabled.")
-                    
-                elif msg.text in [".เปิดแทค3"]:
-                    settings["delayMention"] = True
-                    line.sendMessage(msg.to,"เปิดระบบแทคกลับคนแทค(○ﾟεﾟ○)")
-                
-                elif msg.text in [".ปิดแทค3"]:
-                    settings["delayMention"] = False
-                    line.sendMessage(msg.to,"ปิดระบบแทคกลับคนแทค(ˉ(∞)ˉ)")
-                    
-                elif msg.text in [".เปิดตรวจสอบ"]:
-                    settings["Aip"] = True
-                    line.sendMessage(msg.to,"เปิดระบบตรวจสอบคำหยาบกับบอทบิน  ^ω^")
-                
-                elif msg.text in [".ปิดตรวจสอบ"]:
-                    settings["Aip"] = False
-                    line.sendMessage(msg.to,"ปิดระบบตรวจสอบคำหยาบกับบอทบินแล้วʕ•ﻌ•ʔ")
-                    
-                elif msg.text in [".เปิดพูด"]:
-                    settings["Api"] = True
-                    line.sendMessage(msg.to,"เปิดระบบApiข้อความ")
-                
-                elif msg.text in [".ปิดพูด"]:
-                    settings["Api"] = False
-                    line.sendMessage(msg.to,"ปิดระบบApiข้อความแล้ว")
-                    
-                elif '.ตั้งแอด: ' in msg.text:
-                  if msg._from in admin:
-                     spl = msg.text.replace('.ตั้งแอด: ','')
-                     if spl in [""," ","\n",None]:
-                         line.sendMessage(msg.to, "ตั้งข้อความเรืยบร้อย")
-                     else:
-                         settings["message"] = spl
-                         line.sendMessage(msg.to, "™❍✯͜͡RED™SAMURI✯͜͡❂➣\n👇ตั้งข้อความตอบโต้เมื่อมีคนแอดแล้ว ดังนี้👇\n\n👉{}".format(str(spl)))
-                         
-                elif '.คอมเม้น: ' in msg.text:
-                  if msg._from in admin:
-                     spl = msg.text.replace('.คอมเม้น: ','')
-                     if spl in [""," ","\n",None]:
-                         line.sendMessage(msg.to, "ตั้งข้อความเรืยบร้อย")
-                     else:
-                         settings["comment"] = spl
-                         line.sendMessage(msg.to, "™❍✯͜͡RED™SAMURI✯͜͡❂➣\n👇ตั้งข้อความคอมเม้นของคุณแล้ว ดังนี้👇\n\n👉{}".format(str(spl))) 
-                    
-                elif '.ตั้งแทค: ' in msg.text:
-                  if msg._from in admin:
-                     spl = msg.text.replace('.ตั้งแทค: ','')
-                     if spl in [""," ","\n",None]:
-                         line.sendMessage(msg.to, "ตั้งข้อความเรืยบร้อย")
-                     else:
-                         settings["Respontag"] = spl
-                         line.sendMessage(msg.to, "™❍✯͜͡RED™SAMURI✯͜͡❂➣\n👇ตั้งข้อความตอบโต้เมื่อมีคนแทคแล้ว👇\n\n👉{}".format(str(spl)))
-                         
-                elif '.ทักเตะ: ' in msg.text:
-                  if msg._from in admin:
-                     spl = msg.text.replace('.ทักเตะ: ','')
-                     if spl in [""," ","\n",None]:
-                         line.sendMessage(msg.to, "ตั้งข้อความคนคนลบสมาชิดเรียบร้อย")
-                     else:
-                          settings["kick"] = spl
-                          line.sendMessage(msg.to, "™❍✯͜͡RED™SAMURI✯͜͡❂➣\nตั้งค่าข้อความเมื่อมีคนลบสมาชิกแล้ว\nดังนี้👇\n\n👉{}".format(str(spl)))
-
-                elif '.ทักออก: ' in msg.text:
-                  if msg._from in admin:
-                     spl = msg.text.replace('.ทักออก: ','')
-                     if spl in [""," ","\n",None]:
-                         line.sendMessage(msg.to, "ตั้งข้อความคนออกเรียบร้อย")
-                     else:
-                          settings["bye"] = spl
-                          line.sendMessage(msg.to, "™❍✯͜͡RED™SAMURI✯͜͡❂➣\nตั้งค่าข้อความเมื่อมีคนออกจากกลุ่มแล้ว\nดังนี้👇\n\n👉{}".format(str(spl)))
-
-                elif '.ทักเข้า: ' in msg.text:
-                  if msg._from in admin:
-                     spl = msg.text.replace('.ทักเข้า: ','')
-                     if spl in [""," ","\n",None]:
-                         line.sendMessage(msg.to, "ตั้งข้อความคนเข้าเรียบร้อยแล้ว")
-                     else:
-                          settings["welcome"] = spl
-                          line.sendMessage(msg.to, "™❍✯͜͡RED™SAMURI✯͜͡❂➣\nตั้งค่าข้อความเมื่อมีคนเข้ากลุ่มแล้ว\nดังนี้👇\n\n👉{}".format(str(spl)))
-
-                elif msg.text.lower().startswith("textig "):
-                    sep = msg.text.split(" ")
-                    textnya = msg.text.replace(sep[0] + " ","")
-                    urlnya = "http://chart.apis.google.com/chart?chs=480x80&cht=p3&chtt=" + textnya + "&chts=FFFFFF,70&chf=bg,s,000000"
-                    line.sendImageWithURL(msg.to, urlnya)
-
-                elif "kedip " in msg.text:
-                    txt = msg.text.replace("kedip ", "")
-                    t1 = "\xf4\x80\xb0\x82\xf4\x80\xb0\x82\xf4\x80\xb0\x82\xf4\x80\xb0\x82\xf4\x80\xa0\x81\xf4\x80\xa0\x81\xf4\x80\xa0\x81"
-                    t2 = "\xf4\x80\x82\xb3\xf4\x8f\xbf\xbf"
-                    line.sendMessage(msg.to, t1 + txt + t2)						
-                elif msg.text in [".ดึง"]:
-                        settings["winvite"] = True
-                        line.sendMessage(msg.to,"send a contact to invite user")                            
-                elif msg.text.lower() == ".ยกเชิญ":
-                    if msg.toType == 2:
-                        group = line.getGroup(msg.to)
-                        gMembMids = [contact.mid for contact in group.invitee]
-                        for i in gMembMids:
-                            line.cancelGroupInvitation(msg.to,[i])
-                elif msg.text.lower() == ".บอทยก":
-                    if msg.toType == 2:
-                        group = line.getGroup(msg.to)
-                        gMembMids = [contact.mid for contact in group.invitee]
-                        for i in gMembMids:
-                            random.choice(Exc).cancelGroupInvitation(msg.to,[i])
-#=============COMMAND KICKER===========================#
-                elif msg.text in [".ดำ"]:
-                  if msg._from in admin: 
-                    settings["wblacklist"] = True
-                    line.sendText(msg.to,"กรุณาส่งคอทแทค")
-                elif msg.text in [".ขาว"]:
-                  if msg._from in admin: 
-                    settings["dblacklist"] = True
-                    line.sendText(msg.to,"กรุณาส่งคอทแทค")
-                elif msg.text in [".ล้างดำ"]:
-                    settings["blacklist"] = {}
-                    line.sendMessage(msg.to,"ทำการลบัญชีดำทั้งหมดเรียร้อย")
-                    print ("Clear Ban")
-                elif '.ลาก่อย' in text.lower():
-                       targets = []
-                       key = eval(msg.contentMetadata["MENTION"])
-                       key["MENTIONEES"] [0] ["M"]
-                       for x in key["MENTIONEES"]:
-                           targets.append(x["M"])
-                       for target in targets:
-                           try:
-                               random.choice(Rfu).kickoutFromGroup(msg.to,[target])      
-                               print ("Rfu kick User")
-                           except:
-                               random.choice(Rfu).sendMessage(msg.to,"Limit kaka 😫")
-
-                elif '.สอย' in text.lower():
-                       targets = []
-                       key = eval(msg.contentMetadata["MENTION"])
-                       key["MENTIONEES"] [0] ["M"]
-                       for x in key["MENTIONEES"]:
-                           targets.append(x["M"])
-                       for target in targets:
-                           try:
-                               line.kickoutFromGroup(msg.to,[target])             
-                               print ("Sb Kick User")
-                           except:
-                               line.sendMessage(msg.to,"Limit kaka 😫")                               
-
-                elif '.เชิญ' in text.lower():
-                       targets = []
-                       key = eval(msg.contentMetadata["MENTION"])
-                       key["MENTIONEES"] [0] ["M"]
-                       for x in key["MENTIONEES"]:
-                           targets.append(x["M"])
-                       for target in targets:
-                           try:
-                               line.inviteIntoGroup(msg.to,[target])
-                               line.sendMessage(receiver, "Type👉 Invite Succes")
-                           except:
-                               line.sendMessage(msg.to,"Type👉 Limit Invite")
-                elif ".บล็อค @" in msg.text:
-                    if msg.toType == 2:
-                        print ("[block] OK")
-                        _name = msg.text.replace(".บล็อค @","")
-                        _nametarget = _name.rstrip('  ')
-                        gs = line.getGroup(msg.to)
-                        targets = []
-                        for g in gs.members:
-                            if _nametarget == g.displayName:
-                               targets.append(g.mid)
-                        if targets == []:
-                            sendMassage(msg.to, "Not Found...")
-                        else:
-                            for target in targets:
-                                try:
-                                   line.blockContact(target)
-                                   sendMessage(msg.to, "Success block contact~")
-                                except Exception as e:
-                                   print (e)
-                elif msg.text.lower() == 'บล็อค':
-                    blockedlist = line.getBlockedContactIds()
-                    sendMessage(msg.to, "Please wait...")
-                    kontak = line.getContacts(blockedlist)
-                    num=1
-                    msgs="User Blocked List\n"
-                    for ids in kontak:
-                        msgs+="\n%i. %s" % (num, ids.displayName)
-                        num=(num+1)
-                        msgs+="\n\nTotal %i blocked user(s)" % len(kontak)
-                        sendMessage(msg.to, msgs)
-                elif ".ปวดตับ" in msg.text:
-                	if msg.toType == 2:
-                         _name = msg.text.replace(".ปวดตับ","")
-                         gs = line.getGroup(receiver)
-                         line.sendMessage(receiver,"Just some casual cleansing ô")
-                         targets = []
-                         for g in gs.members:
-                             if _name in g.displayName:
-                                 targets.append(g.mid)
-                         if targets == []:
-                             line.sendMessage(receiver,"Not found.")
-                         else:
-                             for target in targets:
-                             	if not target in Rfu:
-                                     try:
-                                         klist=[line]
-                                         kicker=random.choice(klist)
-                                         kicker.kickoutFromGroup(receiver,[target])
-                                         print((receiver,[g.mid]))
-                                     except:
-                                         line.sendMessage(receiver,"Group cleanse")
-                                         print ("Cleanse Group")
-
-                elif msg.text in [".ไล่ดำ"]:
-                	if msg.toType == 2:
-                         group = line.getGroup(receiver)
-                         gMembMids = [contact.mid for contact in group.members]
-                         matched_list = []
-                         for tag in settings["blacklist"]:
-                             matched_list+=[str for str in gMembMids if str == tag]
-                         if matched_list == []:
-                             line.sendMessage(receiver,"Nots in Blacklist")
-                         else:
-                             for jj in matched_list:
-                                 try:
-                                     klist=[line]
-                                     kicker=random.choice(klist)
-                                     kicker.kickoutFromGroup(receiver,[jj])
-                                     print((receiver,[jj]))
-                                 except:
-                                     line.sendMessage(receiver,"sorry bl ke cyduk")
-                                     print ("Blacklist di Kick")
-                elif ".ชื่อ: " in text.lower():
-                    if msg._from in Family:
-                        proses = text.split(":")
-                        string = text.replace(proses[0] + ": ","")
-                        profile_A = line.getProfile()
-                        profile_A.displayName = string
-                        line.updateProfile(profile_A)
-                        line.sendMessage(msg.to,"Update to " + string)
-                        print ("Update Name")
-
-                elif ".ตัส: " in msg.text.lower():
-                    if msg._from in Family:
-                        proses = text.split(":")
-                        string = text.replace(proses[0] + ": ","")
-                        profile_A = line.getProfile()
-                        profile_A.statusMessage = string
-                        line.updateProfile(profile_A)
-                        line.sendMessage(msg.to,"Succes Update 👉 " + string)
-                        print ("Update Bio Succes")
-
-#=============COMMAND PROTECT=========================#
-                elif msg.text.lower() == '.เปิดกัน':
-                    if RfuProtect["protect"] == True:
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"เปิดป้องกัน   ")
-                        else:
-                            line.sendMessage(msg.to,"เปิดป้องกัน   ")
-                    else:
-                        RfuProtect["protect"] = True
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"เปิดป้องกัน   ")
-                        else:
-                            line.sendMessage(msg.to,"เปิดป้องกัน   ")
-
-                elif msg.text.lower() == '.ปิดกัน':
-                    if RfuProtect["protect"] == False:
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"ปิดป้องกัน   ")
-                        else:
-                            line.sendMessage(msg.to,"ปิดป้องกัน   ")
-                    else:
-                        RfuProtect["protect"] = False
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"ปิดป้องกัน   ")
-                        else:
-                            line.sendMessage(msg.to,"ปิดป้องกัน   ")
-
-                elif msg.text.lower() == '.กันยก':
-                    if RfuProtect["cancelprotect"] == True:
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"เปิดป้องกันยกเลิกเชิญ   ")
-                        else:
-                            line.sendMessage(msg.to,"เปิดป้องกันยกเลิกเชิญ   ")
-                    else:
-                        RfuProtect["cancelprotect"] = True
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"เปิดป้องกันยกเลิกเชิญ   ")
-                        else:
-                            line.sendMessage(msg.to,"เปิดป้องกันยกเลิกเชิญ   ")
-
-                elif msg.text.lower() == '.ปิดกันยก':
-                    if RfuProtect["cancelprotect"] == False:
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"ปิดป้องกันยกเลิกเชิญ   ")
-                        else:
-                            line.sendMessage(msg.to,"ปิดป้องกันยกเลิกเชิญ   ")
-                    else:
-                        RfuProtect["cancelprotect"] = False
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"ปิดป้องกันยกเลิกเชิญ   ")
-                        else:
-                            line.sendMessage(msg.to,"ปิดป้องกันยกเลิกเชิญ   ")
-
-                elif msg.text.lower() == '.กันเชิญ':
-                    if RfuProtect["inviteprotect"] == True:
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"เปิดป้องกันยกเชิญ   ")
-                        else:
-                            line.sendMessage(msg.to,"เปิดป้องกันยกเชิญ   ")
-                    else:
-                        RfuProtect["inviteprotect"] = True
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"เปิดป้องกันยกเชิญ   ")
-                        else:
-                            line.sendMessage(msg.to,"เปิดป้องกันยกเชิญ   ")
-
-                elif msg.text.lower() == '.ปิดกันเชิญ':
-                    if RfuProtect["inviteprotect"] == False:
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"ปิดป้องกันยกเชิญ   ")
-                        else:
-                            line.sendMessage(msg.to,"ปิดป้องกันยกเชิญ   ")
-                    else:
-                        RfuProtect["inviteprotect"] = False
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"ปิดป้องกันยกเชิญ   ")
-                        else:
-                            line.sendMessage(msg.to,"ปิดป้องกันยกเชิญ   ")
-
-                elif msg.text.lower() == '.กันลิ้ง':
-                    if RfuProtect["linkprotect"] == True:
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"เปิดป้องกันลิ้ง   ")
-                        else:
-                            line.sendMessage(msg.to,"เปิดป้องกันลิ้ง   ")
-                    else:
-                        RfuProtect["linkprotect"] = True
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"เปิดป้องกันลิ้ง   ")
-                        else:
-                            line.sendMessage(msg.to,"เปิดป้องกันลิ้ง   ")
-
-                elif msg.text.lower() == '.ปิดกันลิ้ง':
-                    if RfuProtect["linkprotect"] == False:
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"ปิดป้องกันลิ้ง   ")
-                        else:
-                            line.sendMessage(msg.to,"ปิดป้องกันลิ้ง   ")
-                    else:
-                        RfuProtect["linkprotect"] = False
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"ปิดป้องกันลิ้ง   ")
-                        else:
-                            line.sendMessage(msg.to,"ปิดป้องกันลิ้ง   ")
-
-                elif msg.text.lower() == '.กันกลุ่ม':
-                    if RfuProtect["Protectguest"] == True:
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"เปิดป้องกันสมาชิก   ")
-                        else:
-                            line.sendMessage(msg.to,"เปิดป้องกันสมาชิก   ")
-                    else:
-                        RfuProtect["Protectguest"] = True
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"เปิดป้องกันสมาชิก   ")
-                        else:
-                            line.sendMessage(msg.to,"เปิดป้องกันสมาชิก   ")
-
-                elif msg.text.lower() == '.ปิดกันกลุ่ม':
-                    if RfuProtect["Protectguest"] == False:
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"ปิดป้องกันสมาชิก   ")
-                        else:
-                            line.sendMessage(msg.to,"ปิดป้องกันสมาชิก   ")
-                    else:
-                        RfuProtect["Protectguest"] = False
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"ปิดป้องกันสมาชิก   ")
-                        else:
-                            line.sendMessage(msg.to,"ปิดป้องกันสมาชิก   ")
-
-                elif msg.text.lower() == '.กันเข้า':
-                    if RfuProtect["Protectjoin"] == True:
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"เปิดป้องกันคนเข้า   ")
-                        else:
-                            line.sendMessage(msg.to,"เปิดป้องกันคนเข้า   ")
-                    else:
-                        RfuProtect["Protectjoin"] = True
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"เปิดป้องกันคนเข้า   ")
-                        else:
-                            line.sendMessage(msg.to,"เปิดป้องกันคนเข้า   ")
-
-                elif msg.text.lower() == '.ปิดกันเข้า':
-                    if RfuProtect["Protectjoin"] == False:
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"ปิดป้องกันคนเข้า   ")
-                        else:
-                            line.sendMessage(msg.to,"ปิดป้องกันคนเข้า   ")
-                    else:
-                        RfuProtect["Protectjoin"] = False
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"ปิดป้องกันคนเข้า   ")
-                        else:
-                            line.sendMessage(msg.to,"ปิดป้องกันคนเข้า   ")
-
-                elif msg.text.lower() == '.เปิดหมด':
-                    if RfuProtect["inviteprotect"] == True:
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"✰เปิดป้องกันทั้งหมด✰")
-                        else:
-                            line.sendMessage(msg.to,"✰เปิดป้องกันทั้งหมด✰")
-                    else:
-                        RfuProtect["inviteprotect"] = True
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"เปิดป้องกันเชิญ")
-                    if RfuProtect["cancelprotect"] == True:
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"เปิดป้องกันยกเลิกเชิญ")
-                        else:
-                            line.sendMessage(msg.to,"เปิดป้องกันยกเลิกเชิญ")
-                    else:
-                        RfuProtect["cancelprotect"] = True
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"เปิดป้องกันยกเลิกเชิญ")
-                    if RfuProtect["protect"] == True:
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"เปิดป้องกันยกเลิกเชิญ")
-                        else:
-                            line.sendMessage(msg.to,"เปิดป้องกันยกเลิกเชิญ")
-                    else:
-                        RfuProtect["protect"] = True
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"เปิดป้องกันเตะ")
-                        else:
-                            line.sendMessage(msg.to,"เปิดป้องกันเตะ")
-                    if RfuProtect["linkprotect"] == True:
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"เปิดป้องกันลิ้ง")
-                        else:
-                            line.sendMessage(msg.to,"เปิดป้องกันลิ้ง")
-                    else:
-                        RfuProtect["linkprotect"] = True
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"เปิดป้องกันลิ้ง")
-                        else:
-                            line.sendMessage(msg.to,"เปิดป้องกันลิ้ง")
-                    if RfuProtect["Protectguest"] == True:
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"เปิดป้องกันกลุ่ม")
-                        else:
-                            line.sendMessage(msg.to,"เปิดป้องกันกลุ่ม")
-                    else:
-                        RfuProtect["Protectguest"] = True
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"เปิดป้องกันกลุ่ม")
-                        else:
-                            line.sendMessage(msg.to,"เปิดป้องกันกลุ่ม")
-                    if RfuProtect["Protectjoin"] == True:
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"เปิดป้องกันบุคคลภายน้อกเข้ากลุ่ม")
-                        else:
-                            line.sendMessage(msg.to,"เปิดป้องกันบุคคลภายน้อกเข้ากลุ่ม")
-                    else:
-                        RfuProtect["Protectjoin"] = True
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"เปิดป้องกันบุคคลภายน้อกเข้ากลุ่ม")
-                        else:
-                            line.sendMessage(msg.to,"เปิดป้องกันบุคคลภายน้อกเข้ากลุ่ม")
-
-                elif msg.text.lower() == '.ปิดหมด':
-                    if RfuProtect["inviteprotect"] == False:
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"✰ปิดป้องกันทั้งหมด✰")
-                        else:
-                            line.sendMessage(msg.to,"✰ปิดป้องกันทั้งหมด✰")
-                    else:
-                        RfuProtect["inviteprotect"] = False
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"ปิดป้องกันเชิญ")
-                    if RfuProtect["cancelprotect"] == False:
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"ปิดป้องกันยกเชิญ")
-                        else:
-                            line.sendMessage(msg.to,"ปิดป้องกันยกเชิญ")
-                    else:
-                        RfuProtect["cancelprotect"] = False
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"ปิดป้องกันยกเชิญ")
-                    if RfuProtect["protect"] == False:
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"ปิดป้องกันเตะ")
-                        else:
-                            line.sendMessage(msg.to,"ปิดป้องกันเตะ")
-                    else:
-                        RfuProtect["protect"] = False
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"ปิดป้องกันเตะ")
-                        else:
-                            line.sendMessage(msg.to,"ปิดป้องกันเตะ")
-                    if RfuProtect["linkprotect"] == False:
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"ปิดป้องกันเปิดลิ้ง")
-                        else:
-                            line.sendMessage(msg.to,"ปิดป้องกันเปิดลิ้ง")
-                    else:
-                        RfuProtect["linkprotect"] = False
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"ปิดป้องกันเปิดลิ้ง")
-                        else:
-                            line.sendMessage(msg.to,"ปิดป้องกันเปิดลิ้ง")
-                    if RfuProtect["Protectguest"] == False:
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"ปิดป้องกันกลุ่ม")
-                        else:
-                            line.sendMessage(msg.to,"ปิดป้องกันกลุ่ม")
-                    else:
-                        RfuProtect["Protectguest"] = False
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"ปิดป้องกันกลุ่ม")
-                        else:
-                            line.sendMessage(msg.to,"ปิดป้องกันกลุ่ม")
-                    if RfuProtect["Protectjoin"] == False:
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"ปิดป้องกันบุคคลภายน้อกเข้ากลุ่ม")
-                        else:
-                            line.sendMessage(msg.to,"ปิดป้องกันบุคคลภายน้อกเข้ากลุ่ม")
-                    else:
-                        RfuProtect["Protectjoin"] = False
-                        if settings["lang"] == "JP":
-                            line.sendMessage(msg.to,"ปิดป้องกันบุคคลภายน้อกเข้ากลุ่ม")
-                        else:
-                            line.sendMessage(msg.to,"ปิดป้องกันบุคคลภายน้อกเข้ากลุ่ม")
-
-#==============FINNISHING PROTECT========================#
-                elif msg.text.lower() == '.เปิดรับแขก':
-                        if settings["Wc"] == True:
-                            if settings["lang"] == "JP":
-                                line.sendMessage(to,"เปิดข้อความต้อนรับเมื่อมีสมาชิกเข้ากลุ่ม   ")
-                        else:
-                            settings["Wc"] = True
-                            if settings["lang"] == "JP":
-                                line.sendMessage(to,"เปิดข้อความต้อนรับเมื่อมีสมาชิกเข้ากลุ่ม   ")
-                elif msg.text.lower() == '.ปิดรับแขก':
-                        if settings["Wc"] == False:
-                            if settings["lang"] == "JP":
-                                line.sendMessage(to,"ปิดข้อความต้อนรับเมื่อมีสมาชิกเข้ากลุ่ม   ")
-                        else:
-                            settings["Wc"] = False
-                            if settings["lang"] == "JP":
-                                line.sendMessage(to,"ปิดข้อความต้อนรับเมื่อมีสมาชิกเข้ากลุ่ม   ")
-                                
-                elif msg.text.lower() == '.เปิดทักเตะ':
-                        if settings["Nk"] == True:
-                            if settings["lang"] == "JP":
-                                line.sendMessage(to,"เปิดข้อความแจ้งเตือนเมื่อมีคนลบสมาชิกในกลุ่ม...")
-                        else:
-                            settings["Nk"] = True
-                            if settings["lang"] == "JP":
-                                line.sendMessage(to,"เปิดข้อความแจ้งเตือนเมื่อมีคนลบสมาชิกในกลุ่ม...")
-                                
-                elif msg.text.lower() == '.ปิดทักเตะ':
-                        if settings["Nk"] == False:
-                            if settings["lang"] == "JP":
-                                line.sendMessage(to,"ปิดข้อความแจ้งเตือนเมื่อมีคนลบสมาชิกในกลุ่มแล้ว..")
-                        else:
-                            settings["Nk"] = False
-                            if settings["lang"] == "JP":
-                                line.sendMessage(to,"เปิดข้อความแจ้งเตือนเมื่อมีคนลบสมาชิกในกลุ่มแล้ว...")
-
-                elif msg.text.lower() == '.เปิดส่งแขก':
-                        if settings["Lv"] == True:
-                            if settings["lang"] == "JP":
-                                line.sendMessage(to,"เปิดข้อความอำลาเมื่อมีสมาชิกออกกลุ่ม   ")
-                        else:
-                            settings["Lv"] = True
-                            if settings["lang"] == "JP":
-                                line.sendMessage(to,"เปิดข้อความอำลาเมื่อมีสมาชิกออกกลุ่ม   ")
-                elif msg.text.lower() == '.ปิดส่งแขก':
-                        if settings["Lv"] == False:
-                            if settings["lang"] == "JP":
-                                line.sendMessage(to,"ปิดข้อความอำลาเมื่อมีสมาชิกออกกลุ่ม   ")
-                        else:
-                            settings["Lv"] = False
-                            if settings["lang"] == "JP":
-                                line.sendMessage(to,"ปิดข้อความอำลาเมื่อมีสมาชิกออกกลุ่ม   ")
-                                
-                elif msg.text.lower() == '.เปิดคท':
-                        if settings["checkContact"] == True:
-                            if settings["lang"] == "JP":
-                                line.sendMessage(to,"เปิดระบบอ่านข้อมูลด้วยคอนแทค ")
-                        else:
-                            settings["checkContact"] = True
-                            if settings["lang"] == "JP":
-                                line.sendMessage(to,"เปิดระบบอ่านข้อมูลด้วยคอนแทคไว้อยู่แล้ว ")
-                elif msg.text.lower() == '.ปิดคท':
-                        if settings["checkContact"] == False:
-                            if settings["lang"] == "JP":
-                                line.sendMessage(to,"ปิดระบบอ่านข้อมูลด้วยคอนแทค ")
-                        else:
-                            settings["checkContact"] = False
-                            if settings["lang"] == "JP":
-                                line.sendMessage(to,"ปิดระบบอ่านข้อมูลด้วยคอนแทคไว้อยู่แล้ว ")
-                elif msg.text.lower() == '.เปิดเช็คโพส':
-                        if settings["checkPost"] == True:
-                            if settings["lang"] == "JP":
-                                line.sendMessage(to,"เปิดระบบเช็คโพสบนทามไลน์" )
-                        else:
-                            settings["checkPost"] = True
-                            if settings["lang"] == "JP":
-                                line.sendMessage(to,"เปิดระบบเช็คโพสบนทามไลน์อยู่แล้ว ")
-                elif msg.text.lower() == '.ปิดเช็คโพส':
-                        if settings["checkPost"] == False:
-                            if settings["lang"] == "JP":
-                                line.sendMessage(to,"ปิดระบบเช็คโพสบนทามไลน์ ")
-                        else:
-                            settings["checkPost"] = False
-                            if settings["lang"] == "JP":
-                                line.sendMessage(to,"ปิดระบบเช็คโพสบนทามไลน์ไว้อยู่แล้ว ")
-                elif text.lower() == ".แปลงโฉม":
-                    settings["changePictureProfile"] = True
-                    line.sendMessage(to, "ส่งรูปภาพลงมาได้เลยครับผม")
-                elif text.lower() == ".เปลี่ยนรูปกลุ่ม":
-                    if msg.toType == 2:
-                        if to not in settings["changeGroupPicture"]:
-                            settings["changeGroupPicture"].append(to)
-                        line.sendMessage(to, "ส่งรูปภาพลงมาไดเเลยครับผม")
-                elif text.lower() == ".ดับไฟ":
-                    line.sendContact(to, "u1f41296217e740650e0448b96851a3e2',")      
-
-                elif text.lower() == '.ลบรัน':
-                    gid = line.getGroupIdsInvited()
-                    start = time.time()
-                    for i in gid:
-                        line.rejectGroupInvitation(i)
-                    elapsed_time = time.time() - start
-                    line.sendMessage(to, "ลบรันเสร็จแล้วขอรับ")
-                    line.sendMessage(to, "ระยะเวลาที่ใช้: %sวินาที" % (elapsed_time))
-			
-                elif ".ลงดำ" in msg.text:
-                  if msg._from in Family:
-                      if msg.toType == 2:
-                           print ("All Banlist")
-                           _name = msg.text.replace(".ลงดำ","")
-                           gs = line.getGroup(msg.to)
-                           line.sendMessage(msg.to,"แบนสมาชิกทุกคนในห้องนี้แล้ว＼（○＾ω＾○）／")
-                           targets = []
-                           for g in gs.members:
-                               if _name in g.displayName:
-                                    targets.append(g.mid)
-                           if targets == []:
-                                line.sendMessage(msg.to,"Maaf")
-                           else:
-                               for target in targets:
-                                   if not target in Family:
-                                       try:
-                                           settings["blacklist"][target] = True
-                                           f=codecs.open('st2__b.json','w','utf-8')
-                                           json.dump(settings["blacklist"], f, sort_keys=True, indent=4,ensure_ascii=False)
-                                       except:
-                                           line.sentMessage(msg.to,"พบข้อผิดพลาดที่ไม่ทราบสาเหตุ")
-										   
-                elif '.แบน' in text.lower():
-                       targets = []
-                       key = eval(msg.contentMetadata["MENTION"])
-                       key["MENTIONEES"] [0] ["M"]
-                       for x in key["MENTIONEES"]:
-                           targets.append(x["M"])
-                       for target in targets:
-                           try:
-                               settings["blacklist"][target] = True
-                               f=codecs.open('st2__b.json','w','utf-8')
-                               json.dump(settings["blacklist"], f, sort_keys=True, indent=4,ensure_ascii=False)
-                               line.sendMessage(msg.to,"Succes added for the blacklist ")
-                               print ("Banned User")
-                           except:
-                               line.sendMessage(msg.to,"Contact Not Found")
-
-                elif '.ล้างแบน' in text.lower():
-                       targets = []
-                       key = eval(msg.contentMetadata["MENTION"])
-                       key["MENTIONEES"] [0] ["M"]
-                       for x in key["MENTIONEES"]:
-                           targets.append(x["M"])
-                       for target in targets:
-                           try:
-                               del settings["blacklist"][target]
-                               f=codecs.open('st2__b.json','w','utf-8')
-                               json.dump(settings["blacklist"], f, sort_keys=True, indent=4,ensure_ascii=False)
-                               line.sendMessage(msg.to,"Succes unban from the blacklist. ")
-                               print ("Unbanned User")
-                           except:
-                               line.sendMessage(msg.to,"Contact Not Found")
-                
-                elif msg.text in [".เช็คดำ"]:
-                  if msg._from in Family:
-                    if settings["blacklist"] == {}:
-                        line.sendMessage(msg.to,"ไม่พบ") 
-                    else:
-                        line.sendMessage(msg.to,"รายชื่อผู้ติดดำ")
-                        mc = "Blacklist User\n"
-                        for mi_d in settings["blacklist"]:
-                            mc += "[√] " + line.getContact(mi_d).displayName + " \n"
-                        line.sendMessage(msg.to, mc + "")
-
-                elif msg.text.lower().startswith("urban "):
-                    sep = msg.text.split(" ")
-                    judul = msg.text.replace(sep[0] + " ","")
-                    url = "http://api.urbandictionary.com/v0/define?term="+str(judul)
-                    with requests.session() as s:
-                        s.headers["User-Agent"] = random.choice(settings["userAgent"])
-                        r = s.get(url)
-                        data = r.text
-                        data = json.loads(data)
-                        y = "[ Result Urban ]"
-                        y += "\nTags: "+ data["tags"][0]
-                        y += ","+ data["tags"][1]
-                        y += ","+ data["tags"][2]
-                        y += ","+ data["tags"][3]
-                        y += ","+ data["tags"][4]
-                        y += ","+ data["tags"][5]
-                        y += ","+ data["tags"][6]
-                        y += ","+ data["tags"][7]
-                        y += "\n[1]\nAuthor: "+str(data["list"][0]["author"])
-                        y += "\nWord: "+str(data["list"][0]["word"])
-                        y += "\nLink: "+str(data["list"][0]["permalink"])
-                        y += "\nDefinition: "+str(data["list"][0]["definition"])
-                        y += "\nExample: "+str(data["list"][0]["example"])
-                        line.sendMessage(to, str(y))
-
-            elif msg.contentType == 13:
-                if settings["checkContact"] == True:
-                    try:
-                        contact = line.getContact(msg.contentMetadata["mid"])
-                        if line != None:
-                            cover = line.getProfileCoverURL(msg.contentMetadata["mid"])
-                        else:
-                            cover = "Tidak dapat masuk di line channel"
-                        path = "http://dl.profile.line-cdn.net/{}".format(str(contact.pictureStatus))
-                        try:
-                            line.sendImageWithURL(to, str(path))
-                        except:
-                            pass
-                        ret_ = "[ รายการทั้งหมดจากการสำรวจด้วย คท ]"
-                        ret_ += "\n ชื่อ : {}".format(str(contact.displayName))
-                        ret_ += "\n ไอดี : {}".format(str(msg.contentMetadata["mid"]))
-                        ret_ += "\n ตัส : {}".format(str(contact.statusMessage))
-                        ret_ += "\n รูปโปรไฟล : http://dl.profile.line-cdn.net/{}".format(str(contact.pictureStatus))
-                        ret_ += "\n  รูปปก : {}".format(str(cover))
-                        ret_ += "\n[ สิ้นสุดการสำรวจ ]"
-                        line.sendMessage(to, str(ret_))
-                    except:
-                        line.sendMessage(to, "เกิดข้อผิดพลาดในการสำรวจ")
-            elif msg.contentType == 1:
-                if settings["changePictureProfile"] == True:
-                    path = line.downloadObjectMsg(msg_id)
-                    settings["changePictureProfile"] = False
-                    line.updateProfilePicture(path)
-                    line.sendMessage(to, "ทำการแปลงโฉมเสร็จเรียบร้อย")
-                if msg.toType == 2:
-                    if to in settings["changeGroupPicture"]:
-                        path = line.downloadObjectMsg(msg_id)
-                        settings["changeGroupPicture"].remove(to)
-                        line.updateGroupPicture(to, path)
-                        line.sendMessage(to, "เปลี่ยนรูปภาพกลุ่มเรียบร้อยแล้ว")
-            elif msg.contentType == 7:
-                if settings["checkSticker"] == True:
-                    stk_id = msg.contentMetadata['STKID']
-                    stk_ver = msg.contentMetadata['STKVER']
-                    pkg_id = msg.contentMetadata['STKPKGID']
-                    ret_ = "╔══[ Sticker Info ]"
-                    ret_ += "\n╠ STICKER ID : {}".format(stk_id)
-                    ret_ += "\n╠ STICKER PACKAGES ID : {}".format(pkg_id)
-                    ret_ += "\n╠ STICKER VERSION : {}".format(stk_ver)
-                    ret_ += "\n╠ STICKER URL : line://shop/detail/{}".format(pkg_id)
-                    ret_ += "\n╚══[ Finish ]"
-                    line.sendMessage(to, str(ret_))
-              
-#==============================================================================#
-        if op.type == 19:
-            if lineMID in op.param3:
-                settings["blacklist"][op.param2] = True
-        if op.type == 22:
-            if settings['leaveRoom'] == True:
-                line.leaveRoom(op.param1)              
-        if op.type == 24:
-            if settings['leaveRoom'] == True:
-                line.leaveRoom(op.param1)             
-#==============================================================================#
-#==============================================================================#
-        if op.type == 17:
-            if op.param2 not in Family:
-                if op.param2 in Family:
-                    pass
-            if RfuProtect["protect"] == True:
-                if settings["blacklist"][op.param2] == True:
-                    try:
-                        line.kickoutFromGroup(op.param1,[op.param2])
-                        G = line.getGroup(op.param1)
-                        G.preventedJoinByTicket = True
-                        line.updateGroup(G)
-                    except:
-                        try:
-                            line.kickoutFromGroup(op.param1,[op.param2])
-                            G = line.getGroup(op.param1)
-                            G.preventedJoinByTicket = True
-                            line.updateGroup(G)
-                        except:
-                            pass
-        if op.type == 19:
-            if op.param2 not in Family:
-                if op.param2 in Family:
-                    pass
-                elif RfuProtect["protect"] == True:
-                    settings ["blacklist"][op.param2] = True
-                    random.choice(Rfu).kickoutFromGroup(op.param1,[op.param2])
-                    random.choice(Rfu).inviteIntoGroup(op.param1,[op.param2])
-        
-        if op.type == 13:
-            if op.param2 not in Family:
-                if op.param2 in Family:
-                    pass
-                elif RfuProtect["inviteprotect"] == True:
-                    settings ["blacklist"][op.param2] = True
-                    random.choice(Rfu).cancelGroupInvitation(op.param1,[op.param3])
-                    random.choice(Rfu).kickoutFromGroup(op.param1,[op.param2])
-                    if op.param2 not in Family:
-                        if op.param2 in Family:
-                            pass
-                        elif RfuProtect["inviteprotect"] == True:
-                            settings ["blacklist"][op.param2] = True
-                            random.choice(Rfu).cancelGroupInvitation(op.param1,[op.param3])
-                            random.choice(Rfu).kickoutFromGroup(op.param1,[op.param2])
-                            if op.param2 not in Family:
-                                if op.param2 in Family:
-                                    pass
-                                elif RfuProtect["cancelprotect"] == True:
-                                    settings ["blacklist"][op.param2] = True
-                                    random.choice(Rfu).cancelGroupInvitation(op.param1,[op.param3])
-
-        if op.type == 11:
-            if op.param2 not in Family:
-                if op.param2 in Family:
-                    pass
-                elif RfuProtect["linkprotect"] == True:
-                    settings ["blacklist"][op.param2] = True
-                    G = line.getGroup(op.param1)
-                    G.preventedJoinByTicket = True
-                    line.updateGroup(G)
-                    random.choice(Rfu).kickoutFromGroup(op.param1,[op.param2])
-        if op.type == 5:
-            if RfuProtect["autoAdd"] == True:
-                if (settings["message"] in [""," ","\n",None]):
-                    pass
-                else:
-                    line.sendMessageWithMention(op.param1)
-                    line.sendMessage(op.param1,"สวัสดีครับ","\nมีอะไรให้ผมรับใช้ครับ\n\n{}".format(str(settings["comment"])))
-                    line.sendMessage(op.param1,(str(settings["comment1"])))
-                    line.sendMessage(op.param1,str(settings["message"]))
-
-        if op.type == 11:
-            if RfuProtect["linkprotect"] == True:
-                if op.param2 not in Family:
-                    G = line.getGroup(op.param1)
-                    G.preventedJoinByTicket = True
-                    random.choice(Rfu).updateGroup(G)
-                    random.choice(Rfu).kickoutFromGroup(op.param1,[op.param3])                    
-
-        if op.type == 13:
-           if RfuProtect["Protectguest"] == True:
-               if op.param2 not in Family:
-                  random.choice(Rfu).cancelGroupInvitation(op.param1,[op.param3])
-                  random.choice(Rfu).kickoutFromGroup(op.param1,[op.param2])
-        if op.type == 17:
-            if op.param2 in settings["blacklist"] == {}:
-                line.kickoutFromGroup(op.param1,[op.param2])
-                now2 = datetime.datetime.now()
-                nowT = datetime.datetime.strftime(now2,"%H")
-                nowM = datetime.datetime.strftime(now2,"%M")
-                nowS = datetime.datetime.strftime(now2,"%S")
-                tm = "\n\n"+nowT+":"+nowM+":"+nowS
-                line.sendText(op.param1,"สมาชิกที่ถูกแบนไม่ได้รับอนุญาตให้เข้าร่วมกลุ่ม （´・ω・｀）"+tm)
-        if op.type == 17:
-           if RfuProtect["Protectjoin"] == True:
-               if op.param2 not in Family:
-                   random.choice(Rfu).kickoutFromGroup(op.param1,[op.param2])
-
-        if op.type == 1:
-            if sender in Setmain["foto"]:
-                path = line.downloadObjectMsg(msg_id)
-                del Setmain["foto"][sender]
-                line.updateProfilePicture(path)
-                line.sendMessage(to,"Foto berhasil dirubah")
-        if op.type == 26:
-            msg = op.message
-            if settings ["Aip"] == True:
-            	if msg.text in ["cleanse","group cleansed.","mulai",".winebot",".kickall","mayhem","kick on","Kick","!kickall","nuke","บิน","Kick","กระเด็น","หวด","เซลกากจัง","เตะ",".","ปลิว"]:
-                    random.choice(Rfu).kickoutFromGroup(receiver,[sender])
-                    random.choice(Rfu).sendText(msg.to,"ตรวจพบคำสั่งของบอทลบกลุ่ม จำเป็นต้องนำออกเพื่อความปลอดภัยของสมาชิก (｀・ω・´)")
-            if settings ["Aip"] == True:
-                if msg.text in ["ควย","หี","แตด","เย็ดแม่","เย็ดเข้","ค.วย","สัส","เหี้ย","ไอ้เหี้ย","พ่อมึงตาย","ไอ้เลว","ระยำ","ชาติหมา","หน้าหี","เซลกาก","ไอ้เรส","ไอ้เหี้ยเรส","ไอ่เรส","พ่องตาย","ส้นตีน","แม่มึงอ่ะ","แม่มึงดิ","พ่อมึงดิ"]:
-                    random.choice(Rfu).kickoutFromGroup(receiver,[sender])
-                    random.choice(Rfu).sendText(msg.to,"ตรวจพบคำพูดหยาบคายไม่สุภาพ จำเป็นต้องนำออกเพื่อความสงบสุขของสมาชิก (｀・ω・´)")
-            if settings ["Api"] == True:
-            	if msg.text in ["ป๊า","ป๊าเรส","ลุง","เรส","นาย","เพื่อน","จาร์ย","อาจาร์ย","เฮีย"]:
-                    line.sendMessage(msg.to, str(settings["comment"]))
-            if settings ["Api"] == True:
-                if msg.text in ["บอท","เซล","เซลบอท","selfbot","คนรึบอท","Help","help",".help","/help","คำสั่ง"]:
-                    line.sendMessage(msg.to, str(settings["comment"]))
-            if settings ["Api"] == True:
-                if msg.text in ["55","555","5555","55555","55+","555+","5555+","ขำ",".ขำ"]:
-                    line.sendText(msg.to,"ฮ่าๆๆๆ..ขำไร..ขำด้วยคนดิ")
-            if settings ["Api"] == True:
-                if msg.text in [".ประกาศ","โฆษณา","ประชาสัมพัน","ประกาศ"]:
-                	line.sendMessage(msg.to, str(settings["comment"]))
-        if op.type in [25,26]:
-            msg = op.message
-            if msg.contentType == 16:
-                if settings["checkPost"] == True:
-                        try:
-                            ret_ = "[ ข้อมูลของโพสนี้ ]"
-                            if msg.contentMetadata["serviceType"] == "GB":
-                                contact = line.getContact(sender)
-                                auth = "\n  ผู้เขียนโพส : {}".format(str(contact.displayName))
                             else:
-                                auth = "\n  ผู้เขียนโพส : {}".format(str(msg.contentMetadata["serviceName"]))
-                            purl = "\n  ลิ้งโพส : {}".format(str(msg.contentMetadata["postEndUrl"]).replace("line://","https://line.me/R/"))
-                            ret_ += auth
-                            ret_ += purl
-                            if "mediaOid" in msg.contentMetadata:
-                                object_ = msg.contentMetadata["mediaOid"].replace("svc=myhome|sid=h|","")
-                                if msg.contentMetadata["mediaType"] == "V":
-                                    if msg.contentMetadata["serviceType"] == "GB":
-                                        ourl = "\n  Objek URL : https://obs-us.line-apps.com/myhome/h/download.nhn?tid=612w&{}".format(str(msg.contentMetadata["mediaOid"]))
-                                        murl = "\n  Media URL : https://obs-us.line-apps.com/myhome/h/download.nhn?{}".format(str(msg.contentMetadata["mediaOid"]))
+                                cctv['sidermem'][op.param1] += "\n• " + Name
+                                if " " in Name:
+                                    nick = Name.split(' ')
+                                    if len(nick) == 2:
+                                        nadya.sendText(op.param1, "Haii " + "☞ " + Name + " ☜" + "\nNgintip Aja Niih. . .\nChat Kek Idiih (-__-)   ")
+                                        time.sleep(0.2)
+                                        summon(op.param1,[op.param2])
                                     else:
-                                        ourl = "\n  Objek URL : https://obs-us.line-apps.com/myhome/h/download.nhn?tid=612w&{}".format(str(object_))
-                                        murl = "\n  Media URL : https://obs-us.line-apps.com/myhome/h/download.nhn?{}".format(str(object_))
-                                        ret_ += murl
+                                        nadya.sendText(op.param1, "Haii " + "☞ " + Name + " ☜" + "\nBetah Banget Jadi Penonton. . .\nChat Napa (-__-)   ")
+                                        time.sleep(0.2)
+                                        summon(op.param1,[op.param2])
                                 else:
-                                    if msg.contentMetadata["serviceType"] == "GB":
-                                        ourl = "\n Objek URL : https://obs-us.line-apps.com/myhome/h/download.nhn?tid=612w&{}".format(str(msg.contentMetadata["mediaOid"]))
-                                    else:
-                                        ourl = "\n Objek URL : https://obs-us.line-apps.com/myhome/h/download.nhn?tid=612w&{}".format(str(object_))
-                                ret_ += ourl
-                            if "stickerId" in msg.contentMetadata:
-                                stck = "\n  Stiker : https://line.me/R/shop/detail/{}".format(str(msg.contentMetadata["packageId"]))
-                                ret_ += stck
-                            if "text" in msg.contentMetadata:
-                                text = "\n ข้อความโดยย่อ : {}".format(str(msg.contentMetadata["text"]))
-                                ret_ += text
-                            ret_ += "\n[ สิ้นสุดการเช็คโพส ]"
-                            line.sendMessage(to, str(ret_))
+                                    nadya.sendText(op.param1, "Haii " + "☞ " + Name + " ☜" + "\nNgapain Kak Ngintip Aja???\nSini Gabung Chat...   ")
+                                    time.sleep(0.2)
+                                    summon(op.param1,[op.param2])
+                        else:
+                            pass
+                    else:
+                        pass
+                except:
+                    pass
+
+        else:
+            pass    	      
+	      
+
+        if op.type == 22:
+            nadya.leaveRoom(op.param1)
+
+        if op.type == 21:
+            nadya.leaveRoom(op.param1)
+
+
+        if op.type == 13:
+	    print op.param3
+            if op.param3 in mid:
+		if op.param2 in Creator:
+		    nadya.acceptGroupInvitation(op.param1)
+
+		    
+	    if mid in op.param3:	        
+                if wait["AutoJoinCancel"] == True:
+		    G = nadya.getGroup(op.param1)
+                    if len(G.members) <= wait["memberscancel"]:
+                        nadya.acceptGroupInvitation(op.param1)
+                        nadya.sendText(op.param1,"Maaf " + nadya.getContact(op.param2).displayName + "\nMember Kurang Dari 30 Orang\nUntuk Info, Silahkan Chat Owner Kami!")
+                        nadya.leaveGroup(op.param1)                        
+		    else:
+                        nadya.acceptGroupInvitation(op.param1)
+			nadya.sendText(op.param1,"☆Ketik ☞Help☜ Untuk Bantuan☆\n☆Harap Gunakan Dengan Bijak ^_^ ☆")
+                        		    
+ 
+	    if mid in op.param3:
+                if wait["AutoJoin"] == True:
+		    G = nadya.getGroup(op.param1)
+                    if len(G.members) <= wait["Members"]:
+                        nadya.rejectGroupInvitation(op.param1)
+		    else:
+                        nadya.acceptGroupInvitation(op.param1)
+			nadya.sendText(op.param1,"☆Ketik ☞Help☜ Untuk Bantuan☆\n☆Harap Gunakan Dengan Bijak ^_^ ☆")
+	    else:
+                if wait["AutoCancel"] == True:
+		    if op.param3 in Bots:
+			pass
+		    else:
+                        nadya.cancelGroupInvitation(op.param1, [op.param3])
+		else:
+		    if op.param3 in wait["blacklist"]:
+			nadya.cancelGroupInvitation(op.param1, [op.param3])
+			nadya.sendText(op.param1, "Blacklist Detected")
+		    else:
+			pass
+			
+        if op.type == 13:
+            if op.param2 not in Creator:
+             if op.param2 not in admin:
+              if op.param2 not in Bots:
+                if op.param2 in Creator:
+                 if op.param2 in admin:
+                  if op.param2 in Bots:
+                    pass
+                elif wait["inviteprotect"] == True:
+                    wait ["blacklist"][op.param2] = True
+                    nadya.cancelGroupInvitation(op.param1,[op.param3])
+                    nadya.kickoutFromGroup(op.param1,[op.param2])
+                    if op.param2 not in Creator:
+                     if op.param2 not in admin:
+                      if op.param2 not in Bots:
+                        if op.param2 in Creator:
+                         if op.param2 in admin:
+                          if op.param2 in Bots:
+                            pass
+
+        if op.type == 19:
+		if wait["AutoKick"] == True:
+		    try:
+			if op.param3 in Creator:
+			 if op.param3 in admin:
+			  if op.param3 in Bots:
+			      pass
+		         if op.param2 in Creator:
+		          if op.param2 in admin:
+		           if op.param2 in Bots:
+		               pass
+		           else:
+		               nadya.kickoutFromGroup(op.param1,[op.param2])
+		               if op.param2 in wait["blacklist"]:
+		                   pass
+		        else:
+			    nadya.inviteIntoGroup(op.param1,[op.param3])
+		    except:
+		        try:
+			    if op.param2 not in Creator:
+			        if op.param2 not in admin:
+			            if op.param2 not in Bots:
+                                        nadya.kickoutFromGroup(op.param1,[op.param2])
+			    if op.param2 in wait["blacklist"]:
+			        pass
+			    else:
+			        nadya.inviteIntoGroup(op.param1,[op.param3])
+		        except:
+			    print ("client Kick regulation or Because it does not exist in the group\ngid=["+op.param1+"]\nmid=["+op.param2+"]")
+                        if op.param2 in wait["blacklist"]:
+                            pass
+                        else:
+			    if op.param2 in Creator:
+			        if op.param2 in admin:
+			            if op.param2 in Bots:
+			              pass
+			    else:
+                                wait["blacklist"][op.param2] = True
+		    if op.param2 in wait["blacklist"]:
+                        pass
+                    else:
+		        if op.param2 in Creator:
+		            if op.param2 in admin:
+		                if op.param2 in Bots:
+			             pass
+		        else:
+                            wait["blacklist"][op.param2] = True
+		else:
+		    pass
+
+
+                if mid in op.param3:
+                    if op.param2 in Creator:
+                      if op.param2 in Bots:
+                        pass
+                    try:
+                        nadya.kickoutFromGroup(op.param1,[op.param2])
+			nadya.kickoutFromGroup(op.param1,[op.param2])
+                    except:
+                        try:
+			    nadya.kickoutFromGroup(op.param1,[op.param2])
                         except:
-                            line.sendMessage(to, "เกิดข้อผิดะลาดในการเช็คโพสนี้")
-                            
+                            print ("client Kick regulation or Because it does not exist in the group\ngid=["+op.param1+"]\nmid=["+op.param2+"]")
+                        if op.param2 in wait["blacklist"]:
+                            pass
+                        else:
+			    if op.param2 in Bots:
+			        pass
+                    if op.param2 in wait["blacklist"]:
+                        pass
+                    else:
+		        if op.param2 in Bots:
+			    pass
+		        else:
+                            wait["blacklist"][op.param2] = True
+
+ 
+                if Creator in op.param3:
+                  if admin in op.param3:
+                    if op.param2 in Bots:
+                        pass
+                    try:
+                        nadya.kickoutFromGroup(op.param1,[op.param2])
+			nadya.kickoutFromGroup(op.param1,[op.param2])
+                    except:
+                        try:
+			    if op.param2 not in Bots:
+                                nadya.kickoutFromGroup(op.param1,[op.param2])
+			    if op.param2 in wait["blacklist"]:
+			        pass
+			    else:
+			        nadya.inviteIntoGroup(op.param1,[op.param3])
+                        except:
+                            print ("client Kick regulation or Because it does not exist in the group\ngid=["+op.param1+"]\nmid=["+op.param2+"]")
+                        if op.param2 in wait["blacklist"]:
+                            pass
+                        if op.param2 in wait["whitelist"]:
+                            pass
+                        else:
+                            wait["blacklist"][op.param2] = True
+                    nadya.inviteIntoGroup(op.param1,[op.param3])
+                    if op.param2 in wait["blacklist"]:
+                        pass
+                    if op.param2 in wait["whitelist"]:
+                        pass
+                    else:
+                        wait["blacklist"][op.param2] = True
+
+
+        if op.type == 11:
+            if wait["Qr"] == True:
+		if op.param2 in Creator:
+		 if op.param2 in admin:
+		  if op.param2 in Bots:
+		   pass		
+		else:
+                    nadya.kickoutFromGroup(op.param1,[op.param2])
+            else:
+                pass
+
+
+        if op.type == 17:
+          if wait["Sambutan"] == True:
+            if op.param2 in Creator:
+                return
+            ginfo = nadya.getGroup(op.param1)
+            contact = nadya.getContact(op.param2)
+            image = "http://dl.profile.line-cdn.net/" + contact.pictureStatus
+            nadya.sendText(op.param1,"Hallo " + nadya.getContact(op.param2).displayName + "\nWelcome To ☞ " + str(ginfo.name) + " ☜" + "\nBudayakan Cek Note\nDan Semoga Betah Disini ^_^")
+            c = Message(to=op.param1, from_=None, text=None, contentType=13)
+            c.contentMetadata={'mid':op.param2}
+            nadya.sendMessage(c)  
+            nadya.sendImageWithURL(op.param1,image)
+            d = Message(to=op.param1, from_=None, text=None, contentType=7)
+            d.contentMetadata={
+                                    "STKID": "13269548",
+                                    "STKPKGID": "1329191",
+                                    "STKVER": "1" }                
+            nadya.sendMessage(d)             
+            print "MEMBER JOIN TO GROUP"
+
+        if op.type == 15:
+          if wait["Sambutan"] == True:
+            if op.param2 in Creator:
+                return
+            nadya.sendText(op.param1,"Good Bye " + nadya.getContact(op.param2).displayName +  "\nSee You Next Time . . . (p′︵‵。) 🤗")
+            d = Message(to=op.param1, from_=None, text=None, contentType=7)
+            d.contentMetadata={
+                                    "STKID": "13269542",
+                                    "STKPKGID": "1329191",
+                                    "STKVER": "1" }                
+            nadya.sendMessage(d)                  
+            print "MEMBER HAS LEFT THE GROUP"
+            
         if op.type == 26:
             msg = op.message
-            text = msg.text
-            msg_id = msg.id
-            receiver = msg.to
-            sender = msg._from
-            if msg.toType == 0 or msg.toType == 1 or msg.toType == 2:
-                if msg.toType == 0:
-                    if sender != line.profile.mid:
-                        to = sender
-                    else:
-                        to = receiver
-                elif msg.toType == 1:
-                    to = receiver
-                elif msg.toType == 2:
-                    to = receiver
-                if settings["autoRead"] == True:
-                    line.sendChatChecked(to, msg_id)				
-                if to in read["readPoint"]:
-                    if sender not in read["ROM"][to]:
-                        read["ROM"][to][sender] = True
-                if sender in settings["mimic"]["target"] and settings["mimic"]["status"] == True and settings["mimic"]["target"][sender] == True:
+            
+            if msg.from_ in mimic["target"] and mimic["status"] == True and mimic["target"][msg.from_] == True:
                     text = msg.text
                     if text is not None:
-                        line.sendMessage(msg.to,text)
-                if settings["unsendMessage"] == True:
-                    try:
-                        msg = op.message
-                        if msg.toType == 0:
-                            line.log("[{} : {}]".format(str(msg._from), str(msg.text)))
-                        else:
-                            line.log("[{} : {}]".format(str(msg.to), str(msg.text)))
-                            msg_dict[msg.id] = {"text": msg.text, "from": msg._from, "createdTime": msg.createdTime, "contentType": msg.contentType, "contentMetadata": msg.contentMetadata}
-                    except Exception as error:
-                        logError(error)
-                if msg.contentType == 0:
-                    if text is None:
-                        return
-                    if "/ti/g/" in msg.text.lower():
-                        if settings["autoJoinTicket"] == True:
-                            link_re = re.compile('(?:line\:\/|line\.me\/R)\/ti\/g\/([a-zA-Z0-9_-]+)?')
-                            links = link_re.findall(text)
-                            n_links = []
-                            for l in links:
-                                if l not in n_links:
-                                    n_links.append(l)
-                            for ticket_id in n_links:
-                                group = line.findGroupByTicket(ticket_id)
-                                line.acceptGroupInvitationByTicket(group.id,ticket_id)
-                                line.sendMessage(to, "มุดลิ้งเข้าไปในกลุ่ม👉 %s 👈 เรียบร้อยแล้ว" % str(group.name))
-                if msg.contentType == 0 and sender not in lineMID and msg.toType == 2:
-                    if "MENTION" in msg.contentMetadata.keys() != None:
-        	             if settings['kickMention'] == True:
-        		             contact = line.getContact(msg._from)
-        		             cName = contact.displayName
-        		             balas = ["เนื่องจากตอนนี้ผมเปิดระบบเตะคนแทคไว้ " + "\n👉" + cName + "\n🙏ต้องขออภัยด้วยจริงๆ🙏Bye!!!"]
-        		             ret_ = "" + random.choice(balas)                     
-        		             name = re.findall(r'@(\w+)', msg.text)
-        		             mention = ast.literal_eval(msg.contentMetadata["MENTION"])
-        		             mentionees = mention["MENTIONEES"]
-        		             for mention in mentionees:
-        			               if mention['M'] in admin:
-        				                  line.sendText(msg.to,ret_)
-        				                  random.choice(Rfu).kickoutFromGroup(msg.to,[msg._from])
-        				                  break                                  
-        			               if mention['M'] in lineMID:
-        				                  line.sendText(msg.to,ret_)
-        				                  random.choice(Rfu).kickoutFromGroup(msg.to,[msg._from])
-        				                  break
-                if msg.contentType == 0 and sender not in lineMID and msg.toType == 2:
-                    if "MENTION" in list(msg.contentMetadata.keys())!= None:
-                         if settings['potoMention'] == True:
-                             contact = line.getContact(msg._from)
-                             cName = contact.pictureStatus
-                             mi_d = contact.mid
-                             balas = ["http://dl.profile.line-cdn.net/" + cName]
-                             ret_ = random.choice(balas)
-                             mention = ast.literal_eval(msg.contentMetadata["MENTION"])
-                             mentionees = mention["MENTIONEES"]
-                             for mention in mentionees:
-                                   if mention["M"] in lineMID:
-                                          line.sendImageWithURL(to,ret_)
-                                          line.sendContact(msg.to, mi_d)
-                                          break  
-                if msg.contentType == 0 and sender not in lineMID and msg.toType == 2:
-                    if "MENTION" in list(msg.contentMetadata.keys()) != None:
-                         if settings['detectMention'] == True:
-                             contact = line.getContact(msg._from)
-                             cName = contact.displayName
-                             balas = ["『 Auto Respon』\n " + cName + "\n\n『แทคทำไมครับ?』"]
-                             ret_ = "" + random.choice(balas)
-                             name = re.findall(r'@(\w+)', msg.text)
-                             mention = ast.literal_eval(msg.contentMetadata["MENTION"])
-                             mentionees = mention['MENTIONEES']
-                             for mention in mentionees:
-                                   if mention['M'] in lineMID:
-                                          line.sendMessage(to,ret_)
-                                          line.sendMessage(to,str(settings["Respontag"]))
-                                          break
-                if msg.contentType == 0 and sender not in lineMID and msg.toType == 2:
-                    if "MENTION" in list(msg.contentMetadata.keys()) != None:
-                         if settings['delayMention'] == True:
-                             contact = line.getContact(msg._from)
-                             cName = contact.displayName
-                             name = re.findall(r'@(\w+)', msg.text)
-                             mention = ast.literal_eval(msg.contentMetadata["MENTION"])
-                             mentionees = mention['MENTIONEES']
-                             for mention in mentionees:
-                                   if mention['M'] in lineMID:
-                                          sendMessageWithMention(to, contact.mid)
-                                          sendMessageWithMention(to, contact.mid)
-                                          sendMessageWithMention(to, contact.mid)
-                                          sendMessageWithMention(to, contact.mid)
-                                          sendMessageWithMention(to, contact.mid)
-                                          sendMessageWithMention(to, contact.mid)
-                                          sendMessageWithMention(to, contact.mid)
-                                          sendMessageWithMention(to, contact.mid)
-                                          sendMessageWithMention(to, contact.mid)
-                                          sendMessageWithMention(to, contact.mid)
-                                          break
-      
-        if op.type == 17:
-           print ("MEMBER JOIN TO GROUP")
-           if settings["Wc"] == True:
-             if op.param2 in lineMID:
-                 return
-             dan = line.getContact(op.param2)
-             tgb = line.getGroup(op.param1)
-             line.sendMessage(op.param1, str(settings["welcome"]) +"\nสวัสดี {}, Welcome to Group {}\nเข้ามาแล้วทำตัวดีๆละ\nอ่ย่าไปเป็นบ้าลบเพื่อนๆออกกลุ่มนะ (｀・ω・´)".format(str(dan.displayName),str(tgb.name)))
-             line.sendContact(op.param1, op.param2)
-             line.sendMessage(op.param1,"สเตตัส\n{}".format(str(dan.statusMessage)))
-             line.sendImageWithURL(op.param1, "http://dl.profile.line-cdn.net{}".format(dan.picturePath))
-             line.sendMessage(op.param1, str(settings["comment"]))
-        if op.type == 19:
-           print ("MEMBER KICKOUT TO GROUP")
-           if settings["Nk"] == True:
-             if op.param2 in lineMID:
-                 return
-             dan = line.getContact(op.param2)
-             tgb = line.getGroup(op.param1)
-             line.sendMessage(op.param1,str(settings["kick"]) + "\nเฮ้ย {}, คือหยังมันโหดแท้วะΣ(っﾟДﾟ；)っ ".format(str(dan.displayName)))
-             line.sendContact(op.param1, op.param2)
-             line.sendMessage(op.param1,"สเตตัส\n{}".format(str(dan.statusMessage)))
-             line.sendImageWithURL(op.param1, "http://dl.profile.line-cdn.net{}".format(dan.picturePath))
-        if op.type == 15:
-           print ("MEMBER LEAVE TO GROUP")
-           if settings["Lv"] == True:
-             if op.param2 in lineMID:
-                 return
-             dan = line.getContact(op.param2)
-             tgb = line.getGroup(op.param1)
-             line.sendMessage(op.param1,str(settings["bye"]) + "\n {}, ได้ออกจากกลุ่ม {} \nยืนไว้อาลัยแด่เขาเป็นเวลา3วินาที  (｀・ω・´)".format(str(dan.displayName),str(tgb.name)))
-             line.sendContact(op.param1, op.param2)
-             line.sendImageWithURL(op.param1, "http://dl.profile.line-cdn.net{}".format(dan.picturePath))
-        if op.type == 55:
-            try:
-                if RfuCctv['cyduk'][op.param1]==True:
-                    if op.param1 in RfuCctv['point']:
-                        Name = line.getContact(op.param2).displayName
-                        if Name in RfuCctv['sidermem'][op.param1]:
-                            pass
-                        else:
-                            RfuCctv['sidermem'][op.param1] += "\n🔰" + Name
-                            pref=['จ๊ะเอ๋','รู้นะว่าแอบอยู่','เล่นซ่อนแอบกันเหรอ','คิดว่าเป็นนินจารึไง','ว่าไง','อ่านอย่างเดียวเลยนะ','ออกมาคุยหน่อย','ออกมาเดี๋ยวนี้']
-                            sendMessageWithMention(op.param1, op.param2)
-                            line.sendMessage(op.param1, str(random.choice(pref)) + '\n♪ ♬ ヾ(´︶`♡)ﾉ ♬ ♪')
-                            line.sendContact(op.param1, op.param2)
-                    else:
-                        pass
-                else:
-                    pass
-            except:
-                pass
+                        nadya.sendText(msg.to,text)             
+            
+            
+            if msg.to in settings["simiSimi"]:
+                if settings["simiSimi"][msg.to] == True:
+                    if msg.text is not None:
+                        text = msg.text
+                        r = requests.get("http://api.ntcorp.us/chatbot/v1/?text=" + text.replace(" ","+") + "&key=beta1.nt")
+                        data = r.text
+                        data = json.loads(data)
+                        if data['status'] == 200:
+                            if data['result']['result'] == 100:
+                                nadya.sendText(msg.to,data['result']['response'].encode('utf-8'))
 
-        if op.type == 55:
-            try:
-                if RfuCctv['cyduk'][op.param1]==True:
-                    if op.param1 in RfuCctv['point']:
-                        Name = line.getContact(op.param2).displayName
-                        if Name in RfuCctv['sidermem'][op.param1]:
-                            pass
+            if 'MENTION' in msg.contentMetadata.keys() != None:
+                 if wait["kickMention"] == True:
+                     contact = nadya.getContact(msg.from_)
+                     cName = contact.displayName
+                     balas = ["Aku Bilang Jangan Ngetag Lagi " + cName + "\nAku Kick Kamu! Sorry, Byee!!!"]
+                     ret_ = random.choice(balas)                     
+                     name = re.findall(r'@(\w+)', msg.text)
+                     mention = ast.literal_eval(msg.contentMetadata['MENTION'])
+                     mentionees = mention['MENTIONEES']
+                     for mention in mentionees:
+                           if mention['M'] in Bots:
+                                  nadya.sendText(msg.to,ret_)
+                                  nadya.kickoutFromGroup(msg.to,[msg.from_])
+                                  break                              
+                              
+            if 'MENTION' in msg.contentMetadata.keys() != None:
+                 if wait["detectMention"] == True:
+                     contact = nadya.getContact(msg.from_)
+                     cName = contact.displayName
+                     balas = ["Dont Tag!! Lagi Sibuk",cName + " Ngapain Ngetag?",cName + " Nggak Usah Tag-Tag! Kalo Penting Langsung Pc Aja","Dia Lagi Off", cName + " Kenapa Tag Saya?","Dia Lagi Tidur\nJangan Di Tag " + cName, "Jangan Suka Tag Gua " + cName, "Kamu Siapa " + cName + "?", "Ada Perlu Apa " + cName + "?","Woii " + cName + " Jangan Ngetag, Riibut!"]
+                     ret_ = random.choice(balas)
+                     name = re.findall(r'@(\w+)', msg.text)
+                     mention = ast.literal_eval(msg.contentMetadata['MENTION'])
+                     mentionees = mention['MENTIONEES']
+                     for mention in mentionees:
+                           if mention['M'] in Bots:
+                                  nadya.sendText(msg.to,ret_)
+                                  break   
+                              
+            if 'MENTION' in msg.contentMetadata.keys() != None:
+                 if wait["detectMention2"] == True:          
+                    contact = nadya.getContact(msg.from_)
+                    cName = contact.displayName
+                    balas = ["Sekali lagi nge tag gw sumpahin jomblo seumur hidup!","Nggak Usah Tag-Tag! Kalo Penting Langsung Pc Aja","Woii " + cName + " Jangan Ngetag, Riibut!"]
+                    ret_ = random.choice(balas)
+                    name = re.findall(r'@(\w+)', msg.text)
+                    mention = ast.literal_eval(msg.contentMetadata['MENTION'])
+                    mentionees = mention['MENTIONEES']
+                    for mention in mentionees:
+                           if mention['M'] in Bots:
+                                  nadya.sendText(msg.to,ret_)
+                                  msg.contentType = 7   
+                                  msg.text = None
+                                  msg.contentMetadata = {
+                                                       "STKID": "20001316",
+                                                       "STKPKGID": "1582380",
+                                                       "STKVER": "1" }
+                                  nadya.sendMessage(msg)                                
+                                  break
+                              
+            if 'MENTION' in msg.contentMetadata.keys() != None:
+                 if wait["detectMention3"] == True:          
+                    contact = nadya.getContact(msg.from_)
+                    cName = contact.displayName
+                    balas = ["Woii " + cName + ", Dasar Jones Ngetag Mulu!"]
+                    balas1 = "Ini Foto Sii Jones Yang Suka Ngetag. . ."
+                    ret_ = random.choice(balas)
+                    image = "http://dl.profile.line-cdn.net/" + contact.pictureStatus
+                    name = re.findall(r'@(\w+)', msg.text)
+                    mention = ast.literal_eval(msg.contentMetadata['MENTION'])
+                    mentionees = mention['MENTIONEES']
+                    for mention in mentionees:
+                           if mention['M'] in Bots:
+                                  nadya.sendText(msg.to,ret_)
+                                  nadya.sendText(msg.to,balas1)
+                                  nadya.sendImageWithURL(msg.to,image)
+                                  msg.contentType = 7   
+                                  msg.text = None
+                                  msg.contentMetadata = {
+                                                       "STKID": "11764508",
+                                                       "STKPKGID": "6641",
+                                                       "STKVER": "1" }
+                                  nadya.sendMessage(msg)                                
+                                  break  
+                                  
+        if op.type == 25:
+            msg = op.message                                  
+                              
+            if msg.text in ["Bot on"]:
+                wait["Bot"] = True
+                nadya.sendText(msg.to,"Bot Sudah On Kembali.")  
+
+        if op.type == 25:
+          if wait["Bot"] == True:    
+            msg = op.message
+            
+            
+            if msg.contentType == 7:
+              if wait["sticker"] == True:
+                msg.contentType = 0
+                stk_id = msg.contentMetadata['STKID']
+                stk_ver = msg.contentMetadata['STKVER']
+                pkg_id = msg.contentMetadata['STKPKGID']
+                filler = "『 Sticker Check 』\nSTKID : %s\nSTKPKGID : %s\nSTKVER : %s\n『 Link 』\nline://shop/detail/%s" % (stk_id,pkg_id,stk_ver,pkg_id)
+                nadya.sendText(msg.to, filler)
+                wait["sticker"] = False
+            else:
+                pass              
+
+            if wait["alwaysRead"] == True:
+                if msg.toType == 0:
+                    nadya.sendChatChecked(msg.from_,msg.id)
+                else:
+                    nadya.sendChatChecked(msg.to,msg.id)
+                    
+                    
+            if msg.contentType == 16:
+                if wait['likeOn'] == True:
+                     url = msg.contentMetadata["postEndUrl"]
+                     nadya.like(url[25:58], url[66:], likeType=1005)
+                     nadya.comment(url[25:58], url[66:], wait["comment"])
+                     nadya.sendText(msg.to,"Like Success")                     
+                     wait['likeOn'] = False
+
+
+            if msg.contentType == 13:
+                if wait["wblacklist"] == True:
+		    if msg.contentMetadata["mid"] not in admin:
+                        if msg.contentMetadata["mid"] in wait["blacklist"]:
+                            nadya.sendText(msg.to,"Sudah")
+                            wait["wblacklist"] = False
                         else:
-                            RfuCctv['sidermem'][op.param1] += "\n⌬ " + Name + "\n╚════════════════┛"
-                            if " " in Name:
-                            	nick = Name.split(' ')
-                            if len(nick) == 2:
-                            	line.sendMessage(op.param1, "Nah " +nick[0])
-                            summon(op.param1, [op.param2])
+                            wait["blacklist"][msg.contentMetadata["mid"]] = True
+                            wait["wblacklist"] = False
+                            nadya.sendText(msg.to,"Ditambahkan")
+		    else:
+			nadya.sendText(msg.to,"Admin Detected~")
+			
+
+                elif wait["dblacklist"] == True:
+                    if msg.contentMetadata["mid"] in wait["blacklist"]:
+                        del wait["blacklist"][msg.contentMetadata["mid"]]
+                        nadya.sendText(msg.to,"Terhapus")
+                        wait["dblacklist"] = False
+
                     else:
-                        pass
+                        wait["dblacklist"] = False
+                        nadya.sendText(msg.to,"Tidak Ada Black List")
+            
+                    
+ 
+                elif wait["Contact"] == True:
+                     msg.contentType = 0
+                     nadya.sendText(msg.to,msg.contentMetadata["mid"])
+                     if 'displayName' in msg.contentMetadata:
+                         contact = nadya.getContact(msg.contentMetadata["mid"])
+                         try:
+                             cu = nadya.channel.getCover(msg.contentMetadata["mid"])
+                         except:
+                             cu = ""
+                         nadya.sendText(msg.to,"Nama:\n" + msg.contentMetadata["displayName"] + "\n\nMid:\n" + msg.contentMetadata["mid"] + "\n\nStatus:\n" + contact.statusMessage + "\n\nPhoto Profile:\nhttp://dl.profile.line-cdn.net/" + contact.pictureStatus + "\n\nPhoto Cover:\n" + str(cu))
+                     else:
+                         contact = nadya.getContact(msg.contentMetadata["mid"])
+                         try:
+                             cu = nadya.channel.getCover(msg.contentMetadata["mid"])
+                         except:
+                             cu = ""
+                         nadya.sendText(msg.to,"Nama:\n" + msg.contentMetadata["displayName"] + "\n\nMid:\n" + msg.contentMetadata["mid"] + "\n\nStatus:\n" + contact.statusMessage + "\n\nPhoto Profile:\nhttp://dl.profile.line-cdn.net/" + contact.pictureStatus + "\n\nPhoto Cover:\n" + str(cu))
+
+
+ 
+            elif msg.text == "Ginfo":
+                if msg.toType == 2:
+                    ginfo = nadya.getGroup(msg.to)
+                    try:
+                        gCreator = ginfo.creator.displayName
+                    except:
+                        gCreator = "Error"
+                    if wait["lang"] == "JP":
+                        if ginfo.invitee is None:
+                            sinvitee = "0"
+                        else:
+                            sinvitee = str(len(ginfo.invitee))
+                        if ginfo.preventJoinByTicket == True:
+                            u = "close"
+                        else:
+                            u = "open"
+                        nadya.sendText(msg.to,"[Group name]\n" + str(ginfo.name) + "\n\n[Gid]\n" + msg.to + "\n\n[Group creator]\n" + gCreator + "\n\n[Profile status]\nhttp://dl.profile.line.naver.jp/" + ginfo.pictureStatus + "\n\nMembers:" + str(len(ginfo.members)) + "members\nPending:" + sinvitee + "people\nURL:" + u + "it is inside")
+                    else:
+                        nadya.sendText(msg.to,"[group name]\n" + str(ginfo.name) + "\n[gid]\n" + msg.to + "\n[group creator]\n" + gCreator + "\n[profile status]\nhttp://dl.profile.line.naver.jp/" + ginfo.pictureStatus)
                 else:
+                    if wait["lang"] == "JP":
+                        nadya.sendText(msg.to,"Can not be used outside the group")
+                    else:
+                        nadya.sendText(msg.to,"Not for use less than group")
+                        
+
+ 
+            elif msg.text is None:
+                return
+ 
+            elif msg.text in ["Creator","Owner"]:
+                msg.contentType = 13
+                msg.contentMetadata = {'mid': tjia}
+                nadya.sendMessage(msg)
+		nadya.sendText(msg.to,"Itu Majikan Kami (^_^)")
+
+ 
+
+	    elif msg.text in ["Group creator","Gcreator","gcreator"]:
+		ginfo = nadya.getGroup(msg.to)
+		gCreator = ginfo.creator.mid
+                msg.contentType = 13
+                msg.contentMetadata = {'mid': gCreator}
+                nadya.sendMessage(msg)
+		nadya.sendText(msg.to,"Itu Yang Buat Grup Ini")
+ 
+
+                
+            elif msg.contentType == 16:
+                if wait["Timeline"] == True:
+                    msg.contentType = 0
+                    msg.text = "post URL\n" + msg.contentMetadata["postEndUrl"]
+                    nadya.sendText(msg.to,msg.text)
+
+            
+            if msg.contentType == 13:
+                if wait["steal"] == True:
+                    _name = msg.contentMetadata["displayName"]
+                    copy = msg.contentMetadata["mid"]
+                    groups = nadya.getGroup(msg.to)
+                    pending = groups.invitee
+                    targets = []
+                    for s in groups.members:
+                        if _name in s.displayName:
+                            print "[Target] Stealed"
+                            break                             
+                        else:
+                            targets.append(copy)
+                    if targets == []:
+                        pass
+                    else:
+                        for target in targets:
+                            try:
+                                nadya.findAndAddContactsByMid(target)
+                                contact = nadya.getContact(target)
+                                cu = nadya.channel.getCover(target)
+                                path = str(cu)
+                                image = "http://dl.profile.line-cdn.net/" + contact.pictureStatus
+                                nadya.sendText(msg.to,"Nama :\n" + contact.displayName + "\n\nMid :\n" + msg.contentMetadata["mid"] + "\n\nBio :\n" + contact.statusMessage)
+                                nadya.sendText(msg.to,"Profile Picture " + contact.displayName)
+                                nadya.sendImageWithURL(msg.to,image)
+                                nadya.sendText(msg.to,"Cover " + contact.displayName)
+                                nadya.sendImageWithURL(msg.to,path)
+                                wait["steal"] = False
+                                break
+                            except:
+                                    pass
+
+
+            if msg.contentType == 13:
+                if wait["gift"] == True:
+                    _name = msg.contentMetadata["displayName"]
+                    copy = msg.contentMetadata["mid"]
+                    groups = nadya.getGroup(msg.to)
+                    pending = groups.invitee
+                    targets = []
+                    for s in groups.members:
+                        if _name in s.displayName:
+                            print "[Target] Gift"
+                            break                             
+                        else:
+                            targets.append(copy)
+                    if targets == []:
+                        pass
+                    else:
+                        for target in targets:
+                            try:
+                                nadya.sendText(msg.to,"Gift Sudah Terkirim!")
+                                msg.contentType = 9
+                                msg.contentMetadata= {'PRDTYPE': 'STICKER',
+                                                         'STKVER': '1',
+                                                         'MSGTPL': '1',
+                                                         'STKPKGID': '1296261'}
+                                msg.to = target
+                                msg.text = None
+                                nadya.sendMessage(msg)
+                                wait['gift'] = False
+                                break
+                            except:
+                                     msg.contentMetadata = {'mid': target}
+                                     wait["gift"] = False
+                                     break
+
+            if msg.contentType == 13:
+                if wait["copy"] == True:
+                    _name = msg.contentMetadata["displayName"]
+                    copy = msg.contentMetadata["mid"]
+                    groups = nadya.getGroup(msg.to)
+                    targets = []
+                    for s in groups.members:
+                        if _name in s.displayName:
+                            print "[Target] Copy"
+                            break                             
+                        else:
+                            targets.append(copy)
+                    if targets == []:
+                        nadya.sendText(msg.to, "Not Found...")
+                        pass
+                    else:
+                        for target in targets:
+                            try:
+                                nadya.CloneContactProfile(target)
+                                nadya.sendText(msg.to, "Copied (^_^)")
+                                wait['copy'] = False
+                                break
+                            except:
+                                     msg.contentMetadata = {'mid': target}
+                                     wait["copy"] = False
+                                     break
+
+
+            if msg.contentType == 13:
+                if wait['invite'] == True:
+                     _name = msg.contentMetadata["displayName"]
+                     invite = msg.contentMetadata["mid"]
+                     groups = nadya.getGroup(msg.to)
+                     pending = groups.invitee
+                     targets = []
+                     for s in groups.members:
+                         if _name in s.displayName:
+                             nadya.sendText(msg.to, _name + " Berada DiGrup Ini")
+                         else:
+                             targets.append(invite)
+                     if targets == []:
+                         pass
+                     else:
+                         for target in targets:
+                             try:
+                                 nadya.findAndAddContactsByMid(target)
+                                 nadya.inviteIntoGroup(msg.to,[target])
+                                 nadya.sendText(msg.to,"Invite " + _name)
+                                 wait['invite'] = False
+                                 break                              
+                             except:             
+                                      nadya.sendText(msg.to,"Limit Invite")
+                                      wait['invite'] = False
+                                      break
+                                  
+ 
+            elif msg.text in ["Key creator","help creator","Help creator"]:
+                nadya.sendText(msg.to,creatorMessage)
+
+            elif msg.text in ["Key group","help group","Help group"]:
+                nadya.sendText(msg.to,groupMessage)
+
+            elif msg.text in ["Key","help","Help"]:
+                nadya.sendText(msg.to,helpMessage)
+
+            elif msg.text in ["Key self","help self","Help self"]:
+                nadya.sendText(msg.to,selfMessage)
+
+            elif msg.text in ["Key bot","help bot","Help bot"]:
+                nadya.sendText(msg.to,botMessage)
+
+            elif msg.text in ["Key set","help set","Help set"]:
+                nadya.sendText(msg.to,setMessage)
+
+            elif msg.text in ["Key media","help media","Help media"]:
+                nadya.sendText(msg.to,mediaMessage)
+                
+            elif msg.text in ["Key admin","help admin","Help admin"]:
+                nadya.sendText(msg.to,adminMessage)               
+                
+
+ 
+            elif msg.text in ["List group"]:
+                    gid = nadya.getGroupIdsJoined()
+                    h = ""
+		    jml = 0
+                    for i in gid:
+		        gn = nadya.getGroup(i).name
+                        h += "♦【%s】\n" % (gn)
+		        jml += 1
+                    nadya.sendText(msg.to,"=======[List Group]=======\n"+ h +"\nTotal Group: "+str(jml))
+ 
+	    elif "Ban group: " in msg.text:
+		grp = msg.text.replace("Ban group: ","")
+		gid = nadya.getGroupIdsJoined()
+		if msg.from_ in admin:
+		    for i in gid:
+		        h = nadya.getGroup(i).name
+			if h == grp:
+			    wait["BlGroup"][i]=True
+			    nadya.sendText(msg.to, "Success Ban Group : "+grp)
+			else:
+			    pass
+		else:
+		    nadya.sendText(msg.to, "Khusus Nadya")
+ 
+            elif msg.text in ["List ban","List ban group"]:
+		if msg.from_ in admin:
+                    if wait["BlGroup"] == {}:
+                        nadya.sendText(msg.to,"Tidak Ada")
+                    else:
+                        mc = ""
+                        for gid in wait["BlGroup"]:
+                            mc += "-> " +nadya.getGroup(gid).name + "\n"
+                        nadya.sendText(msg.to,"===[Ban Group]===\n"+mc)
+		else:
+		    nadya.sendText(msg.to, "Khusus Admin")
+ 
+	    elif msg.text in ["Del ban: "]:
+		if msg.from_ in admin:
+		    ng = msg.text.replace("Del ban: ","")
+		    for gid in wait["BlGroup"]:
+		        if nadya.getGroup(gid).name == ng:
+			    del wait["BlGroup"][gid]
+			    nadya.sendText(msg.to, "Success del ban "+ng)
+		        else:
+			    pass
+		else:
+		    nadya.sendText(msg.to, "Khusus Nadya")
+ 
+            elif "Join group: " in msg.text:
+		ng = msg.text.replace("Join group: ","")
+		gid = nadya.getGroupIdsJoined()
+		try:
+		    if msg.from_ in Creator:
+                        for i in gid:
+                            h = nadya.getGroup(i).name
+		            if h == ng:
+		                nadya.inviteIntoGroup(i,[Creator])
+			        nadya.sendText(msg.to,"Success Join To ["+ h +"] Group")
+			    else:
+			        pass
+		    else:
+		        nadya.sendText(msg.to,"Khusus Nadya")
+		except Exception as e:
+		    nadya.sendText(msg.to, str(e))
+ 
+	    elif "Leave group: " in msg.text:
+		ng = msg.text.replace("Leave group: ","")
+		gid = nadya.getGroupIdsJoined()
+		if msg.from_ in Creator:
+                    for i in gid:
+                        h = nadya.getGroup(i).name
+		        if h == ng:
+			    nadya.sendText(i,"Bot Di Paksa Keluar Oleh Owner!")
+		            nadya.leaveGroup(i)
+			    nadya.sendText(msg.to,"Success Left ["+ h +"] group")
+			else:
+			    pass
+		else:
+		    nadya.sendText(msg.to,"Khusus Nadya")
+ 
+	    elif "Leave all group" == msg.text:
+		gid = nadya.getGroupIdsJoined()
+                if msg.from_ in Creator:
+		    for i in gid:
+			nadya.sendText(i,"Bot Di Paksa Keluar Oleh Owner!")
+		        nadya.leaveGroup(i)
+		    nadya.sendText(msg.to,"Success Leave All Group")
+		else:
+		    nadya.sendText(msg.to,"Khusus Nadya")
+		   
+
+            elif "Pict group: " in msg.text:
+                saya = msg.text.replace('Pict group: ','')
+                gid = nadya.getGroupIdsJoined()
+                for i in gid:
+                    h = nadya.getGroup(i).name
+                    gna = nadya.getGroup(i)
+                    if h == saya:
+                        nadya.sendImageWithURL(msg.to,"http://dl.profile.line.naver.jp/"+ gna.pictureStatus)		    
+		    
+ 
+            elif msg.text in ["cancelall","Cancelall"]:
+                if msg.toType == 2:
+                    X = nadya.getGroup(msg.to)
+                    if X.invitee is not None:
+                        gInviMids = [contact.mid for contact in X.invitee]
+                        nadya.cancelGroupInvitation(msg.to, gInviMids)
+                    else:
+                        nadya.sendText(msg.to,"Tidak Ada Yang Pending")
+                else:
+                    nadya.sendText(msg.to,"Tidak Bisa Digunakan Diluar Group")
+ 
+            elif msg.text in ["Ourl","Url on"]:
+                if msg.toType == 2:
+                    X = nadya.getGroup(msg.to)
+                    X.preventJoinByTicket = False
+                    nadya.updateGroup(X)
+                    nadya.sendText(msg.to,"Url Sudah Aktif")
+                else:
+                    nadya.sendText(msg.to,"Can not be used outside the group")
+ 
+            elif msg.text in ["Curl","Url off"]:
+                if msg.toType == 2:
+                    X = nadya.getGroup(msg.to)
+                    X.preventJoinByTicket = True
+                    nadya.updateGroup(X)
+                    nadya.sendText(msg.to,"Url Sudah Di Nonaktifkan")
+
+                else:
+                    nadya.sendText(msg.to,"Can not be used outside the group")
+ 
+            elif msg.text in ["Join on","Autojoin on"]:
+		if msg.from_ in admin:
+                    wait["AutoJoin"] = True
+                    wait["AutoJoinCancel"] = False
+                    nadya.sendText(msg.to,"Auto Join Sudah Aktif")
+		else:
+		    nadya.sendText(msg.to,"Khusus Nadya")
+
+            elif msg.text in ["Join off","Autojoin off"]:
+		if msg.from_ in admin:
+                    wait["AutoJoin"] = False
+                    nadya.sendText(msg.to,"Auto Join Sudah Di Nonaktifkan")
+		else:
+		    nadya.sendText(msg.to,"Khusus Nadya")
+		    
+		    
+            elif msg.text in ["Joincancel on","Autojoincancel on"]:
+		if msg.from_ in admin:
+                    wait["AutoJoinCancel"] = True
+                    wait["AutoJoin"] = False
+                    nadya.sendText(msg.to,"Auto Join Cancel Sudah Aktif")
+		else:
+		    nadya.sendText(msg.to,"Khusus Nadya")
+
+            elif msg.text in ["Joincancel off","Autojoincancel off"]:
+		if msg.from_ in admin:
+                    wait["AutoJoinCancel"] = False
+                    nadya.sendText(msg.to,"Auto Join Cancel Sudah Di Nonaktifkan")
+		else:
+		    nadya.sendText(msg.to,"Khusus Nadya")		    
+		    
+ 
+            elif msg.text in ["Respon1 on"]:
+		if msg.from_ in admin:
+                    wait["detectMention"] = True
+                    wait["detectMention2"] = False
+                    wait["detectMention3"] = False
+                    wait["kickMention"] = False
+                    nadya.sendText(msg.to,"Auto Respon1 Sudah Aktif")
+		else:
+		    nadya.sendText(msg.to,"Khusus Nadya")
+
+            elif msg.text in ["Respon1 off"]:
+		if msg.from_ in admin:
+                    wait["detectMention"] = False
+                    nadya.sendText(msg.to,"Auto Respon1 Sudah Off")
+		else:
+		    nadya.sendText(msg.to,"Khusus Nadya")	
+		    
+		    
+            elif msg.text in ["Respon2 on"]:
+		if msg.from_ in admin:
+                    wait["detectMention"] = False
+                    wait["detectMention2"] = True
+                    wait["detectMention3"] = False
+                    wait["kickMention"] = False
+                    nadya.sendText(msg.to,"Auto Respon2 Sudah Aktif")
+		else:
+		    nadya.sendText(msg.to,"Khusus Nadya")
+            elif msg.text in ["Respon2 off"]:
+		if msg.from_ in admin:
+                    wait["detectMention2"] = False
+                    nadya.sendText(msg.to,"Auto Respon2 Sudah Off")
+		else:
+		    nadya.sendText(msg.to,"Khusus Nadya")	
+		    
+
+            elif msg.text in ["Respon3 on"]:
+		if msg.from_ in admin:
+                    wait["detectMention"] = False
+                    wait["detectMention2"] = False
+                    wait["detectMention3"] = True
+                    wait["kickMention"] = False
+                    nadya.sendText(msg.to,"Auto Respon3 Sudah Aktif")
+		else:
+		    nadya.sendText(msg.to,"Khusus Nadya")
+
+            elif msg.text in ["Respon3 off"]:
+		if msg.from_ in admin:
+                    wait["detectMention3"] = False
+                    nadya.sendText(msg.to,"Auto Respon3 Sudah Off")
+		else:
+		    nadya.sendText(msg.to,"Khusus Nadya")	
+		    
+ 
+            elif msg.text in ["Responkick on"]:
+		if msg.from_ in admin:
+                    wait["kickMention"] = True  
+                    wait["detectMention"] = False
+                    wait["detectMention2"] = False
+                    wait["detectMention3"] = False                    
+                    nadya.sendText(msg.to,"Auto Respon Kick Sudah Aktif")
+		else:
+		    nadya.sendText(msg.to,"Khusus Nadya")
+
+            elif msg.text in ["Responkick off"]:
+		if msg.from_ in admin:
+                    wait["kickMention"] = False                    
+                    nadya.sendText(msg.to,"Auto Respon Kick Sudah Off")
+		else:
+		    nadya.sendText(msg.to,"Khusus Nadya")			  
+		    
+ 
+	    elif msg.text in ["Autocancel on"]:
+	     if msg.from_ in admin:	        
+                wait["AutoCancel"] = True
+                nadya.sendText(msg.to,"Auto Cancel Sudah Aktif")
+		print wait["AutoCancel"]
+	     else:
+		    nadya.sendText(msg.to,"Khusus Nadya")		
+
+	    elif msg.text in ["Autocancel off"]:
+	     if msg.from_ in admin:	        
+                wait["AutoCancel"] = False
+                nadya.sendText(msg.to,"Auto Cancel Sudah Di Nonaktifkan")
+		print wait["AutoCancel"]
+	     else:
+		    nadya.sendText(msg.to,"Khusus Nadya")	
+		    
+
+	    elif msg.text in ["Invitepro on"]:
+	     if msg.from_ in admin:	        
+                wait["inviteprotect"] = True
+                nadya.sendText(msg.to,"Invite Protect Sudah Aktif")
+		print wait["inviteprotect"]
+	     else:
+		    nadya.sendText(msg.to,"Khusus Nadya")		
+
+	    elif msg.text in ["Invitepro off"]:
+	     if msg.from_ in admin:	        
+                wait["inviteprotect"] = False
+                nadya.sendText(msg.to,"Invite Protect Sudah Di Nonaktifkan")
+		print wait["inviteprotect"]
+	     else:
+		    nadya.sendText(msg.to,"Khusus Nadya")		    
+
+	    elif "Qr on" in msg.text:
+	     if msg.from_ in admin:	        
+	        wait["Qr"] = True
+	    	nadya.sendText(msg.to,"QR Protect Sudah Aktif")
+	     else:
+		    nadya.sendText(msg.to,"Khusus Nadya")	    	
+
+	    elif "Qr off" in msg.text:
+	     if msg.from_ in admin:	        
+	    	wait["Qr"] = False
+	    	nadya.sendText(msg.to,"Qr Protect Sudah Di Nonaktifkan")
+	     else:
+		    nadya.sendText(msg.to,"Khusus Nadya")	    	
+
+                        
+
+	    elif "Autokick on" in msg.text:
+	     if msg.from_ in admin:	 	        
+		     wait["AutoKick"] = True
+		     nadya.sendText(msg.to,"Auto Kick Sudah Aktif")
+	     else:
+	        nadya.sendText(msg.to,"Khusus Nadya")	     
+
+	    elif "Autokick off" in msg.text:
+	     if msg.from_ in admin:	 	        
+		     wait["AutoKick"] = False
+		     nadya.sendText(msg.to,"Auto Kick Sudah Di Nonaktifkan")
+	     else:
+	        nadya.sendText(msg.to,"Khusus Nadya")	     
+
+
+            elif msg.text in ["Allprotect on"]:
+		if msg.from_ in admin:
+                    wait["AutoCancel"] = True
+                    wait["inviteprotect"] = True                   
+                    wait["AutoKick"] = True
+                    wait["Qr"] = True
+                    nadya.sendText(msg.to,"All Protect Sudah Aktif Semua")
+		else:
+		    nadya.sendText(msg.to,"Khusus Nadya")
+
+            elif msg.text in ["Allprotect off"]:
+		if msg.from_ in admin:
+                    wait["AutoCancel"] = False
+                    wait["inviteprotect"] = False                    
+                    wait["AutoKick"] = False
+                    wait["Qr"] = False
+                    nadya.sendText(msg.to,"All Protect Sudah Di Nonaktifkan Semua")
+		else:
+		    nadya.sendText(msg.to,"Khusus Nadya")
+
+
+            elif msg.text in ["K on","Contact on"]:
+                wait["Contact"] = True
+                nadya.sendText(msg.to,"Contact Sudah Aktif")
+
+            elif msg.text in ["K off","Contact off"]:
+                wait["Contact"] = False
+                nadya.sendText(msg.to,"Contact Sudah Di Nonaktifkan")
+                
+
+            elif msg.text in ["Alwaysread on"]:
+                wait["alwaysRead"] = True
+                nadya.sendText(msg.to,"Always Read Sudah Aktif")
+
+            elif msg.text in ["Alwaysread off"]:
+                wait["alwaysRead"] = False
+                nadya.sendText(msg.to,"Always Read Sudah Di Nonaktifkan")                
+
+
+            elif msg.text in ["Sambutan on"]:
+                if wait["Sambutan"] == True:
+                    if wait["lang"] == "JP":
+                        nadya.sendText(msg.to,"Sambutan Di Aktifkanヾ(*´∀｀*)ﾉ")
+                else:
+                    wait["Sambutan"] = True
+                    if wait["lang"] == "JP":
+                        nadya.sendText(msg.to,"Sudah Onヽ(´▽｀)/")
+
+            elif msg.text in ["Sambutan off"]:
+                if wait["Sambutan"] == False:
+                    if wait["lang"] == "JP":
+                        nadya.sendText(msg.to,"Sambutan Di Nonaktifkan(　＾∇＾)")
+                else:
+                    wait["Sambutan"] = False
+                    if wait["lang"] == "JP":
+                        nadya.sendText(msg.to,"Sudah Off(p′︵‵。)")
+                        
+                        
+            elif "Sider on" in msg.text:
+                try:
+                    del cctv['point'][msg.to]
+                    del cctv['sidermem'][msg.to]
+                    del cctv['cyduk'][msg.to]
+                except:
                     pass
-            except:
-                pass
-        if op.type == 55:
-            print (" [™❍✯͜͡RED™SAMURI✯͜͡❂➣]  ")
-            try:
-                if op.param1 in read['readPoint']:
-                    if op.param2 in read['readMember'][op.param1]:
-                        pass
-                    else:
-                        read['readMember'][op.param1] += op.param2
-                    read['ROM'][op.param1][op.param2] = op.param2
-                    backupData()
+                cctv['point'][msg.to] = msg.id
+                cctv['sidermem'][msg.to] = ""
+                cctv['cyduk'][msg.to]=True
+                wait["Sider"] = True
+                nadya.sendText(msg.to,"Siap On Cek Sider")
+                
+            elif "Sider off" in msg.text:
+                if msg.to in cctv['point']:
+                    cctv['cyduk'][msg.to]=False
+                    wait["Sider"] = False
+                    nadya.sendText(msg.to, "Cek Sider Off")
                 else:
-                   pass
-            except:
-                pass
+                    nadya.sendText(msg.to, "Heh Belom Di Set")                         
+
+
+            elif msg.text in ["Status"]:
+                md = ""
+		if wait["Sambutan"] == True: md+="╠➩✔️ Sambutan : On\n"
+		else:md+="╠➩❌ Sambutan : Off\n"
+		if wait["AutoJoin"] == True: md+="╠➩✔️ Auto Join : On\n"
+                else: md +="╠➩❌ Auto Join : Off\n"
+		if wait["AutoJoinCancel"] == True: md+="╠➩✔️ Auto Join Cancel : On\n"
+                else: md +="╠➩❌ Auto Join Cancel : Off\n"                
+		if wait["Contact"] == True: md+="╠➩✔️ Info Contact : On\n"
+		else: md+="╠➩❌ Info Contact : Off\n"
+                if wait["AutoCancel"] == True:md+="╠➩✔️ Auto Cancel : On\n"
+                else: md+= "╠➩❌ Auto Cancel : Off\n"
+                if wait["inviteprotect"] == True:md+="╠➩✔️ Invite Protect : On\n"
+                else: md+= "╠➩❌ Invite Protect : Off\n"                
+		if wait["Qr"] == True: md+="╠➩✔️ Qr Protect : On\n"
+		else:md+="╠➩❌ Qr Protect : Off\n"
+		if wait["AutoKick"] == True: md+="╠➩✔️ Auto Kick : On\n"
+		else:md+="╠➩❌ Auto Kick : Off\n"
+		if wait["alwaysRead"] == True: md+="╠➩✔️ Always Read : On\n"
+		else:md+="╠➩❌ Always Read: Off\n"
+		if wait["detectMention"] == True: md+="╠➩✔️ Auto Respon1 : On\n"
+		else:md+="╠➩❌ Auto Respon1 : Off\n"		
+		if wait["detectMention2"] == True: md+="╠➩✔️ Auto Respon2 : On\n"
+		else:md+="╠➩❌ Auto Respon2 : Off\n"	
+		if wait["detectMention3"] == True: md+="╠➩✔️ Auto Respon3 : On\n"
+		else:md+="╠➩❌ Auto Respon3 : Off\n"			
+		if wait["kickMention"] == True: md+="╠➩✔️ Auto Respon Kick : On\n"
+		else:md+="╠➩❌ Auto Respon Kick : Off\n"				
+		if wait["Sider"] == True: md+="╠➩✔️ Auto Sider : On\n"
+		else:md+="╠➩❌ Auto Sider: Off\n"	
+		if wait["Simi"] == True: md+="╠➩✔️ Simisimi : On\n"
+		else:md+="╠➩❌ Simisimi: Off\n"		
+                nadya.sendText(msg.to,"╔═════════════════════════\n""║           ☆☞ S T A T U S ☜☆\n""╠═════════════════════════\n"+md+"╚═════════════════════════")
+
+
+            elif msg.text in ["Gift","gift"]:
+                msg.contentType = 9
+                msg.contentMetadata={'PRDID': 'a0768339-c2d3-4189-9653-2909e9bb6f58',
+                                    'PRDTYPE': 'THEME',
+                                    'MSGTPL': '5'}
+                msg.text = None
+                nadya.sendMessage(msg)
+                
+                
+            elif "Gift1 " in msg.text:
+                       msg.contentType = 13
+                       nk0 = msg.text.replace("Gift1 ","")
+                       nk1 = nk0.lstrip()
+                       nk2 = nk1.replace("@","")
+                       nk3 = nk2.rstrip()
+                       _name = nk3
+                       gs = nadya.getGroup(msg.to)
+                       targets = []
+                       for s in gs.members:
+                           if _name in s.displayName:
+                              targets.append(s.mid)
+                       if targets == []:
+                           sendMessage(msg.to,"user does not exist")
+                           pass
+                       else:
+                           for target in targets:
+                                try:
+                                    nadya.sendText(msg.to,_name + " Check Your Gift")
+                                    msg.contentType = 9
+                                    msg.contentMetadata= {'PRDTYPE': 'STICKER',
+                                                         'STKVER': '1',
+                                                         'MSGTPL': '1',
+                                                         'STKPKGID': '1380280'}
+                                    msg.to = target
+                                    msg.text = None
+                                    nadya.sendMessage(msg)
+                                except:
+                                    msg.contentMetadata = {'mid': target}
+
+            elif "Gift2 " in msg.text:
+                       msg.contentType = 13
+                       nk0 = msg.text.replace("Gift2 ","")
+                       nk1 = nk0.lstrip()
+                       nk2 = nk1.replace("@","")
+                       nk3 = nk2.rstrip()
+                       _name = nk3
+                       gs = nadya.getGroup(msg.to)
+                       targets = []
+                       for s in gs.members:
+                           if _name in s.displayName:
+                              targets.append(s.mid)
+                       if targets == []:
+                           sendMessage(msg.to,"user does not exist")
+                           pass
+                       else:
+                           for target in targets:
+                                try:
+                                    nadya.sendText(msg.to,_name + " Check Your Gift")
+                                    msg.contentType = 9
+                                    msg.contentMetadata= {'PRDTYPE': 'STICKER',
+                                                         'STKVER': '1',
+                                                         'MSGTPL': '2',
+                                                         'STKPKGID': '1360738'}
+                                    msg.to = target
+                                    msg.text = None
+                                    nadya.sendMessage(msg)
+                                except:
+                                    msg.contentMetadata = {'mid': target}
+
+            elif "Gift3 " in msg.text:
+                       msg.contentType = 13
+                       nk0 = msg.text.replace("Gift3 ","")
+                       nk1 = nk0.lstrip()
+                       nk2 = nk1.replace("@","")
+                       nk3 = nk2.rstrip()
+                       _name = nk3
+                       gs = nadya.getGroup(msg.to)
+                       targets = []
+                       for s in gs.members:
+                           if _name in s.displayName:
+                              targets.append(s.mid)
+                       if targets == []:
+                           sendMessage(msg.to,"user does not exist")
+                           pass
+                       else:
+                           for target in targets:
+                                try:
+                                    nadya.sendText(msg.to,_name + " Check Your Gift")
+                                    msg.contentType = 9
+                                    msg.contentMetadata= {'PRDTYPE': 'STICKER',
+                                                         'STKVER': '1',
+                                                         'MSGTPL': '3',
+                                                         'STKPKGID': '1395389'}
+                                    msg.to = target
+                                    msg.text = None
+                                    nadya.sendMessage(msg)
+                                except:
+                                    msg.contentMetadata = {'mid': target}
+
+            elif "Gift4 " in msg.text:
+                       msg.contentType = 13
+                       nk0 = msg.text.replace("Gift4 ","")
+                       nk1 = nk0.lstrip()
+                       nk2 = nk1.replace("@","")
+                       nk3 = nk2.rstrip()
+                       _name = nk3
+                       gs = nadya.getGroup(msg.to)
+                       targets = []
+                       for s in gs.members:
+                           if _name in s.displayName:
+                              targets.append(s.mid)
+                       if targets == []:
+                           sendMessage(msg.to,"user does not exist")
+                           pass
+                       else:
+                           for target in targets:
+                                try:
+                                    nadya.sendText(msg.to,_name + " Check Your Gift")
+                                    msg.contentType = 9
+                                    msg.contentMetadata= {'PRDTYPE': 'STICKER',
+                                                         'STKVER': '1',
+                                                         'MSGTPL': '4',
+                                                         'STKPKGID': '1329191'}
+                                    msg.to = target
+                                    msg.text = None
+                                    nadya.sendMessage(msg)
+                                except:
+                                    msg.contentMetadata = {'mid': target}
+
+            elif "Gift5 " in msg.text:
+                       msg.contentType = 13
+                       nk0 = msg.text.replace("Gift5 ","")
+                       nk1 = nk0.lstrip()
+                       nk2 = nk1.replace("@","")
+                       nk3 = nk2.rstrip()
+                       _name = nk3
+                       gs = nadya.getGroup(msg.to)
+                       targets = []
+                       for s in gs.members:
+                           if _name in s.displayName:
+                              targets.append(s.mid)
+                       if targets == []:
+                           sendMessage(msg.to,"user does not exist")
+                           pass
+                       else:
+                           for target in targets:
+                                try:
+                                    nadya.sendText(msg.to,_name + " Check Your Gift")
+                                    msg.contentType = 9
+                                    msg.contentMetadata= {'PRDTYPE': 'STICKER',
+                                                         'STKVER': '1',
+                                                         'MSGTPL': '1',
+                                                         'STKPKGID': '9057'}
+                                    msg.to = target
+                                    msg.text = None
+                                    nadya.sendMessage(msg)
+                                except:
+                                    msg.contentMetadata = {'mid': target}
+
+            elif "Gift6 " in msg.text:
+                       msg.contentType = 13
+                       nk0 = msg.text.replace("Gift6 ","")
+                       nk1 = nk0.lstrip()
+                       nk2 = nk1.replace("@","")
+                       nk3 = nk2.rstrip()
+                       _name = nk3
+                       gs = nadya.getGroup(msg.to)
+                       targets = []
+                       for s in gs.members:
+                           if _name in s.displayName:
+                              targets.append(s.mid)
+                       if targets == []:
+                           sendMessage(msg.to,"user does not exist")
+                           pass
+                       else:
+                           for target in targets:
+                                try:
+                                    nadya.sendText(msg.to,_name + " Check Your Gift")
+                                    msg.contentType = 9
+                                    msg.contentMetadata= {'PRDTYPE': 'STICKER',
+                                                         'STKVER': '1',
+                                                         'MSGTPL': '2',
+                                                         'STKPKGID': '9167'}
+                                    msg.to = target
+                                    msg.text = None
+                                    nadya.sendMessage(msg)
+                                except:
+                                    msg.contentMetadata = {'mid': target}
+
+            elif "Gift7 " in msg.text:
+                       msg.contentType = 13
+                       nk0 = msg.text.replace("Gift7 ","")
+                       nk1 = nk0.lstrip()
+                       nk2 = nk1.replace("@","")
+                       nk3 = nk2.rstrip()
+                       _name = nk3
+                       gs = nadya.getGroup(msg.to)
+                       targets = []
+                       for s in gs.members:
+                           if _name in s.displayName:
+                              targets.append(s.mid)
+                       if targets == []:
+                           sendMessage(msg.to,"user does not exist")
+                           pass
+                       else:
+                           for target in targets:
+                                try:
+                                    nadya.sendText(msg.to,_name + " Check Your Gift")
+                                    msg.contentType = 9
+                                    msg.contentMetadata= {'PRDTYPE': 'STICKER',
+                                                         'STKVER': '1',
+                                                         'MSGTPL': '3',
+                                                         'STKPKGID': '7334'}
+                                    msg.to = target
+                                    msg.text = None
+                                    nadya.sendMessage(msg)
+                                except:
+                                    msg.contentMetadata = {'mid': target}
+
+            elif "Gift8 " in msg.text:
+                       msg.contentType = 13
+                       nk0 = msg.text.replace("Gift8 ","")
+                       nk1 = nk0.lstrip()
+                       nk2 = nk1.replace("@","")
+                       nk3 = nk2.rstrip()
+                       _name = nk3
+                       gs = nadya.getGroup(msg.to)
+                       targets = []
+                       for s in gs.members:
+                           if _name in s.displayName:
+                              targets.append(s.mid)
+                       if targets == []:
+                           sendMessage(msg.to,"user does not exist")
+                           pass
+                       else:
+                           for target in targets:
+                                try:
+                                    nadya.sendText(msg.to,_name + " Check Your Gift")
+                                    msg.contentType = 9
+                                    msg.contentMetadata= {'PRDTYPE': 'STICKER',
+                                                         'STKVER': '1',
+                                                         'MSGTPL': '1',
+                                                         'STKPKGID': '1380280'}
+                                    msg.to = target
+                                    msg.text = None
+                                    nadya.sendMessage(msg)
+                                except:
+                                    msg.contentMetadata = {'mid': target}
+
+            elif "Gift9 " in msg.text:
+                       msg.contentType = 13
+                       nk0 = msg.text.replace("Gift9 ","")
+                       nk1 = nk0.lstrip()
+                       nk2 = nk1.replace("@","")
+                       nk3 = nk2.rstrip()
+                       _name = nk3
+                       gs = nadya.getGroup(msg.to)
+                       targets = []
+                       for s in gs.members:
+                           if _name in s.displayName:
+                              targets.append(s.mid)
+                       if targets == []:
+                           sendMessage(msg.to,"user does not exist")
+                           pass
+                       else:
+                           for target in targets:
+                                try:
+                                    nadya.sendText(msg.to,_name + " Check Your Gift")
+                                    msg.contentType = 9
+                                    msg.contentMetadata= {'PRDTYPE': 'STICKER',
+                                                         'STKVER': '1',
+                                                         'MSGTPL': '4',
+                                                         'STKPKGID': '1405277'}
+                                    msg.to = target
+                                    msg.text = None
+                                    nadya.sendMessage(msg)
+                                except:
+                                    msg.contentMetadata = {'mid': target}
+
+            elif "Gift10 " in msg.text:
+                       msg.contentType = 13
+                       nk0 = msg.text.replace("Gift10 ","")
+                       nk1 = nk0.lstrip()
+                       nk2 = nk1.replace("@","")
+                       nk3 = nk2.rstrip()
+                       _name = nk3
+                       gs = nadya.getGroup(msg.to)
+                       targets = []
+                       for s in gs.members:
+                           if _name in s.displayName:
+                              targets.append(s.mid)
+                       if targets == []:
+                           sendMessage(msg.to,"user does not exist")
+                           pass
+                       else:
+                           for target in targets:
+                                try:
+                                    nadya.sendText(msg.to,_name + " Check Your Gift")
+                                    msg.contentType = 9
+                                    msg.contentMetadata= {'PRDTYPE': 'STICKER',
+                                                         'STKVER': '1',
+                                                         'MSGTPL': '1',
+                                                         'STKPKGID': '1296261'}
+                                    msg.to = target
+                                    msg.text = None
+                                    nadya.sendMessage(msg)
+                                except:
+                                    msg.contentMetadata = {'mid': target}
+
+
+            elif msg.text.lower() in ["wkwkwk","wkwk","hahaha","haha"]:
+                msg.contentType = 7
+                msg.contentMetadata={'STKID': '100',
+                                    'STKPKGID': '1',
+                                    'STKVER': '100'}
+                msg.text = None
+                nadya.sendMessage(msg)
+
+            elif msg.text.lower() in ["hehehe","hehe"]:
+                msg.contentType = 7
+                msg.contentMetadata={'STKID': '10',
+                                    'STKPKGID': '1',
+                                    'STKVER': '100'}
+                msg.text = None
+                nadya.sendMessage(msg)
+
+            elif msg.text.lower() in ["galau"]:
+                msg.contentType = 7
+                msg.contentMetadata={'STKID': '9',
+                                    'STKPKGID': '1',
+                                    'STKVER': '100'}
+                msg.text = None
+                nadya.sendMessage(msg)
+
+            elif msg.text.lower() in ["you","kau","kamu"]:
+                msg.contentType = 7
+                msg.contentMetadata={'STKID': '7',
+                                    'STKPKGID': '1',
+                                    'STKVER': '100'}
+                msg.text = None
+                nadya.sendMessage(msg)
+
+            elif msg.text.lower() in ["marah","hadeuh","hadeh"]:
+                msg.contentType = 7
+                msg.contentMetadata={'STKID': '6',
+                                    'STKPKGID': '1',
+                                    'STKVER': '100'}
+                msg.text = None
+                nadya.sendMessage(msg)
+
+            elif msg.text.lower() in ["please","pliss","mohon","tolong"]:
+                msg.contentType = 7
+                msg.contentMetadata={'STKID': '4',
+                                    'STKPKGID': '1',
+                                    'STKVER': '100'}
+                msg.text = None
+                nadya.sendMessage(msg)
+
+            elif msg.text.lower() in ["haa","haaa","kaget"]:
+                msg.contentType = 7
+                msg.contentMetadata={'STKID': '3',
+                                    'STKPKGID': '1',
+                                    'STKVER': '100'}
+                msg.text = None
+                nadya.sendMessage(msg)
+
+            elif msg.text.lower() in ["lucu","ngakak","lol"]:
+                msg.contentType = 7
+                msg.contentMetadata={'STKID': '110',
+                                    'STKPKGID': '1',
+                                    'STKVER': '100'}
+                msg.text = None
+                nadya.sendMessage(msg)
+
+            elif msg.text.lower() in ["hmm","hmmm"]:
+                msg.contentType = 7
+                msg.contentMetadata={'STKID': '101',
+                                    'STKPKGID': '1',
+                                    'STKVER': '100'}
+                msg.text = None
+                nadya.sendMessage(msg)
+
+            elif msg.text.lower() in ["tidur"]:
+                msg.contentType = 7
+                msg.contentMetadata={'STKID': '1',
+                                    'STKPKGID': '1',
+                                    'STKVER': '100'}
+                msg.text = None
+                nadya.sendMessage(msg)
+
+            elif msg.text.lower() in ["gemes"]:
+                msg.contentType = 7
+                msg.contentMetadata={'STKID': '2',
+                                    'STKPKGID': '1',
+                                    'STKVER': '100'}
+                msg.text = None
+                nadya.sendMessage(msg)
+
+            elif msg.text.lower() in ["cantik","imut"]:
+                msg.contentType = 7
+                msg.contentMetadata={'STKID': '5',
+                                    'STKPKGID': '1',
+                                    'STKVER': '100'}
+                msg.text = None
+                nadya.sendMessage(msg)
+
+            elif msg.text.lower() in ["nyanyi","lalala"]:
+                msg.contentType = 7
+                msg.contentMetadata={'STKID': '11',
+                                    'STKPKGID': '1',
+                                    'STKVER': '100'}
+                msg.text = None
+                nadya.sendMessage(msg)
+
+            elif msg.text.lower() in ["gugup"]:
+                msg.contentType = 7
+                msg.contentMetadata={'STKID': '8',
+                                    'STKPKGID': '1',
+                                    'STKVER': '100'}
+                msg.text = None
+                nadya.sendMessage(msg)
+
+            elif msg.text.lower() in ["ok","oke","okay","oce","okee","sip","siph"]:
+                msg.contentType = 7
+                msg.contentMetadata={'STKID': '13',
+                                    'STKPKGID': '1',
+                                    'STKVER': '100'}
+                msg.text = None
+                nadya.sendMessage(msg)
+
+            elif msg.text.lower() in ["mantab","mantap","nice","keren"]:
+                msg.contentType = 7
+                msg.contentMetadata={'STKID': '14',
+                                    'STKPKGID': '1',
+                                    'STKVER': '100'}
+                msg.text = None
+                nadya.sendMessage(msg)
+
+            elif msg.text.lower() in ["ngejek"]:
+                msg.contentType = 7
+                msg.contentMetadata={'STKID': '15',
+                                    'STKPKGID': '1',
+                                    'STKVER': '100'}
+                msg.text = None
+                nadya.sendMessage(msg)
+
+            elif msg.text.lower() in ["nangis","sedih"]:
+                msg.contentType = 7
+                msg.contentMetadata={'STKID': '16',
+                                    'STKPKGID': '1',
+                                    'STKVER': '100'}
+                msg.text = None
+                nadya.sendMessage(msg)
+
+            elif msg.text.lower() in ["woi","kampret"]:
+                msg.contentType = 7
+                msg.contentMetadata={'STKID': '102',
+                                    'STKPKGID': '1',
+                                    'STKVER': '100'}
+                msg.text = None
+                nadya.sendMessage(msg)
+
+            elif msg.text.lower() in ["huft"]:
+                msg.contentType = 7
+                msg.contentMetadata={'STKID': '104',
+                                    'STKPKGID': '1',
+                                    'STKVER': '100'}
+                msg.text = None
+                nadya.sendMessage(msg)
+                
+
+            elif "tag all" == msg.text.lower():
+                 group = nadya.getGroup(msg.to)
+                 nama = [contact.mid for contact in group.members]
+                 nm1, nm2, nm3, nm4, nm5, jml = [], [], [], [], [], len(nama)
+                 if jml <= 100:
+                    summon(msg.to, nama)
+                 if jml > 100 and jml < 200:
+                    for i in range(0, 99):
+                        nm1 += [nama[i]]
+                    summon(msg.to, nm1)
+                    for j in range(100, len(nama)-1): 
+                        nm2 += [nama[j]]
+                    summon(msg.to, nm2)                 
+                 if jml > 200 and jml < 300:
+                    for i in range(0, 99):
+                        nm1 += [nama[i]]
+                    summon(msg.to, nm1)
+                    for j in range(100, 199):
+                        nm2 += [nama[j]]
+                    summon(msg.to, nm2)
+                    for k in range(200, len(nama)-1):
+                        nm3 += [nama[k]]
+                    summon(msg.to, nm3)
+                 if jml > 300  and jml < 400:
+                    for i in range(0, 99):
+                        nm1 += [nama[i]]
+                    summon(msg.to, nm1)
+                    for j in range(100, 199):
+                        nm2 += [nama[j]]
+                    summon(msg.to, nm2)
+                    for k in range(200, 299):
+                        nm3 += [nama[k]]
+                    summon(msg.to, nm3)
+                    for l in range(300, len(nama)-1):
+                    	nm4 += [nama[l]]
+                    summon(msg.to, nm4)
+                 if jml > 400  and jml < 500:
+                    for i in range(0, 99):
+                        nm1 += [nama[i]]
+                    summon(msg.to, nm1)
+                    for j in range(100, 199):
+                        nm2 += [nama[j]]
+                    summon(msg.to, nm2)
+                    for k in range(200, 299):
+                        nm3 += [nama[k]]
+                    summon(msg.to, nm3)
+                    for l in range(300, 399):
+                        nm4 += [nama[l]]
+                    summon(msg.to, nm4)
+                    for m in range(400, len(nama)-1):
+                        nm5 += [nama[m]]
+                    summon(msg.to, nm5)
+                 if jml > 500:
+                     print "Terlalu Banyak Men 500+"
+                 cnt = Message()
+                 cnt.text = "Jumlah:\n" + str(jml) +  " Members"
+                 cnt.to = msg.to
+                 nadya.sendMessage(cnt)
+                 
+            elif "tagall" == msg.text.lower():
+                 group = nadya.getGroup(msg.to)
+                 nama = [contact.mid for contact in group.members]
+                 nm1, nm2, nm3, nm4, nm5, jml = [], [], [], [], [], len(nama)
+                 if jml <= 100:
+                    summon(msg.to, nama)
+                 if jml > 100 and jml < 200:
+                    for i in range(0, 99):
+                        nm1 += [nama[i]]
+                    summon(msg.to, nm1)
+                    for j in range(100, len(nama)-1): 
+                        nm2 += [nama[j]]
+                    summon(msg.to, nm2)                 
+                 if jml > 200 and jml < 300:
+                    for i in range(0, 99):
+                        nm1 += [nama[i]]
+                    summon(msg.to, nm1)
+                    for j in range(100, 199):
+                        nm2 += [nama[j]]
+                    summon(msg.to, nm2)
+                    for k in range(200, len(nama)-1):
+                        nm3 += [nama[k]]
+                    summon(msg.to, nm3)
+                 if jml > 300  and jml < 400:
+                    for i in range(0, 99):
+                        nm1 += [nama[i]]
+                    summon(msg.to, nm1)
+                    for j in range(100, 199):
+                        nm2 += [nama[j]]
+                    summon(msg.to, nm2)
+                    for k in range(200, 299):
+                        nm3 += [nama[k]]
+                    summon(msg.to, nm3)
+                    for l in range(300, len(nama)-1):
+                    	nm4 += [nama[l]]
+                    summon(msg.to, nm4)
+                 if jml > 400  and jml < 500:
+                    for i in range(0, 99):
+                        nm1 += [nama[i]]
+                    summon(msg.to, nm1)
+                    for j in range(100, 199):
+                        nm2 += [nama[j]]
+                    summon(msg.to, nm2)
+                    for k in range(200, 299):
+                        nm3 += [nama[k]]
+                    summon(msg.to, nm3)
+                    for l in range(300, 399):
+                        nm4 += [nama[l]]
+                    summon(msg.to, nm4)
+                    for m in range(400, len(nama)-1):
+                        nm5 += [nama[m]]
+                    summon(msg.to, nm5)
+                 if jml > 500:
+                     print "Terlalu Banyak Men 500+"
+                 cnt = Message()
+                 cnt.text = "Jumlah:\n" + str(jml) +  " Members"
+                 cnt.to = msg.to
+                 nadya.sendMessage(cnt)                 
+
+
+            elif msg.text in ["Setview","Setpoint","Cctv"]:
+                subprocess.Popen("echo '' > dataSeen/"+msg.to+".txt", shell=True, stdout=subprocess.PIPE)
+                nadya.sendText(msg.to, "☆Checkpoint Checked☆")
+                print "Setview"
+
+            elif msg.text in ["Viewseen","Check","Ciduk","Cyduk"]:
+	        lurkGroup = ""
+	        dataResult, timeSeen, contacts, userList, timelist, recheckData = [], [], [], [], [], []
+                with open('dataSeen/'+msg.to+'.txt','r') as rr:
+                    contactArr = rr.readlines()
+                    for v in xrange(len(contactArr) -1,0,-1):
+                        num = re.sub(r'\n', "", contactArr[v])
+                        contacts.append(num)
+                        pass
+                    contacts = list(set(contacts))
+                    for z in range(len(contacts)):
+                        arg = contacts[z].split('|')
+                        userList.append(arg[0])
+                        timelist.append(arg[1])
+                    uL = list(set(userList))
+                    for ll in range(len(uL)):
+                        try:
+                            getIndexUser = userList.index(uL[ll])
+                            timeSeen.append(time.strftime("%H:%M:%S", time.localtime(int(timelist[getIndexUser]) / 1000)))
+                            recheckData.append(userList[getIndexUser])
+                        except IndexError:
+                            conName.append('nones')
+                            pass
+                    contactId = nadya.getContacts(recheckData)
+                    for v in range(len(recheckData)):
+                        dataResult.append(contactId[v].displayName + ' ('+timeSeen[v]+')')
+                        pass
+                    if len(dataResult) > 0:
+                        tukang = "╔═════════════════════════\n║         ☆☞ LIST VIEWERS ☜☆\n╠═════════════════════════\n╠➩"
+                        grp = '\n╠➩ '.join(str(f) for f in dataResult)
+                        total = '\n╠═════════════════════════\n╠➩ Total %i Viewers (%s)' % (len(dataResult), datetime.now().strftime('%H:%M:%S')) + "\n╚═════════════════════════"
+                        nadya.sendText(msg.to, "%s %s %s" % (tukang, grp, total))
+                        subprocess.Popen("echo '' > dataSeen/"+msg.to+".txt", shell=True, stdout=subprocess.PIPE)
+                        nadya.sendText(msg.to, "☆Auto Checkpoint☆")                        
+                    else:
+                        nadya.sendText(msg.to, "☆Belum Ada Viewers☆")
+                    print "Viewseen"
+
+
+	    elif "Kick " in msg.text:
+		if msg.from_ in admin:	        
+		    if 'MENTION' in msg.contentMetadata.keys()!= None:
+		        names = re.findall(r'@(\w+)', msg.text)
+		        mention = ast.literal_eval(msg.contentMetadata['MENTION'])
+		        mentionees = mention['MENTIONEES']
+		        print mentionees
+		        for mention in mentionees:
+			    nadya.kickoutFromGroup(msg.to,[mention['M']])
+
+	    elif "Set member: " in msg.text:
+		if msg.from_ in admin:	 	        
+		    jml = msg.text.replace("Set member: ","")
+		    wait["Members"] = int(jml)
+		    nadya.sendText(msg.to, "Jumlah minimal member telah di set : "+jml)
+
+	    elif "Add all" in msg.text:
+		    thisgroup = nadya.getGroups([msg.to])
+		    Mids = [contact.mid for contact in thisgroup[0].members]
+		    mi_d = Mids[:33]
+		    nadya.findAndAddContactsByMids(mi_d)
+		    nadya.sendText(msg.to,"Success Add all")
+
+
+            elif msg.text in ["Invite"]:
+                wait["invite"] = True
+                nadya.sendText(msg.to,"Send Contact")
+                
+                
+
+            elif msg.text in ["Auto like"]:
+                wait["likeOn"] = True
+                nadya.sendText(msg.to,"Shere Post Kamu Yang Mau Di Like!")                
+
+
+            elif msg.text in ["Steal contact"]:
+                wait["steal"] = True
+                nadya.sendText(msg.to,"Send Contact")
+                
+
+            elif msg.text in ["Giftbycontact"]:
+                wait["gift"] = True
+                nadya.sendText(msg.to,"Send Contact") 
+                
+            elif msg.text in ["Copycontact"]:
+                wait["copy"] = True
+                nadya.sendText(msg.to,"Send Contact") 
+                
+            elif msg.text in ["Sticker on"]:
+                wait["sticker"] = True
+                nadya.sendText(msg.to,"Sticker ID Detect Already On.")  
+                
+            elif msg.text in ["Bot off"]:
+                wait["Bot"] = False
+                nadya.sendText(msg.to,"Bot Sudah Di Nonaktifkan.")  
+
+	    elif "Recover" in msg.text:
+		thisgroup = nadya.getGroups([msg.to])
+		Mids = [contact.mid for contact in thisgroup[0].members]
+		mi_d = Mids[:33]
+		nadya.createGroup("Recover", mi_d)
+		nadya.sendText(msg.to,"Success recover")
+
+
+
+            elif ("Gn: " in msg.text):
+                if msg.toType == 2:
+                    X = nadya.getGroup(msg.to)
+                    X.name = msg.text.replace("Gn: ","")
+                    nadya.updateGroup(X)
+                else:
+                    nadya.sendText(msg.to,"It can't be used besides the group.")
+
+            elif "Kick: " in msg.text:
+                midd = msg.text.replace("Kick: ","")
+		if midd not in admin:
+		    nadya.kickoutFromGroup(msg.to,[midd])
+		else:
+		    nadya.sendText(msg.to,"Admin Detected")
+
+            elif "Invite: " in msg.text:
+                midd = msg.text.replace("Invite: ","")
+                nadya.findAndAddContactsByMid(midd)
+                nadya.inviteIntoGroup(msg.to,[midd])
+
+            elif "Invite creator" in msg.text:
+                midd = "u14f64e139a3817afaabe27d237afb36b"
+                nadya.inviteIntoGroup(msg.to,[midd])
+
+            elif msg.text in ["Welcome","welcome","Welkam","welkam","Wc","wc"]:
+                gs = nadya.getGroup(msg.to)
+                nadya.sendText(msg.to,"Selamat Datang Di "+ gs.name)
+                msg.contentType = 7
+                msg.contentMetadata={'STKID': '247',
+                                    'STKPKGID': '3',
+                                    'STKVER': '100'}
+                msg.text = None
+                nadya.sendMessage(msg)
+
+	    elif "Bc: " in msg.text:
+		bc = msg.text.replace("Bc: ","")
+		gid = nadya.getGroupIdsJoined()
+		if msg.from_ in Creator:
+		    for i in gid:
+			nadya.sendText(i,"=======[BROADCAST]=======\n\n"+bc+"\n\nContact Me : line.me/ti/p/~nad_nad.")
+		    nadya.sendText(msg.to,"Success BC BosQ")
+		else:
+		    nadya.sendText(msg.to,"Khusus Admin")
+
+            elif msg.text in ["Cancel"]:
+                gid = nadya.getGroupIdsInvited()
+                for i in gid:
+                    nadya.rejectGroupInvitation(i)
+                nadya.sendText(msg.to,"All invitations have been refused")
+
+            elif msg.text in ["Gurl"]:
+                if msg.toType == 2:
+                    x = nadya.getGroup(msg.to)
+                    if x.preventJoinByTicket == True:
+                        x.preventJoinByTicket = False
+                        nadya.updateGroup(x)
+                    gurl = nadya.reissueGroupTicket(msg.to)
+                    nadya.sendText(msg.to,"line://ti/g/" + gurl)
+                else:
+                    if wait["lang"] == "JP":
+                        nadya.sendText(msg.to,"Can't be used outside the group")
+                    else:
+                        nadya.sendText(msg.to,"Not for use less than group")
+
+
+            elif msg.text in ["timeline"]:
+		try:
+                    url = nadya.activity(limit=5)
+		    nadya.sendText(msg.to,url['result']['posts'][0]['postInfo']['postId'])
+		except Exception as E:
+		    print E
+
+            elif msg.text in ["@bye","@Bye"]:
+		    nadya.leaveGroup(msg.to)		    
+		    
+
+            elif msg.text in ["Absen"]:
+		nadya.sendText(msg.to,"Hadir!!")
+
+
+            elif msg.text.lower() in ["respon"]:
+                nadya.sendText(msg.to,responsename)
+
+            elif msg.text in ["Sp","Speed","speed"]:
+                start = time.time()
+                print("Speed")                
+                elapsed_time = time.time() - start
+		nadya.sendText(msg.to, "Progress...")
+                nadya.sendText(msg.to, "%sseconds" % (elapsed_time))
+                
+            elif msg.text in ["Speed test"]:
+                start = time.time()
+                nadya.sendText(msg.to, "Progress...")
+                elapsed_time = time.time() - start
+                nadya.sendText(msg.to, "%sseconds" % (elapsed_time))                
+ 
+            elif msg.text in ["Ban"]:
+                if msg.from_ in admin:
+                    wait["wblacklist"] = True
+                    nadya.sendText(msg.to,"send contact")
+
+            elif msg.text in ["Unban"]:
+                if msg.from_ in admin:
+                    wait["dblacklist"] = True
+                    nadya.sendText(msg.to,"send contact")
+ 
+            elif "Ban @" in msg.text:
+                if msg.from_ in admin:
+                  if msg.toType == 2:
+                    print "@Ban by mention"
+                    _name = msg.text.replace("Ban @","")
+                    _nametarget = _name.rstrip('  ')
+                    gs = nadya.getGroup(msg.to)
+                    targets = []
+                    for g in gs.members:
+                        if _nametarget == g.displayName:
+                            targets.append(g.mid)
+                    if targets == []:
+                        nadya.sendText(msg.to,"Not found")
+                    else:
+                        for target in targets:
+			    if target not in admin:
+                                try:
+                                    wait["blacklist"][target] = True
+                                    f=codecs.open('st2__b.json','w','utf-8')
+                                    json.dump(wait["blacklist"], f, sort_keys=True, indent=4,ensure_ascii=False)
+                                    nadya.sendText(msg.to,"Succes BosQ")
+                                except:
+                                    nadya.sendText(msg.to,"Error")
+			    else:
+				nadya.sendText(msg.to,"Admin Detected~")
+ 
+            elif msg.text in ["Banlist","Ban list"]:
+              if msg.from_ in admin:
+                if wait["blacklist"] == {}:
+                    nadya.sendText(msg.to,"Tidak Ada")
+                else:
+                    mc = ""
+                    for mi_d in wait["blacklist"]:
+                        mc += "->" +nadya.getContact(mi_d).displayName + "\n"
+                    nadya.sendText(msg.to,"===[Blacklist User]===\n"+mc)
+
+ 
+            elif "Unban @" in msg.text:
+                if msg.toType == 2:
+                    print "@Unban by mention"
+                if msg.from_ in admin:
+                    _name = msg.text.replace("Unban @","")
+                    _nametarget = _name.rstrip('  ')
+                    gs = nadya.getGroup(msg.to)
+                    targets = []
+                    for g in gs.members:
+                        if _nametarget == g.displayName:
+                            targets.append(g.mid)
+                    if targets == []:
+                        nadya.sendText(msg.to,"Not found")
+                    else:
+                        for target in targets:
+                            try:
+                                del wait["blacklist"][target]
+                                f=codecs.open('st2__b.json','w','utf-8')
+                                json.dump(wait["blacklist"], f, sort_keys=True, indent=4,ensure_ascii=False)
+                                nadya.sendText(msg.to,"Succes BosQ")
+                            except:
+                                nadya.sendText(msg.to,"Succes BosQ")
+                                
+                                
+            elif msg.text.lower() == 'clear ban':
+                if msg.from_ in admin:
+                    wait["blacklist"] = {}
+                    nadya.sendText(msg.to,"ヽ( ^ω^)ﾉ└ ❉Unbanned All Success❉ ┐") 
+
+ 
+            elif msg.text in ["Kill ban"]:
+		if msg.from_ in admin:
+                    if msg.toType == 2:
+                        group = nadya.getGroup(msg.to)
+                        gMembMids = [contact.mid for contact in group.members]
+                        matched_list = []
+                        for tag in wait["blacklist"]:
+                            matched_list+=filter(lambda str: str == tag, gMembMids)
+                        if matched_list == []:
+                            nadya.sendText(msg.to,"There was no blacklist user")
+                            return
+                        for jj in matched_list:
+                            nadya.kickoutFromGroup(msg.to,[jj])
+                        nadya.sendText(msg.to,"Blacklist emang pantas tuk di usir")
+		else:
+		    nadya.sendText(msg.to, "Khusus creator")
+ 
+            elif msg.text in ["Kill"]:
+                    if msg.toType == 2:
+                      if msg.from_ in admin:
+                        group = nadya.getGroup(msg.to)
+                        gMembMids = [contact.mid for contact in group.members]
+                        matched_list = []
+                        for tag in wait["blacklist"]:
+                            matched_list+=filter(lambda str: str == tag, gMembMids)
+                        if matched_list == []:
+                            nadya.sendText(msg.to,"Fuck You")
+                            return
+                        for jj in matched_list:
+                            try:
+                                nadya.kickoutFromGroup(msg.to,[jj])
+                                print (msg.to,[jj])
+                            except:
+                                pass
+
+ 
+            elif "Kickall" == msg.text:
+		    if msg.from_ in Creator:
+                     if msg.toType == 2:
+                        print "Kick all member"
+                        _name = msg.text.replace("Kickall","")
+                        gs = nadya.getGroup(msg.to)
+                        nadya.sendText(msg.to,"Dadaaah~")
+                        targets = []
+                        for g in gs.members:
+                            if _name in g.displayName:
+                                targets.append(g.mid)
+                        if targets == []:
+                            nadya.sendText(msg.to,"Not found.")
+                        else:
+                            for target in targets:
+				if target not in admin:
+                                    try:
+                                        nadya.kickoutFromGroup(msg.to,[target])
+                                        print (msg.to,[g.mid])
+                                    except Exception as e:
+                                        nadya.sendText(msg.to,str(e))
+			    nadya.inviteIntoGroup(msg.to, targets)
+ 
+
+	    elif msg.text in ["Bot restart","Reboot"]:
+		if msg.from_ in Creator:
+		    nadya.sendText(msg.to, "Bot Has Been Restarted...")
+		    restart_program()
+		    print "@Restart"
+		else:
+		    nadya.sendText(msg.to, "No Access")
+		    
+            elif msg.text in ["Turn off"]: 
+	        if msg.from_ in Creator:                
+                 try:
+                     import sys
+                     sys.exit()
+                 except:
+                     pass 		    
+
+
+            elif 'Crash' in msg.text:
+              if msg.from_ in Creator:
+                msg.contentType = 13
+                msg.contentMetadata = {'mid': "NADYA,'"}
+                nadya.sendMessage(msg)
+
+ 
+            elif "Mycopy @" in msg.text:
+                   print "[COPY] Ok"
+                   _name = msg.text.replace("Mycopy @","")
+                   _nametarget = _name.rstrip('  ')
+                   gs = nadya.getGroup(msg.to)
+                   targets = []
+                   for g in gs.members:
+                       if _nametarget == g.displayName:
+                           targets.append(g.mid)
+                   if targets == []:
+                       nadya.sendText(msg.to, "Not Found...")
+                   else:
+                       for target in targets:
+                            try:
+                               nadya.CloneContactProfile(target)
+                               nadya.sendText(msg.to, "Copied (^_^)")
+                            except Exception as e:
+                                print e
+
+            elif msg.text in ["Mybackup"]:
+                try:
+                    nadya.updateDisplayPicture(backup1.pictureStatus)
+                    nadya.updateProfile(backup1)
+                    nadya.sendText(msg.to, "Done (^_^)")
+                except Exception as e:
+                    nadya.sendText(msg.to, str(e))
+
+ 
+	    elif "/musik " in msg.text:
+					songname = msg.text.replace("/musik ","")
+					params = {"songname": songname}
+					r = requests.get('http://ide.fdlrcn.com/workspace/yumi-apis/joox?' + urllib.urlencode(params))
+					data = r.text
+					data = json.loads(data)
+					for song in data:
+						abc = song[3].replace('https://','http://')
+						nadya.sendText(msg.to, "Title : " + song[0] + "\nLength : " + song[1] + "\nLink download : " + song[4])
+						nadya.sendText(msg.to, "Lagu " + song[0] + "\nSedang Di Prosses... Tunggu Sebentar ^_^ ")
+						nadya.sendAudioWithURL(msg.to,abc)
+						nadya.sendText(msg.to, "Selamat Mendengarkan Lagu " + song[0])
+	
+            elif '/lirik ' in msg.text.lower():
+                try:
+                    songname = msg.text.lower().replace('/lirik ','')
+                    params = {'songname': songname}
+                    r = requests.get('http://ide.fdlrcn.com/workspace/yumi-apis/joox?' + urllib.urlencode(params))
+                    data = r.text
+                    data = json.loads(data)
+                    for song in data:
+                        hasil = 'Lyric Lagu ('
+                        hasil += song[0]
+                        hasil += ')\n\n'
+                        hasil += song[5]
+                        nadya.sendText(msg.to, hasil)
+                except Exception as wak:
+                        nadya.sendText(msg.to, str(wak))
+                        
+	    elif "/musrik " in msg.text:
+					songname = msg.text.replace("/musrik ","")
+					params = {"songname": songname}
+					r = requests.get('http://ide.fdlrcn.com/workspace/yumi-apis/joox?' + urllib.urlencode(params))
+					data = r.text
+					data = json.loads(data)
+					for song in data:
+						abc = song[3].replace('https://','http://')
+						hasil = 'Lyric Lagu ('
+						hasil += song[0]
+						hasil += ')\n\n'
+						hasil += song[5]
+						nadya.sendText(msg.to, "Lagu " + song[0] + "\nSedang Di Prosses... Tunggu Sebentar ^_^ ")
+						nadya.sendAudioWithURL(msg.to,abc)
+						nadya.sendText(msg.to, "Title : " + song[0] + "\nLength : " + song[1] + "\nLink download : " + song[4] +"\n\n" + hasil)
+						nadya.sendText(msg.to, "Selamat Mendengarkan Lagu " + song[0])
+             
+            
+            
+            elif "Fancytext: " in msg.text:
+                    txt = msg.text.replace("Fancytext: ", "")
+                    nadya.kedapkedip(msg.to,txt)
+                    print "[Command] Kedapkedip"
+
+
+            elif "cover @" in msg.text:
+                if msg.toType == 2:
+                    cover = msg.text.replace("cover @","")
+                    _nametarget = cover.rstrip('  ')
+                    gs = nadya.getGroup(msg.to)
+                    targets = []
+                    for g in gs.members:
+                        if _nametarget == g.displayName:
+                            targets.append(g.mid)
+                    if targets == []:
+                        nadya.sendText(msg.to,"Not found")
+                    else:
+                        for target in targets:
+                            try:
+                                h = nadya.channel.getHome(target)
+                                objId = h["result"]["homeInfo"]["objectId"]
+                                nadya.sendImageWithURL(msg.to,"http://dl.profile.line-cdn.net/myhome/c/download.nhn?userid=" + target + "&oid=" + objId)
+                            except Exception as error:
+                                print error
+                                nadya.sendText(msg.to,"Upload image failed.")
+
+            elif "Cover @" in msg.text:
+                if msg.toType == 2:
+                    cover = msg.text.replace("Cover @","")
+                    _nametarget = cover.rstrip('  ')
+                    gs = nadya.getGroup(msg.to)
+                    targets = []
+                    for g in gs.members:
+                        if _nametarget == g.displayName:
+                            targets.append(g.mid)
+                    if targets == []:
+                        nadya.sendText(msg.to,"Not found")
+                    else:
+                        for target in targets:
+                            try:
+                                h = nadya.channel.getHome(target)
+                                objId = h["result"]["homeInfo"]["objectId"]
+                                nadya.sendImageWithURL(msg.to,"http://dl.profile.line-cdn.net/myhome/c/download.nhn?userid=" + target + "&oid=" + objId)
+                            except Exception as error:
+                                print error
+                                nadya.sendText(msg.to,"Upload image failed.")
+                                
+            elif "Cpp" in msg.text:
+                if msg.from_ in admin:
+                    path = "nadya.jpg"
+                    nadya.sendText(msg.to,"Update PP :")
+                    nadya.sendImage(msg.to,path)
+                    nadya.updateProfilePicture(path)                                
+                                
+                                
+            elif "pp @" in msg.text:
+                if msg.toType == 2:
+                    cover = msg.text.replace("pp @","")
+                    _nametarget = cover.rstrip('  ')
+                    gs = nadya.getGroup(msg.to)
+                    targets = []
+                    for g in gs.members:
+                        if _nametarget == g.displayName:
+                            targets.append(g.mid)
+                    if targets == []:
+                        nadya.sendText(msg.to,"Not found")
+                    else:
+                        for target in targets:
+                            try:
+                                h = nadya.getContact(target)
+                                nadya.sendImageWithURL(msg.to,"http://dl.profile.line-cdn.net/" + h.pictureStatus)
+                            except Exception as error:
+                                print error
+                                nadya.sendText(msg.to,"Upload image failed.")
+
+            elif "Pp @" in msg.text:
+                if msg.toType == 2:
+                    cover = msg.text.replace("Pp @","")
+                    _nametarget = cover.rstrip('  ')
+                    gs = nadya.getGroup(msg.to)
+                    targets = []
+                    for g in gs.members:
+                        if _nametarget == g.displayName:
+                            targets.append(g.mid)
+                    if targets == []:
+                        nadya.sendText(msg.to,"Not found")
+                    else:
+                        for target in targets:
+                            try:
+                                h = nadya.getContact(target)
+                                nadya.sendImageWithURL(msg.to,"http://dl.profile.line-cdn.net/" + h.pictureStatus)
+                            except Exception as error:
+                                print error
+                                nadya.sendText(msg.to,"Upload image failed.")
+
+            elif msg.text.lower() in ["pap owner","pap creator"]:
+                                link = ["http://dl.profile.line-cdn.net/0hNPsZWL9WEX9OIz0lhyFuKHJmHxI5DRc3NkJaETwkRklqGwQoJkNbTGklHRo2G1B7cxFXH2NxSU03"]
+                                pilih = random.choice(link)
+                                nadya.sendImageWithURL(msg.to,pilih)
+
+ 
+            elif "Spam: " in msg.text:
+                  bctxt = msg.text.replace("Spam: ", "")
+                  t = 10
+                  while(t):
+                    nadya.sendText(msg.to, (bctxt))
+                    t-=1
+
+            elif "Scbc " in msg.text:
+                  bctxt = msg.text.replace("Scbc ", "")
+                  orang = nadya.getAllContactIds()
+                  t = 20
+                  for manusia in orang:
+                    while(t):
+                      nadya.sendText(manusia, (bctxt))
+                      t-=1
+
+            elif "Cbc " in msg.text:
+                  broadcasttxt = msg.text.replace("Cbc ", "") 
+                  orang = nadya.getAllContactIds()
+                  for manusia in orang:
+                    nadya.sendText(manusia, (broadcasttxt))
+
+ 
+            elif '/ig ' in msg.text.lower():
+                try:
+                    instagram = msg.text.lower().replace("/ig ","")
+                    html = requests.get('https://www.instagram.com/' + instagram + '/?')
+                    soup = BeautifulSoup(html.text, 'html.parser')
+                    data = soup.find_all('meta', attrs={'property':'og:description'})
+                    text = data[0].get('content').split()
+                    data1 = soup.find_all('meta', attrs={'property':'og:image'})
+                    text1 = data1[0].get('content').split()
+                    tj = text1[0].replace("s150x150/","")
+                    user = "Name: " + text[-2] + "\n"
+                    user1 = "Username: " + text[-1] + "\n"
+                    followers = "Followers: " + text[0] + "\n"
+                    following = "Following: " + text[2] + "\n"
+                    post = "Post: " + text[4] + "\n"
+                    link = "Link: " + "https://www.instagram.com/" + instagram
+                    detail = "========INSTAGRAM INFO ========\n"
+                    details = "\n========INSTAGRAM INFO ========"
+                    nadya.sendText(msg.to, detail + user + user1 + followers + following + post + link + details)
+                    nadya.sendImageWithURL(msg.to, tj)
+                except Exception as njer:
+                	nadya.sendText(msg.to, str(njer))
+                	
+                	
+            elif "Checkig " in msg.text:
+                separate = msg.text.split(" ")
+                user = msg.text.replace(separate[0] + " ","")
+                if user.startswith("@"):
+                    user = user.replace("@","")
+                profile = "https://www.instagram.com/" + user
+                with requests.session() as x:
+                    x.headers['user-agent'] = 'Mozilla/5.0'
+                    end_cursor = ''
+                    for count in range(1, 999):
+                        print('PAGE: ', count)
+                        r = x.get(profile, params={'max_id': end_cursor})
+                    
+                        data = re.search(r'window._sharedData = (\{.+?});</script>', r.text).group(1)
+                        j    = json.loads(data)
+                    
+                        for node in j['entry_data']['ProfilePage'][0]['user']['media']['nodes']: 
+                            if node['is_video']:
+                                page = 'https://www.instagram.com/p/' + node['code']
+                                r = x.get(page)
+                                url = re.search(r'"video_url": "([^"]+)"', r.text).group(1)
+                                print(url)
+                                nadya.sendVideoWithURL(msg.to,url)
+                            else:
+                                print (node['display_src'])
+                                nadya.sendImageWithURL(msg.to,node['display_src'])
+                        end_cursor = re.search(r'"end_cursor": "([^"]+)"', r.text).group(1)                	
+
+
+            elif 'Youtubelink: ' in msg.text:
+                try:
+                    textToSearch = (msg.text).replace('Youtube ', "").strip()
+                    query = urllib.quote(textToSearch)
+                    url = "https://www.youtube.com/results?search_query=" + query
+                    response = urllib2.urlopen(url)
+                    html = response.read()
+                    soup = BeautifulSoup(html, "html.parser")
+                    results = soup.find(attrs={'class':'yt-uix-tile-link'})
+                    nadya.sendText(msg.to,'https://www.youtube.com' + results['href'])
+                except:
+                    nadya.sendText(msg.to,"Could not find it")
+                    
+                    
+            elif 'Youtubevideo: ' in msg.text:
+                    try:
+                        textToSearch = (msg.text).replace('Youtubevideo: ', "").strip()
+                        query = urllib.quote(textToSearch)
+                        url = "https://www.youtube.com/results?search_query=" + query
+                        response = urllib2.urlopen(url)
+                        html = response.read()
+                        soup = BeautifulSoup(html, "html.parser")
+                        results = soup.find(attrs={'class': 'yt-uix-tile-link'})
+                        nadya.sendVideoWithURL(msg.to,'https://www.youtube.com' + results['href'])
+                    except:
+                        nadya.sendText(msg.to, "Could not find it")                    
+
+ 
+            elif "Say-id " in msg.text:
+                say = msg.text.replace("Say-id ","")
+                lang = 'id'
+                tts = gTTS(text=say, lang=lang)
+                tts.save("hasil.mp3")
+                nadya.sendAudio(msg.to,"hasil.mp3")
+
+            elif "Say-en " in msg.text:
+                say = msg.text.replace("Say-en ","")
+                lang = 'en'
+                tts = gTTS(text=say, lang=lang)
+                tts.save("hasil.mp3")
+                nadya.sendAudio(msg.to,"hasil.mp3")
+
+            elif "Say-jp " in msg.text:
+                say = msg.text.replace("Say-jp ","")
+                lang = 'ja'
+                tts = gTTS(text=say, lang=lang)
+                tts.save("hasil.mp3")
+                nadya.sendAudio(msg.to,"hasil.mp3")
+
+            elif "Say welcome" in msg.text:
+                gs = nadya.getGroup(msg.to)
+                say = msg.text.replace("Say welcome","Selamat Datang Di "+ gs.name)
+                lang = 'id'
+                tts = gTTS(text=say, lang=lang)
+                tts.save("hasil.mp3")
+                nadya.sendAudio(msg.to,"hasil.mp3")
+
+
+            elif msg.text.lower() in ["hi","hai","halo","hallo"]:
+                    beb = "Hi Sayang 😘 " +nadya.getContact(msg.from_).displayName + " 􀸂􀆇starry heart􏿿"
+                    nadya.sendText(msg.to,beb)
+
+
+
+            elif "playstore " in msg.text.lower():
+                tob = msg.text.lower().replace("playstore ","")
+                nadya.sendText(msg.to,"Sedang Mencari...")
+                nadya.sendText(msg.to,"Title : "+tob+"\nSource : Google Play\nLink : https://play.google.com/store/search?q=" + tob)
+                nadya.sendText(msg.to,"Tuh Linknya Kak (^_^)")
+
+
+            elif "Mid @" in msg.text:
+                _name = msg.text.replace("Mid @","")
+                _nametarget = _name.rstrip(' ')
+                gs = nadya.getGroup(msg.to)
+                for g in gs.members:
+                    if _nametarget == g.displayName:
+                        nadya.sendText(msg.to, g.mid)
+                    else:
+                        pass
+
+
+            elif "Mybio " in msg.text:
+                    string = msg.text.replace("Mybio ","")
+                    if len(string.decode('utf-8')) <= 500:
+                        profile = nadya.getProfile()
+                        profile.statusMessage = string
+                        nadya.updateProfile(profile)
+                        nadya.sendText(msg.to,"Done")
+
+            elif "Myname " in msg.text:
+		if msg.from_ in Creator:
+                    string = msg.text.replace("Myname ","")
+                    if len(string.decode('utf-8')) <= 5000:
+                        profile = nadya.getProfile()
+                        profile.displayName = string
+                        nadya.updateProfile(profile)
+                        nadya.sendText(msg.to,"Done")
+
+
+
+            elif msg.text.lower() in ["mymid","myid"]:
+                middd = "Name : " +nadya.getContact(msg.from_).displayName + "\nMid : " +msg.from_
+                nadya.sendText(msg.to,middd)
+
+            elif msg.text.lower() in ["me"]:
+                msg.contentType = 13
+                msg.contentMetadata = {'mid': msg.from_}
+                nadya.sendMessage(msg)
+
+            elif "/apakah " in msg.text:
+                apk = msg.text.replace("/apakah ","")
+                rnd = ["Ya","Tidak","Bisa Jadi","Mungkin"]
+                p = random.choice(rnd)
+                lang = 'id'
+                tts = gTTS(text=p, lang=lang)
+                tts.save("hasil.mp3")
+                nadya.sendAudio(msg.to,"hasil.mp3")
+                
+            elif "/hari " in msg.text:
+                apk = msg.text.replace("/hari ","")
+                rnd = ["Senin","Selasa","Rabu","Kamis","Jumat","Sabtu","Minggu"]
+                p = random.choice(rnd)
+                lang = 'id'
+                tts = gTTS(text=p, lang=lang)
+                tts.save("hasil.mp3")
+                nadya.sendAudio(msg.to,"hasil.mp3")   
+
+
+            elif "/berapa " in msg.text:
+                apk = msg.text.replace("/berapa ","")
+                rnd = ['10%','20%','30%','40%','50%','60%','70%','80%','90%','100%','0%']
+                p = random.choice(rnd)
+                lang = 'id'
+                tts = gTTS(text=p, lang=lang)
+                tts.save("hasil.mp3")
+                nadya.sendAudio(msg.to,"hasil.mp3")
+                
+            elif "/berapakah " in msg.text:
+                apk = msg.text.replace("/berapakah ","")
+                rnd = ['1','2','3','4','5','6','7','8','9','10','Tidak Ada']
+                p = random.choice(rnd)
+                lang = 'id'
+                tts = gTTS(text=p, lang=lang)
+                tts.save("hasil.mp3")
+                nadya.sendAudio(msg.to,"hasil.mp3")                
+
+            elif "/kapan " in msg.text:
+                apk = msg.text.replace("/kapan ","")
+                rnd = ["kapan kapan","besok","satu abad lagi","Hari ini","Tahun depan","Minggu depan","Bulan depan","Sebentar lagi","Tidak Akan Pernah"]
+                p = random.choice(rnd)
+                lang = 'id'
+                tts = gTTS(text=p, lang=lang)
+                tts.save("hasil.mp3")
+                nadya.sendAudio(msg.to,"hasil.mp3")
+
+ 
+            elif msg.text in ["Simisimi on","Simisimi:on"]:
+                settings["simiSimi"][msg.to] = True
+                wait["Simi"] = True
+                nadya.sendText(msg.to," Simisimi Di Aktifkan")
+                
+            elif msg.text in ["Simisimi off","Simisimi:off"]:
+                settings["simiSimi"][msg.to] = False
+                wait["Simi"] = False
+                nadya.sendText(msg.to,"Simisimi Di Nonaktifkan")
+
+ 
+            elif "Image " in msg.text:
+                search = msg.text.replace("Image ","")
+                url = 'https://www.google.com/search?espv=2&biw=1366&bih=667&tbm=isch&oq=kuc&aqs=mobile-gws-lite.0.0l5&q=' + search
+                raw_html = (download_page(url))
+                items = []
+                items = items + (_images_get_all_items(raw_html))
+                path = random.choice(items)
+                print path
+                try:
+                    nadya.sendImageWithURL(msg.to,path)
+                except:
+                    pass
+ 
+            elif "Youtubesearch: " in msg.text:
+                    query = msg.text.replace("Youtube ","")
+                    with requests.session() as s:
+                        s.headers['user-agent'] = 'Mozilla/5.0'
+                        url = 'http://www.youtube.com/results'
+                        params = {'search_query': query}
+                        r = s.get(url, params=params)
+                        soup = BeautifulSoup(r.content, 'html.parser')
+                        hasil = ""
+                        for a in soup.select('.yt-lockup-title > a[title]'):
+                            if '&list=' not in a['href']:
+                                hasil += ''.join((a['title'],'\nUrl : http://www.youtube.com' + a['href'],'\n\n'))
+                        nadya.sendText(msg.to,hasil)
+                        print '[Command] Youtube Search'
+
+
+ 
+            elif "Tr-id " in msg.text:
+                isi = msg.text.replace("Tr-id ","")
+                translator = Translator()
+                hasil = translator.translate(isi, dest='id')
+                A = hasil.text
+                A = A.encode('utf-8')
+                nadya.sendText(msg.to, A)
+
+            elif "Tr-en " in msg.text:
+                isi = msg.text.replace("Tr-en ","")
+                translator = Translator()
+                hasil = translator.translate(isi, dest='en')
+                A = hasil.text
+                A = A.encode('utf-8')
+                nadya.sendText(msg.to, A)
+                
+            elif "Tr-th " in msg.text:
+                isi = msg.text.replace("Tr-th ","")
+                translator = Translator()
+                hasil = translator.translate(isi, dest='th')
+                A = hasil.text
+                A = A.encode('utf-8')
+                nadya.sendText(msg.to, A)                
+
+            
+            elif "Id@en" in msg.text:
+                bahasa_awal = 'id'
+                bahasa_tujuan = 'en'
+                kata = msg.text.replace("Id@en ","")
+                url = 'https://translate.google.com/m?sl=%s&tl=%s&ie=UTF-8&prev=_m&q=%s' % (bahasa_awal, bahasa_tujuan, kata.replace(" ", "+"))
+                agent = {'User-Agent':'Mozilla/5.0'}
+                cari_hasil = 'class="t0">'
+                request = urllib2.Request(url, headers=agent)
+                page = urllib2.urlopen(request).read()
+                result = page[page.find(cari_hasil)+len(cari_hasil):]
+                result = result.split("<")[0]
+                nadya.sendText(msg.to,"----Dari Indonesia----\n" + "" + kata + "\n\n----Ke Inggris----\n" + "" + result)
+
+
+            elif "En@id" in msg.text:
+                bahasa_awal = 'en'
+                bahasa_tujuan = 'id'
+                kata = msg.text.replace("En@id ","")
+                url = 'https://translate.google.com/m?sl=%s&tl=%s&ie=UTF-8&prev=_m&q=%s' % (bahasa_awal, bahasa_tujuan, kata.replace(" ", "+"))
+                agent = {'User-Agent':'Mozilla/5.0'}
+                cari_hasil = 'class="t0">'
+                request = urllib2.Request(url, headers=agent)
+                page = urllib2.urlopen(request).read()
+                result = page[page.find(cari_hasil)+len(cari_hasil):]
+                result = result.split("<")[0]
+                nadya.sendText(msg.to,"----Dari Inggris----\n" + "" + kata + "\n\n----Ke Indonesia----\n" + "" + result)
+                
+            
+            elif "Id@th" in msg.text:
+                bahasa_awal = 'id'
+                bahasa_tujuan = 'th'
+                kata = msg.text.replace("Id@en ","")
+                url = 'https://translate.google.com/m?sl=%s&tl=%s&ie=UTF-8&prev=_m&q=%s' % (bahasa_awal, bahasa_tujuan, kata.replace(" ", "+"))
+                agent = {'User-Agent':'Mozilla/5.0'}
+                cari_hasil = 'class="t0">'
+                request = urllib2.Request(url, headers=agent)
+                page = urllib2.urlopen(request).read()
+                result = page[page.find(cari_hasil)+len(cari_hasil):]
+                result = result.split("<")[0]
+                nadya.sendText(msg.to,"----Dari Indonesia----\n" + "" + kata + "\n\n----Ke Thailand----\n" + "" + result)
+                
+            
+            elif "Th@id" in msg.text:
+                bahasa_awal = 'th'
+                bahasa_tujuan = 'id'
+                kata = msg.text.replace("Id@en ","")
+                url = 'https://translate.google.com/m?sl=%s&tl=%s&ie=UTF-8&prev=_m&q=%s' % (bahasa_awal, bahasa_tujuan, kata.replace(" ", "+"))
+                agent = {'User-Agent':'Mozilla/5.0'}
+                cari_hasil = 'class="t0">'
+                request = urllib2.Request(url, headers=agent)
+                page = urllib2.urlopen(request).read()
+                result = page[page.find(cari_hasil)+len(cari_hasil):]
+                result = result.split("<")[0]
+                nadya.sendText(msg.to,"----Dari Thailand----\n" + "" + kata + "\n\n----Ke Indonesia----\n" + "" + result)                
+ 
+            elif msg.text in ["Friendlist"]:    
+                contactlist = nadya.getAllContactIds()
+                kontak = nadya.getContacts(contactlist)
+                num=1
+                msgs="═════════List Friend═════════"
+                for ids in kontak:
+                    msgs+="\n[%i] %s" % (num, ids.displayName)
+                    num=(num+1)
+                msgs+="\n═════════List Friend═════════\n\nTotal Friend : %i" % len(kontak)
+                nadya.sendText(msg.to, msgs)
+
+            elif msg.text in ["Memlist"]:   
+                kontak = nadya.getGroup(msg.to)
+                group = kontak.members
+                num=1
+                msgs="═════════List Member═�����═══════-"
+                for ids in group:
+                    msgs+="\n[%i] %s" % (num, ids.displayName)
+                    num=(num+1)
+                msgs+="\n═════════List Member═════════\n\nTotal Members : %i" % len(group)
+                nadya.sendText(msg.to, msgs)
+
+            
+
+ 
+            elif "Getvid @" in msg.text:
+                print "[Command]dp executing"
+                _name = msg.text.replace("Getvid @","")
+                _nametarget = _name.rstrip('  ')
+                gs = nadya.getGroup(msg.to)
+                targets = []
+                for g in gs.members:
+                    if _nametarget == g.displayName:
+                        targets.append(g.mid)
+                if targets == []:
+                    nadya.sendText(msg.to,"Contact not found")
+                else:
+                    for target in targets:
+                        try:
+                            contact = nadya.getContact(target)
+                            path = "http://dl.profile.line-cdn.net/" + contact.pictureStatus
+                            nadya.sendVideoWithURL(msg.to, path)
+                        except Exception as e:
+                            raise e
+                print "[Command]dp executed"
+
+
+            elif "Getgroup image" in msg.text:
+                group = nadya.getGroup(msg.to)
+                path = "http://dl.profile.line-cdn.net/" + group.pictureStatus
+                nadya.sendImageWithURL(msg.to,path)
+
+            elif "Urlgroup image" in msg.text:
+                group = nadya.getGroup(msg.to)
+                path = "http://dl.profile.line-cdn.net/" + group.pictureStatus
+                nadya.sendText(msg.to,path)
+ 
+            elif "Getname" in msg.text:
+                key = eval(msg.contentMetadata["MENTION"])
+                key1 = key["MENTIONEES"][0]["M"]
+                contact = nadya.getContact(key1)
+                cu = nadya.channel.getCover(key1)
+                try:
+                    nadya.sendText(msg.to, "===[DisplayName]===\n" + contact.displayName)
+                except:
+                    nadya.sendText(msg.to, "===[DisplayName]===\n" + contact.displayName)
+
+
+            elif "Getprofile" in msg.text:
+                key = eval(msg.contentMetadata["MENTION"])
+                key1 = key["MENTIONEES"][0]["M"]
+                contact = nadya.getContact(key1)
+                cu = nadya.channel.getCover(key1)
+                path = str(cu)
+                image = "http://dl.profile.line-cdn.net/" + contact.pictureStatus
+                try:
+                    nadya.sendText(msg.to,"Nama :\n" + contact.displayName + "\n\nBio :\n" + contact.statusMessage)
+                    nadya.sendText(msg.to,"Profile Picture " + contact.displayName)
+                    nadya.sendImageWithURL(msg.to,image)
+                    nadya.sendText(msg.to,"Cover " + contact.displayName)
+                    nadya.sendImageWithURL(msg.to,path)
+                except:
+                    pass
+
+
+            elif "Getcontact" in msg.text:
+                key = eval(msg.contentMetadata["MENTION"])
+                key1 = key["MENTIONEES"][0]["M"]                
+                mmid = nadya.getContact(key1)
+                msg.contentType = 13
+                msg.contentMetadata = {"mid": key1}
+                nadya.sendMessage(msg)
+
+            elif "Getinfo" in msg.text:
+                key = eval(msg.contentMetadata["MENTION"])
+                key1 = key["MENTIONEES"][0]["M"]
+                contact = nadya.getContact(key1)
+                cu = nadya.channel.getCover(key1)
+                try:
+                    nadya.sendText(msg.to,"Nama :\n" + contact.displayName + "\n\nMid :\n" + contact.mid + "\n\nBio :\n" + contact.statusMessage + "\n\nProfile Picture :\nhttp://dl.profile.line-cdn.net/" + contact.pictureStatus + "\n\nHeader :\n" + str(cu))
+                except:
+                    nadya.sendText(msg.to,"Nama :\n" + contact.displayName + "\n\nMid :\n" + contact.mid + "\n\nBio :\n" + contact.statusMessage + "\n\nProfile Picture :\n" + str(cu))
+
+
+            elif "Getbio" in msg.text:
+                key = eval(msg.contentMetadata["MENTION"])
+                key1 = key["MENTIONEES"][0]["M"]
+                contact = nadya.getContact(key1)
+                cu = nadya.channel.getCover(key1)
+                try:
+                    nadya.sendText(msg.to, "===[StatusMessage]===\n" + contact.statusMessage)
+                except:
+                    nadya.sendText(msg.to, "===[StatusMessage]===\n" + contact.statusMessage)
+
+
+            elif msg.text.lower() == 'runtime':
+                eltime = time.time() - mulai
+                van = "Bot Sudah Berjalan Selama :\n"+waktu(eltime)
+                nadya.sendText(msg.to,van)
+                
+                 
+            elif "Checkdate " in msg.text:
+                tanggal = msg.text.replace("Checkdate ","")
+                r=requests.get('https://script.google.com/macros/exec?service=AKfycbw7gKzP-WYV2F5mc9RaR7yE3Ve1yN91Tjs91hp_jHSE02dSv9w&nama=ervan&tanggal='+tanggal)
+                data=r.text
+                data=json.loads(data)
+                lahir = data["data"]["lahir"]
+                usia = data["data"]["usia"]
+                ultah = data["data"]["ultah"]
+                zodiak = data["data"]["zodiak"]
+                nadya.sendText(msg.to,"========== I N F O R M A S I ==========\n"+"Date Of Birth : "+lahir+"\nAge : "+usia+"\nUltah : "+ultah+"\nZodiak : "+zodiak+"\n========== I N F O R M A S I ==========")
+                
+   
+            elif msg.text in ["Kalender","Time","Waktu"]:
+                timeNow = datetime.now()
+                timeHours = datetime.strftime(timeNow,"(%H:%M)")
+                day = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday","Friday", "Saturday"]
+                hari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"]
+                bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
+                inihari = datetime.today()
+                hr = inihari.strftime('%A')
+                bln = inihari.strftime('%m')
+                for i in range(len(day)):
+                    if hr == day[i]: hasil = hari[i]
+                for k in range(0, len(bulan)):
+                    if bln == str(k): bln = bulan[k-1]
+                rst = hasil + ", " + inihari.strftime('%d') + " - " + bln + " - " + inihari.strftime('%Y') + "\nJam : [ " + inihari.strftime('%H:%M:%S') + " ]"
+                nadya.sendText(msg.to, rst)                
+                 
+                
+            elif "SearchID: " in msg.text:
+                userid = msg.text.replace("SearchID: ","")
+                contact = nadya.findContactsByUserid(userid)
+                msg.contentType = 13
+                msg.contentMetadata = {'mid': contact.mid}
+                nadya.sendMessage(msg)
+                
+            elif "Searchid: " in msg.text:
+                userid = msg.text.replace("Searchid: ","")
+                contact = nadya.findContactsByUserid(userid)
+                msg.contentType = 13
+                msg.contentMetadata = {'mid': contact.mid}
+                nadya.sendMessage(msg)       
+                
+                
+            elif "removechat" in msg.text.lower():
+                if msg.from_ in admin:
+                    try:
+                        nadya.removeAllMessages(op.param2)
+                        print "[Command] Remove Chat"
+                        nadya.sendText(msg.to,"Done")
+                    except Exception as error:
+                        print error
+                        nadya.sendText(msg.to,"Error")      
+                        
+                        
+            elif "Invitemeto: " in msg.text:
+                if msg.from_ in admin:
+                    gid = msg.text.replace("Invitemeto: ","")
+                    if gid == "":
+                        nadya.sendText(msg.to,"Invalid group id")
+                    else:
+                        try:
+                            nadya.findAndAddContactsByMid(msg.from_)
+                            nadya.inviteIntoGroup(gid,[msg.from_])
+                        except:
+                            nadya.sendText(msg.to,"Mungkin Saya Tidak Di Dalaam Grup Itu")
+
+
+            elif msg.text in ["Glist"]:
+                nadya.sendText(msg.to, "Tunggu Sebentar. . .")                    
+                gid = nadya.getGroupIdsJoined()
+                h = ""
+                for i in gid:
+                    h += "╠➩" + "%s\n" % (nadya.getGroup(i).name +" ~> ["+str(len(nadya.getGroup(i).members))+"]")
+                nadya.sendText(msg.to,"╔═════════════════════════\n║          ☆☞ LIST GROUPS☜☆\n╠═════════════════════════\n" + h + "╠═════════════════════════" + "\n║ Total Groups =" +" ["+str(len(gid))+"]\n╚═════════════════════════")
+
+            elif msg.text in ["Glistmid"]:   
+                gruplist = nadya.getGroupIdsJoined()
+                kontak = nadya.getGroups(gruplist)
+                num=1
+                msgs="═════════List GrupMid═════════"
+                for ids in kontak:
+                    msgs+="\n[%i] %s" % (num, ids.id)
+                    num=(num+1)
+                msgs+="\n═════════List GrupMid═════════\n\nTotal Grup : %i" % len(kontak)
+                nadya.sendText(msg.to, msgs)
+
+
+
+            elif "Google: " in msg.text:
+                    a = msg.text.replace("Google: ","")
+                    b = urllib.quote(a)
+                    nadya.sendText(msg.to,"Sedang Mencari...")
+                    nadya.sendText(msg.to, "https://www.google.com/" + b)
+                    nadya.sendText(msg.to,"Itu Dia Linknya. . .")     
+
+
+            elif "Details group: " in msg.text:
+                if msg.from_ in admin:
+                    gid = msg.text.replace("Details group: ","")
+                    if gid in [""," "]:
+                        nadya.sendText(msg.to,"Grup id tidak valid")
+                    else:
+                        try:
+                            groups = nadya.getGroup(gid)
+                            if groups.members is not None:
+                                members = str(len(groups.members))
+                            else:
+                                members = "0"
+                            if groups.invitee is not None:
+                                pendings = str(len(groups.invitee))
+                            else:
+                                pendings = "0"
+                            h = "[" + groups.name + "]\n -+GroupID : " + gid + "\n -+Members : " + members + "\n -+MembersPending : " + pendings + "\n -+Creator : " + groups.creator.displayName + "\n -+GroupPicture : http://dl.profile.line.naver.jp/" + groups.pictureStatus
+                            nadya.sendText(msg.to,h)
+                        except Exception as error:
+                            nadya.sendText(msg.to,(error))
+            
+            elif "Cancel invite: " in msg.text:
+                if msg.from_ in admin:
+                    gids = msg.text.replace("Cancel invite: ","")
+                    gid = nadya.getGroup(gids)
+                    for i in gid:
+                        if i is not None:
+                            try:
+                                nadya.rejectGroupInvitation(i)
+                            except:
+                                nadya.sendText(msg.to,"Error!")
+                                break
+                        else:
+                            break
+                    if gid is not None:
+                        nadya.sendText(msg.to,"Berhasil tolak undangan dari grup " + gid.name)
+                    else:
+                        nadya.sendText(msg.to,"Grup tidak ditemukan")
+            
+            elif msg.text in ["Acc invite"]:
+                if msg.from_ in admin:
+                    gid = nadya.getGroupIdsInvited()
+                    _list = ""
+                    for i in gid:
+                        if i is not None:
+                            gids = nadya.getGroup(i)
+                            _list += gids.name
+                            nadya.acceptGroupInvitation(i)
+                        else:
+                            break
+                    if gid is not None:
+                        nadya.sendText(msg.to,"Berhasil terima semua undangan dari grup :\n" + _list)
+                    else:
+                        nadya.sendText(msg.to,"Tidak ada grup yang tertunda saat ini")  
+
+
+            elif "Gif gore" in msg.text:
+            	gif = ("https://media.giphy.com/media/l2JHVsQiOZrNMGzYs/giphy.gif","https://media.giphy.com/media/OgltQ2hbilzJS/200w.gif")
+                gore = random.choice(gif)
+                nadya.sendGifWithURL(msg.to,gore)
+                
+
+                
+            elif ("Micadd " in msg.text):
+                targets = []
+                key = eval(msg.contentMetadata["MENTION"])
+                key["MENTIONEES"][0]["M"]
+                for x in key["MENTIONEES"]:
+                    targets.append(x["M"])
+                for target in targets:
+                    try:
+                        mimic["target"][target] = True
+                        nadya.sendText(msg.to,"Target ditambahkan!")
+                        break
+                    except:
+                        nadya.sendText(msg.to,"Fail !")
+                        break
+                    
+            elif ("Micdel " in msg.text):
+                targets = []
+                key = eval(msg.contentMetadata["MENTION"])
+                key["MENTIONEES"][0]["M"]
+                for x in key["MENTIONEES"]:
+                    targets.append(x["M"])
+                for target in targets:
+                    try:
+                        del mimic["target"][target]
+                        nadya.sendText(msg.to,"Target dihapuskan!")
+                        break
+                    except:
+                        nadya.sendText(msg.to,"Fail !")
+                        break
+                    
+            elif msg.text in ["Miclist"]:
+                        if mimic["target"] == {}:
+                            nadya.sendText(msg.to,"Nothing")
+                        else:
+                            mc = "Target Mimic User:\n"
+                            for mi_d in mimic["target"]:
+                                mc += "?? "+nadya.getContact(mi_d).displayName + "\n"
+                            nadya.sendText(msg.to,mc)
+
+            elif "Mimic target " in msg.text:
+                        if mimic["copy"] == True:
+                            siapa = msg.text.replace("Mimic target ","")
+                            if siapa.rstrip(' ') == "me":
+                                mimic["copy2"] = "me"
+                                nadya.sendText(msg.to,"Mimic change to me")
+                            elif siapa.rstrip(' ') == "target":
+                                mimic["copy2"] = "target"
+                                nadya.sendText(msg.to,"Mimic change to target")
+                            else:
+                                nadya.sendText(msg.to,"I dont know")
+            
+            elif "Mimic " in msg.text:
+                cmd = msg.text.replace("Mimic ","")
+                if cmd == "on":
+                    if mimic["status"] == False:
+                        mimic["status"] = True
+                        nadya.sendText(msg.to,"Reply Message on")
+                    else:
+                        nadya.sendText(msg.to,"Sudah on")
+                elif cmd == "off":
+                    if mimic["status"] == True:
+                        mimic["status"] = False
+                        nadya.sendText(msg.to,"Reply Message off")
+                    else:
+                        nadya.sendText(msg.to,"Sudah off")
+
+
+
+        if op.type == 59:
+            print op
+
+
     except Exception as error:
-        logError(error)
-#==============================================================================#
-def a2():
-    now2 = datetime.now()
-    nowT = datetime.strftime(now2,"%M")
-    if nowT[14:] in ["10","20","30","40","50","00"]:
-        return False
-    else:
-        return True
-        
+        print error
+
 
 while True:
     try:
-        ops = oepoll.singleTrace(count=5)
-        if ops is not None:
-            for op in ops:
-                lineBot(op)
-                oepoll.setRevision(op.revision)
-    except Exception as e:
-        logError(e)
+        Ops = nadya.fetchOps(nadya.Poll.rev, 5)
+    except EOFError:
+        raise Exception("It might be wrong revision\n" + str(nadya.Poll.rev))
 
-def atend():
-    print("Saving")
-    with open("Log_data.json","w",encoding='utf8') as f:
-        json.dump(msg_dict, f, ensure_ascii=False, indent=4,separators=(',', ': '))
-    print("BYE")
-atexit.register(atend)
+    for Op in Ops:
+        if (Op.type != OpType.END_OF_OPERATION):
+            nadya.Poll.rev = max(nadya.Poll.rev, Op.revision)
+            bot(Op)
+
