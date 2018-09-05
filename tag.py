@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
-#Chucky_Bot
-
-import LINETCR
-from LINETCR.lib.curve.ttypes import *
+from LINEPY import *
+from akad.ttypes import *
+from multiprocessing import Pool, Process
 from datetime import datetime
+from time import sleep
 from bs4 import BeautifulSoup
-from threading import Thread
-from googletrans import Translator
+from humanfriendly import format_timespan, format_size, format_number, format_length
+import time, random, sys, json, codecs, threading, glob, re, string, os, requests, subprocess, six, ast, pytz, urllib.request, urllib.parse, urllib.error, urllib.parse,antolib,subprocess,unicodedata,GACSender
 from gtts import gTTS
-import time,random,sys,json,codecs,threading,glob,urllib,urllib2,urllib3,re,ast,os,subprocess,requests,tempfile
+from googletrans import Translator
 
 nadya = LINETCR.LINE()
 #nadya.login(qr=True)
